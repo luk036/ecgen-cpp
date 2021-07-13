@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 # Note: update this to your new project's name and version
 project(
-  Greeter
+  ECGenCpp
   VERSION 1.0
   LANGUAGES CXX
 )
@@ -33,30 +33,62 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
+CPMAddPackage(
+  NAME cppcoro
+  GIT_TAG 1.0
+  GITHUB_REPOSITORY luk036/cppcoro
+)
+# print_target_properties(cppcoro)
+
+message(STATUS "Found cppcoro: ${cppcoro_SOURCE_DIR}")
+add_library(cppcoro::cppcoro INTERFACE IMPORTED GLOBAL)
+target_include_directories(cppcoro::cppcoro SYSTEM INTERFACE ${cppcoro_SOURCE_DIR}/include)
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  # using GCC
+  add_compile_options(-fcoroutines -Wall -Wnon-virtual-dtor -Wunused -pedantic)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  # using clang
+  add_compile_options(
+    -fcoroutines-ts
+    -stdlib=libc++
+    -fno-exceptions
+    -Wall
+    -Wnon-virtual-dtor
+    -Wunused
+    -pedantic
+  )
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  # using Visual Studio C++
+  add_compile_options(/std:c++latest /await /W3 /WX)
+endif()
+
 # ---- Add source files ----
 
 # Note: globbing sources is considered bad practice as CMake's generators may not detect new files
 # automatically. Keep that in mind when changing files, or explicitly mention them here.
-file(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
+file(GLOB_RECURSE headers CONFIGURE_DEPENDS
+     "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h ${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp"
+)
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp")
 
 # ---- Create library ----
 
 # Note: for header-only libraries change all PUBLIC flags to INTERFACE and create an interface
-# target: add_library(Greeter INTERFACE)
-add_library(Greeter ${headers} ${sources})
+# target: add_library(ECGenCpp INTERFACE)
+add_library(ECGenCpp ${headers} ${sources})
 
-set_target_properties(Greeter PROPERTIES CXX_STANDARD 17)
+set_target_properties(ECGenCpp PROPERTIES CXX_STANDARD 20)
 
 # being a cross-platform target, we enforce standards conformance on MSVC
-target_compile_options(Greeter PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
+target_compile_options(ECGenCpp PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 
 # Link dependencies
-target_link_libraries(Greeter PRIVATE fmt::fmt)
+target_link_libraries(ECGenCpp PRIVATE fmt::fmt cppcoro::cppcoro)
 
 target_include_directories(
-  Greeter PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-                 $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
+  ECGenCpp PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+                  $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
 
 # ---- Create an installable target ----
