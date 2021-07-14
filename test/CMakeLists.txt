@@ -19,6 +19,16 @@ CPMAddPackage("gh:onqtam/doctest#2.4.5")
 CPMAddPackage("gh:TheLartians/Format.cmake@1.7.0")
 
 # CPMAddPackage( NAME cppcoro GIT_TAG 1.0 GITHUB_REPOSITORY luk036/cppcoro )
+CPMAddPackage(
+  NAME cppcoro
+  GIT_TAG 1.0
+  GITHUB_REPOSITORY luk036/cppcoro
+)
+# print_target_properties(cppcoro)
+
+message(STATUS "Found cppcoro: ${cppcoro_SOURCE_DIR}")
+add_library(cppcoro::cppcoro INTERFACE IMPORTED GLOBAL)
+target_include_directories(cppcoro::cppcoro SYSTEM INTERFACE ${cppcoro_SOURCE_DIR}/include)
 
 if(TEST_INSTALLED_VERSION)
   find_package(ECGenCpp REQUIRED)
