@@ -22,6 +22,16 @@ CPMAddPackage("gh:TheLartians/Format.cmake@1.7.0")
 
 if(TEST_INSTALLED_VERSION)
   find_package(ECGen REQUIRED)
+
+  CPMAddPackage(
+    NAME cppcoro
+    GIT_TAG 1.0
+    GITHUB_REPOSITORY luk036/cppcoro
+  )
+  # print_target_properties(cppcoro)
+  message(STATUS "Found cppcoro: ${cppcoro_SOURCE_DIR}")
+  add_library(cppcoro::cppcoro INTERFACE IMPORTED GLOBAL)
+  target_include_directories(cppcoro::cppcoro SYSTEM INTERFACE ${cppcoro_SOURCE_DIR}/include)
 else()
   CPMAddPackage(NAME ECGen SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 endif()
