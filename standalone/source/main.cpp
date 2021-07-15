@@ -36,7 +36,7 @@ auto main(int argc, char** argv) -> int {
     }
 
     if (result["version"].as<bool>()) {
-        std::cout << "ECGenCpp, version " << ECGENCPP_VERSION << std::endl;
+        std::cout << "ECGen, version " << ECGEN_VERSION << std::endl;
         return 0;
     }
 
@@ -46,7 +46,7 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    ecgen::ECGenCpp ecgen(name);
+    ecgen::ECGen ecgen(name);
     std::cout << ecgen.greet(langIt->second) << std::endl;
 
     return 0;

@@ -38,38 +38,32 @@
 #include <cppcoro/recursive_generator.hpp>
 #include <type_traits>
 
-namespace ecgen
-{
+namespace ecgen {
 
-/**
- * @brief Stirling number of second kind.
- *
- * @tparam N
- * @tparam K
- * @return constexpr auto
- */
-template <int N, int K>
-constexpr auto Stirling2nd()
-{
-    if constexpr (K >= N || K <= 1)
-    {
-        return std::integral_constant<int, 1> {};
+    /**
+     * @brief Stirling number of second kind.
+     *
+     * @tparam N
+     * @tparam K
+     * @return constexpr auto
+     */
+    template <int N, int K> constexpr auto Stirling2nd() {
+        if constexpr (K >= N || K <= 1) {
+            return std::integral_constant<int, 1>{};
+        } else {
+            return std::integral_constant<int, Stirling2nd<N - 1, K - 1>()
+                                                   + K * Stirling2nd<N - 1, K>()>{};
+        }
     }
-    else
-    {
-        return std::integral_constant<int,
-            Stirling2nd<N - 1, K - 1>() + K * Stirling2nd<N - 1, K>()> {};
-    }
-}
 
-/**
- * @brief Set the partition gen object
- *
- * @param n
- * @param k
- * @return cppcoro::recursive_generator<std::tuple<int, int>>
- */
-extern auto set_partition_gen(int n, int k)
-    -> cppcoro::recursive_generator<std::tuple<int, int>>;
+    /**
+     * @brief Set the partition gen object
+     *
+     * @param n
+     * @param k
+     * @return cppcoro::recursive_generator<std::tuple<int, int>>
+     */
+    extern auto set_partition_gen(int n, int k)
+        -> cppcoro::recursive_generator<std::tuple<int, int>>;
 
-} // namespace ecgen
+}  // namespace ecgen

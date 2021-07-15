@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
-project(ECGenCppStandalone LANGUAGES CXX)
+project(ECGenStandalone LANGUAGES CXX)
 
 # --- Import tools ----
 
@@ -37,14 +37,14 @@ endif()
 
 # CPMAddPackage( NAME cppcoro GIT_TAG 1.0 GITHUB_REPOSITORY luk036/cppcoro )
 
-CPMAddPackage(NAME ECGenCpp SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
+CPMAddPackage(NAME ECGen SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 
 # ---- Create standalone executable ----
 
 file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
 
-add_executable(ECGenCppStandalone ${sources})
+add_executable(ECGenStandalone ${sources})
 
-set_target_properties(ECGenCppStandalone PROPERTIES CXX_STANDARD 20 OUTPUT_NAME "ECGenCpp")
+set_target_properties(ECGenStandalone PROPERTIES CXX_STANDARD 20 OUTPUT_NAME "ECGen")
 
-target_link_libraries(ECGenCppStandalone ECGenCpp::ECGenCpp cxxopts cppcoro::cppcoro)
+target_link_libraries(ECGenStandalone ECGen::ECGen cxxopts cppcoro::cppcoro)

@@ -4,13 +4,13 @@
 
 namespace ecgen {
 
-    /**  Language codes to be used with the ECGenCpp class */
+    /**  Language codes to be used with the ECGen class */
     enum class LanguageCode { EN, DE, ES, FR };
 
     /**
      * @brief A class for saying hello in multiple languages
      */
-    class ECGenCpp {
+    class ECGen {
         std::string name;
 
       public:
@@ -18,7 +18,7 @@ namespace ecgen {
          * @brief Creates a new ecgen
          * @param name the name to greet
          */
-        ECGenCpp(std::string name);
+        ECGen(std::string name);
 
         /**
          * @brief Creates a localized string containing the greeting

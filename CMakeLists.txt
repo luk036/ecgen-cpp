@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 # Note: update this to your new project's name and version
 project(
-  ECGenCpp
+  ECGen
   VERSION 1.0
   LANGUAGES CXX
 )
@@ -75,20 +75,20 @@ file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/
 # ---- Create library ----
 
 # Note: for header-only libraries change all PUBLIC flags to INTERFACE and create an interface
-# target: add_library(ECGenCpp INTERFACE)
-add_library(ECGenCpp ${headers} ${sources})
+# target: add_library(ECGen INTERFACE)
+add_library(ECGen ${headers} ${sources})
 
-set_target_properties(ECGenCpp PROPERTIES CXX_STANDARD 20)
+set_target_properties(ECGen PROPERTIES CXX_STANDARD 20)
 
 # being a cross-platform target, we enforce standards conformance on MSVC
-target_compile_options(ECGenCpp PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
+target_compile_options(ECGen PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 
 # Link dependencies
-target_link_libraries(ECGenCpp PRIVATE fmt::fmt cppcoro::cppcoro)
+target_link_libraries(ECGen PRIVATE fmt::fmt cppcoro::cppcoro)
 
 target_include_directories(
-  ECGenCpp PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-                  $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
+  ECGen PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+               $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
 
 # ---- Create an installable target ----
