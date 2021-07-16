@@ -25,6 +25,8 @@ include(cmake/CPM.cmake)
 
 # PackageProject.cmake will be used to make our target installable
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.6.0")
+CPMAddPackage("gh:luk036/bingo#0.1.2")
+# CPMAddPackage("gh:TheLartians/ModernCppStarter@0.17.3")
 
 CPMAddPackage(
   NAME fmt
@@ -39,10 +41,11 @@ CPMAddPackage(
   GITHUB_REPOSITORY luk036/cppcoro
 )
 # print_target_properties(cppcoro)
-
-message(STATUS "Found cppcoro: ${cppcoro_SOURCE_DIR}")
-add_library(cppcoro::cppcoro INTERFACE IMPORTED GLOBAL)
-target_include_directories(cppcoro::cppcoro SYSTEM INTERFACE ${cppcoro_SOURCE_DIR}/include)
+if(cppcoro_ADDED)
+  message(STATUS "Found cppcoro: ${cppcoro_SOURCE_DIR}")
+  add_library(cppcoro::cppcoro INTERFACE IMPORTED GLOBAL)
+  target_include_directories(cppcoro::cppcoro SYSTEM INTERFACE ${cppcoro_SOURCE_DIR}/include)
+endif(cppcoro_ADDED)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   # using GCC
@@ -107,5 +110,5 @@ packageProject(
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   VERSION_HEADER "${VERSION_HEADER_LOCATION}"
   COMPATIBILITY SameMajorVersion
-  DEPENDENCIES "fmt 7.1.3"
+  DEPENDENCIES "fmt 7.1.3;cppcoro 1.0"
 )
