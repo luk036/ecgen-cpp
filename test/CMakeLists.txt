@@ -23,9 +23,6 @@ CPMAddPackage("gh:TheLartians/Format.cmake@1.7.0")
 if(TEST_INSTALLED_VERSION)
   find_package(ECGen REQUIRED)
 
-  CPMAddPackage("gh:luk036/bingo#0.1.2")
-  # CPMAddPackage("gh:TheLartians/ModernCppStarter@0.17.3")
-
   CPMAddPackage(
     NAME cppcoro
     GIT_TAG 1.0

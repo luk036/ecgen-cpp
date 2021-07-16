@@ -25,8 +25,14 @@ include(cmake/CPM.cmake)
 
 # PackageProject.cmake will be used to make our target installable
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.6.0")
-CPMAddPackage("gh:luk036/bingo#0.1.2")
 # CPMAddPackage("gh:TheLartians/ModernCppStarter@0.17.3")
+# CPMAddPackage("gh:luk036/bingo#0.1.2")
+CPMAddPackage(
+  NAME Bingo
+  GIT_TAG 0.1.2
+  GITHUB_REPOSITORY luk036/bingo
+  OPTIONS "BINGO_INSTALL YES" # create an installable target
+)
 
 CPMAddPackage(
   NAME fmt
@@ -87,7 +93,7 @@ set_target_properties(ECGen PROPERTIES CXX_STANDARD 20)
 target_compile_options(ECGen PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 
 # Link dependencies
-target_link_libraries(ECGen PRIVATE fmt::fmt cppcoro::cppcoro)
+target_link_libraries(ECGen PRIVATE fmt::fmt cppcoro::cppcoro Bingo::Bingo)
 
 target_include_directories(
   ECGen PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
