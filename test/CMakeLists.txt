@@ -33,30 +33,10 @@ if(TEST_INSTALLED_VERSION)
     message(STATUS "Found cppcoro: ${cppcoro_SOURCE_DIR}")
     add_library(cppcoro::cppcoro INTERFACE IMPORTED GLOBAL)
     target_include_directories(cppcoro::cppcoro SYSTEM INTERFACE ${cppcoro_SOURCE_DIR}/include)
-    set_target_properties(cppcoro::cppcoro PROPERTIES CXX_STANDARD 20)
   endif(cppcoro_ADDED)
 
 else()
   CPMAddPackage(NAME ECGen SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
-endif()
-
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  # using GCC
-  add_compile_options(-fcoroutines -Wall -Wnon-virtual-dtor -Wunused -pedantic)
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  # using clang
-  add_compile_options(
-    -fcoroutines-ts
-    -stdlib=libc++
-    -fno-exceptions
-    -Wall
-    -Wnon-virtual-dtor
-    -Wunused
-    -pedantic
-  )
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-  # using Visual Studio C++
-  add_compile_options(/std:c++latest /await /W3 /WX)
 endif()
 
 # ---- Create binary ----
@@ -68,10 +48,14 @@ set_target_properties(ECGenTests PROPERTIES CXX_STANDARD 20)
 
 # enable compiler warnings
 if(NOT TEST_INSTALLED_VERSION)
-  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_compile_options(ECGen PUBLIC -Wall -Wpedantic -Wextra -Werror)
+  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    target_compile_options(ECGen PUBLIC -fcoroutines -Wall -Wpedantic -Wextra -Werror)
+  elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    target_compile_options(
+      ECGen PUBLIC -fcoroutines-ts -stdlib=libc++ -Wall -Wpedantic -Wextra -Werror
+    )
   elseif(MSVC)
-    target_compile_options(ECGen PUBLIC /W4 /WX)
+    target_compile_options(ECGen PUBLIC /std:c++latest /await /W4 /WX)
     target_compile_definitions(ECGenTests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
   endif()
 endif()

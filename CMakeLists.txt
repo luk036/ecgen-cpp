@@ -25,8 +25,6 @@ include(cmake/CPM.cmake)
 
 # PackageProject.cmake will be used to make our target installable
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.6.0")
-# CPMAddPackage("gh:TheLartians/ModernCppStarter@0.17.3")
-# CPMAddPackage("gh:luk036/bingo#0.1.2")
 CPMAddPackage(
   NAME Bingo
   GIT_TAG 0.1.2
