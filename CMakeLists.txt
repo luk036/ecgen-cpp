@@ -91,7 +91,7 @@ set_target_properties(ECGen PROPERTIES CXX_STANDARD 20)
 target_compile_options(ECGen PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 
 # Link dependencies
-target_link_libraries(ECGen PRIVATE fmt::fmt cppcoro::cppcoro Bingo::Bingo)
+target_link_libraries(ECGen PRIVATE fmt::fmt cppcoro::cppcoro)
 
 target_include_directories(
   ECGen PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>

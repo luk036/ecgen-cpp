@@ -24,6 +24,13 @@ if(TEST_INSTALLED_VERSION)
   find_package(ECGen REQUIRED)
 
   CPMAddPackage(
+    NAME Bingo
+    GIT_TAG 0.1.2
+    GITHUB_REPOSITORY luk036/bingo
+    OPTIONS "BINGO_INSTALL YES" # create an installable target
+  )
+
+  CPMAddPackage(
     NAME cppcoro
     GIT_TAG 1.0
     GITHUB_REPOSITORY luk036/cppcoro
