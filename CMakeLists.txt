@@ -25,50 +25,8 @@ include(cmake/CPM.cmake)
 
 # PackageProject.cmake will be used to make our target installable
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.6.0")
-CPMAddPackage(
-  NAME Bingo
-  GIT_TAG 0.1.2
-  GITHUB_REPOSITORY luk036/bingo
-  OPTIONS "BINGO_INSTALL YES" # create an installable target
-)
 
-CPMAddPackage(
-  NAME fmt
-  GIT_TAG 7.1.3
-  GITHUB_REPOSITORY fmtlib/fmt
-  OPTIONS "FMT_INSTALL YES" # create an installable target
-)
-
-CPMAddPackage(
-  NAME cppcoro
-  GIT_TAG 1.0
-  GITHUB_REPOSITORY luk036/cppcoro
-)
-# print_target_properties(cppcoro)
-if(cppcoro_ADDED)
-  message(STATUS "Found cppcoro: ${cppcoro_SOURCE_DIR}")
-  add_library(cppcoro::cppcoro INTERFACE IMPORTED GLOBAL)
-  target_include_directories(cppcoro::cppcoro SYSTEM INTERFACE ${cppcoro_SOURCE_DIR}/include)
-endif(cppcoro_ADDED)
-
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  # using GCC
-  add_compile_options(-fcoroutines -Wall -Wnon-virtual-dtor -Wunused -pedantic)
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  # using clang
-  add_compile_options(
-    -fcoroutines-ts
-    -stdlib=libc++
-    -fno-exceptions
-    -Wall
-    -Wnon-virtual-dtor
-    -Wunused
-    -pedantic
-  )
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-  # using Visual Studio C++
-  add_compile_options(/std:c++latest /await /W3 /WX)
-endif()
+include(specific.cmake)
 
 # ---- Add source files ----
 

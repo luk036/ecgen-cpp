@@ -16,24 +16,7 @@ CPMAddPackage(
   OPTIONS "CXXOPTS_BUILD_EXAMPLES NO" "CXXOPTS_BUILD_TESTS NO" "CXXOPTS_ENABLE_INSTALL YES"
 )
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  # using GCC
-  add_compile_options(-fcoroutines -Wall -Wnon-virtual-dtor -Wunused -pedantic)
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  # using clang
-  add_compile_options(
-    -fcoroutines-ts
-    -stdlib=libc++
-    -fno-exceptions
-    -Wall
-    -Wnon-virtual-dtor
-    -Wunused
-    -pedantic
-  )
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-  # using Visual Studio C++
-  add_compile_options(/std:c++latest /await /W3 /WX)
-endif()
+include(../specific.cmake)
 
 # CPMAddPackage( NAME cppcoro GIT_TAG 1.0 GITHUB_REPOSITORY luk036/cppcoro )
 
