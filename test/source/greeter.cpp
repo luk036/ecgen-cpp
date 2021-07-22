@@ -1,6 +1,6 @@
+#include <doctest/doctest.h>
 #include <ecgen/greeter.h>
 #include <ecgen/version.h>
-#include <doctest/doctest.h>
 
 #include <string>
 

@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 # set(USE_STATIC_ANALYZER "clang-tidy")
-set(CPM_USE_LOCAL_PACKAGES TRUE)
+
+# option(CPM_USE_LOCAL_PACKAGES "Use Local package" TRUE)
+option(INSTALL_ONLY "Enable for installation only" OFF)
 
 # ---- Project ----
 
@@ -35,12 +37,7 @@ include(cmake/CPM.cmake)
 # PackageProject.cmake will be used to make our target installable
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.6.0")
 
-CPMAddPackage(
-  NAME fmt
-  GIT_TAG 7.1.3
-  GITHUB_REPOSITORY fmtlib/fmt
-  OPTIONS "FMT_INSTALL YES" # create an installable target
-)
+include(specific.cmake)
 
 # ---- Add source files ----
 
@@ -55,13 +52,13 @@ file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/
 # target: add_library(${PROJECT_NAME} INTERFACE)
 add_library(${PROJECT_NAME} ${headers} ${sources})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
+set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20)
 
 # being a cross-platform target, we enforce standards conformance on MSVC
 target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 
 # Link dependencies
-target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${SPECIFIC_LIBS})
 
 target_include_directories(
   ${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -87,6 +84,8 @@ packageProject(
   DEPENDENCIES "fmt 7.1.3"
 )
 
-add_subdirectory(test)
-add_subdirectory(standalone)
-add_subdirectory(documentation)
+if(NOT INSTALL_ONLY)
+  add_subdirectory(test)
+  add_subdirectory(standalone)
+  add_subdirectory(documentation)
+endif()

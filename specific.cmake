@@ -5,7 +5,12 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
-CPMAddPackage("gh:luk036/bingo-cpp#0.1.4")
+CPMAddPackage(
+  NAME Bingo
+  GIT_TAG 0.1.5
+  GITHUB_REPOSITORY luk036/bingo-cpp
+  OPTIONS "INSTALL_ONLY ON"
+)
 
 CPMAddPackage(
   NAME cppcoro
