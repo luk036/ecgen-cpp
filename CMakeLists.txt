@@ -42,6 +42,8 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
+include(specific.cmake)
+
 # ---- Add source files ----
 
 # Note: globbing sources is considered bad practice as CMake's generators may not detect new files
