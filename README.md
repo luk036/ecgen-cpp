@@ -1,15 +1,17 @@
-[![Actions Status](https://github.com/TheLartians/ModernCppStarter/workflows/MacOS/badge.svg)](https://github.com/TheLartians/ModernCppStarter/actions)
-[![Actions Status](https://github.com/TheLartians/ModernCppStarter/workflows/Windows/badge.svg)](https://github.com/TheLartians/ModernCppStarter/actions)
-[![Actions Status](https://github.com/TheLartians/ModernCppStarter/workflows/Ubuntu/badge.svg)](https://github.com/TheLartians/ModernCppStarter/actions)
-[![Actions Status](https://github.com/TheLartians/ModernCppStarter/workflows/Style/badge.svg)](https://github.com/TheLartians/ModernCppStarter/actions)
-[![Actions Status](https://github.com/TheLartians/ModernCppStarter/workflows/Install/badge.svg)](https://github.com/TheLartians/ModernCppStarter/actions)
-[![codecov](https://codecov.io/gh/TheLartians/ModernCppStarter/branch/master/graph/badge.svg)](https://codecov.io/gh/TheLartians/ModernCppStarter)
+[![Actions Status](https://github.com/luk036/ecgen-cpp/workflows/MacOS/badge.svg)](https://github.com/luk036/ecgen-cpp/actions)
+[![Actions Status](https://github.com/luk036/ecgen-cpp/workflows/Windows/badge.svg)](https://github.com/luk036/ecgen-cpp/actions)
+[![Actions Status](https://github.com/luk036/ecgen-cpp/workflows/Ubuntu/badge.svg)](https://github.com/luk036/ecgen-cpp/actions)
+[![Actions Status](https://github.com/luk036/ecgen-cpp/workflows/Style/badge.svg)](https://github.com/luk036/ecgen-cpp/actions)
+[![Actions Status](https://github.com/luk036/ecgen-cpp/workflows/Install/badge.svg)](https://github.com/luk036/ecgen-cpp/actions)
+[![codecov](https://codecov.io/gh/luk036/ecgen-cpp/branch/master/graph/badge.svg)](https://codecov.io/gh/luk036/ecgen-cpp)
 
 <p align="center">
   <img src="https://repository-images.githubusercontent.com/254842585/4dfa7580-7ffb-11ea-99d0-46b8fe2f4170" height="175" width="auto" />
 </p>
 
-# ModernCppStarter
+# ecgen-cpp (modified from ModernCppStarter)
+
+(**Note**: this project has been modified from the original ModernCppStarter so that it is more **vscode-friendly**.)
 
 Setting up a new C++ project usually requires a significant amount of preparation and boilerplate code, even more so for modern C++ projects with tests, executables and continuous integration.
 This template is the result of learnings from many previous projects and should help reduce the work required to setup up a modern C++ project.
@@ -52,8 +54,8 @@ During development it is usually convenient to [build all subprojects at once](#
 Use the following command to build and run the executable target.
 
 ```bash
-cmake -S standalone -B build/standalone
-cmake --build build/standalone
+cmake -S. -B build
+cmake --build build
 ./build/standalone/ECGen --help
 ```
 
@@ -62,11 +64,12 @@ cmake --build build/standalone
 Use the following commands from the project's root directory to run the test suite.
 
 ```bash
-cmake -S test -B build/test
-cmake --build build/test
-CTEST_OUTPUT_ON_FAILURE=1 cmake --build build/test --target test
+cmake -S. -B build
+cmake --build build
+cd build/test
+CTEST_OUTPUT_ON_FAILURE=1 ctest
 
-# or simply call the executable: 
+# or maybe simply call the executable: 
 ./build/test/ECGenTests
 ```
 
@@ -78,49 +81,30 @@ Use the following commands from the project's root directory to check and fix C+
 This requires _clang-format_, _cmake-format_ and _pyyaml_ to be installed on the current system.
 
 ```bash
-cmake -S test -B build/test
+cmake -S. -B build/test
 
 # view changes
-cmake --build build/test --target format
+cmake --build build --target format
 
 # apply changes
-cmake --build build/test --target fix-format
+cmake --build build --target fix-format
 ```
 
 See [Format.cmake](https://github.com/TheLartians/Format.cmake) for details.
 
 ### Build the documentation
 
-The documentation is automatically built and [published](https://thelartians.github.io/ModernCppStarter) whenever a [GitHub Release](https://help.github.com/en/github/administering-a-repository/managing-releases-in-a-repository) is created.
+The documentation is automatically built and [published](https://luk036.github.io/ecgen-cpp) whenever a [GitHub Release](https://help.github.com/en/github/administering-a-repository/managing-releases-in-a-repository) is created.
 To manually build documentation, call the following command.
 
 ```bash
-cmake -S documentation -B build/doc
-cmake --build build/doc --target GenerateDocs
+cmake -S . -B build
+cmake --build build --target GenerateDocs
 # view the docs
-open build/doc/doxygen/html/index.html
+open build/documentation/doxygen/html/index.html
 ```
 
 To build the documentation locally, you will need Doxygen, jinja2 and Pygments on installed your system.
-
-### Build everything at once
-
-The project also includes an `all` directory that allows building all targets at the same time.
-This is useful during development, as it exposes all subprojects to your IDE and avoids redundant builds of the library.
-
-```bash
-cmake -S all -B build
-cmake --build build
-
-# run tests
-./build/test/ECGenTests
-# format code
-cmake --build build --target fix-format
-# run standalone
-./build/standalone/ECGen --help
-# build docs
-cmake --build build --target GenerateDocs
-```
 
 ### Additional tools
 
@@ -151,13 +135,6 @@ See [here](https://github.com/TheLartians/StaticTypeInfo) for an example header-
 > I don't need a standalone target / documentation. How can I get rid of it?
 
 Simply remove the standalone / documentation directory and according github workflow file.
-
-> Can I build the standalone and tests at the same time? / How can I tell my IDE about all subprojects?
-
-To keep the template modular, all subprojects derived from the library have been separated into their own CMake modules.
-This approach makes it trivial for third-party projects to re-use the projects library code.
-To allow IDEs to see the full scope of the project, the template includes the `all` directory that will create a single build for all subprojects.
-Use this as the main directory for best IDE support.
 
 > I see you are using `GLOB` to add source files in CMakeLists.txt. Isn't that evil?
 

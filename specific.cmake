@@ -5,7 +5,7 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
-CPMAddPackage("gh:luk036/bingo#0.1.2")
+CPMAddPackage("gh:luk036/bingo-cpp#0.1.4")
 
 CPMAddPackage(
   NAME cppcoro
