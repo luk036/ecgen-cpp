@@ -29,7 +29,7 @@ jobs:
 
       - name: Before Install
         run: |
-          sudo apt-get install g++-10
+          sudo apt-get install g++-10 lcov
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 90 
 
       - name: configure
