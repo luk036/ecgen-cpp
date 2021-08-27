@@ -7,7 +7,7 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME Bingo
-  GIT_TAG 0.1.5
+  GIT_TAG 1.0
   GITHUB_REPOSITORY luk036/bingo-cpp
   OPTIONS "INSTALL_ONLY ON"
 )
