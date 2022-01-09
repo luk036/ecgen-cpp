@@ -1,0 +1,108 @@
+-- The CXX compiler identification is Clang 13.0.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /data/data/com.termux/files/usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- CPM: adding package cmake-scripts@0 (1f822d1fc87c8d7720c074cde8a278b44963c354)
+-- clang-tidy found: /data/data/com.termux/files/usr/bin/clang-tidy
+-- clang-tidy NOT ENABLED via 'CLANG_TIDY' variable!
+-- include-what-you-use found: /data/data/com.termux/files/usr/bin/include-what-you-use
+-- cppcheck not found!
+-- CPM: adding package PackageProject.cmake@1.6.0 (v1.6.0)
+-- CPM: using local package fmt@7.1.3
+-- CPM: adding package Bingo@1.0 (1.0)
+-- CPM: adding package cppcoro@1.0 (1.0)
+C++ version not set. Defaulting to CMAKE_CXX_STANDARD=20
+-- Found cppcoro: /data/data/com.termux/files/home/github/ecgen-cpp/build/_deps/cppcoro-src
+-- CPM: adding package doctest@2.4.5 (2.4.5)
+-- CPM: adding package Format.cmake@1.7.0 (v1.7.0)
+-- Found Python: /data/data/com.termux/files/usr/bin/python3.10 (found version "3.10.1") found components: Interpreter 
+-- CPM: adding package cxxopts@2.2.1 (v2.2.1)
+-- cxxopts version 2.2.0
+-- CPM: adding package m.css@0 (42d4a9a48f31f5df6e246c948403b54b50574a2a)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /data/data/com.termux/files/home/github/ecgen-cpp/build
+[  2%] Building CXX object _deps/bingo-build/CMakeFiles/Bingo.dir/source/greeter.cpp.o
+Warning: include-what-you-use reported diagnostics:
+
+/data/data/com.termux/files/home/github/ecgen-cpp/build/_deps/bingo-src/include/bingo/greeter.h should add these lines:
+#include <iosfwd>  // for string
+
+/data/data/com.termux/files/home/github/ecgen-cpp/build/_deps/bingo-src/include/bingo/greeter.h should remove these lines:
+
+The full include-list for /data/data/com.termux/files/home/github/ecgen-cpp/build/_deps/bingo-src/include/bingo/greeter.h:
+#include <iosfwd>  // for string
+#include <string>  // for basic_string
+---
+
+/data/data/com.termux/files/home/github/ecgen-cpp/build/_deps/bingo-src/source/greeter.cpp should add these lines:
+#include <type_traits>   // for move
+
+/data/data/com.termux/files/home/github/ecgen-cpp/build/_deps/bingo-src/source/greeter.cpp should remove these lines:
+
+The full include-list for /data/data/com.termux/files/home/github/ecgen-cpp/build/_deps/bingo-src/source/greeter.cpp:
+#include <bingo/greeter.h>
+#include <fmt/format.h>  // for format
+#include <type_traits>   // for move
+---
+
+[  5%] Linking CXX static library libBingo.a
+[  5%] Built target Bingo
+Consolidate compiler generated dependencies of target ECGen
+[  8%] Building CXX object CMakeFiles/ECGen.dir/source/combin.cpp.o
+Warning: include-what-you-use reported diagnostics:
+
+/data/data/com.termux/files/home/github/ecgen-cpp/include/ecgen/combin.hpp should add these lines:
+#include <tuple>                            // for tuple
+#include <type_traits>                      // for integral_constant
+#include <vector>                           // for vector
+
+/data/data/com.termux/files/home/github/ecgen-cpp/include/ecgen/combin.hpp should remove these lines:
+
+The full include-list for /data/data/com.termux/files/home/github/ecgen-cpp/include/ecgen/combin.hpp:
+#include <cppcoro/recursive_generator.hpp>  // for recursive_generator
+#include <tuple>                            // for tuple
+#include <type_traits>                      // for integral_constant
+#include <vector>                           // for vector
+---
+
+/data/data/com.termux/files/home/github/ecgen-cpp/source/combin.cpp should add these lines:
+#include <algorithm>               // for fill_n
+#include <cppcoro/coroutine.hpp>   // for cppcoro
+#include <experimental/coroutine>  // for suspend_always, coroutine_handle
+
+/data/data/com.termux/files/home/github/ecgen-cpp/source/combin.cpp should remove these lines:
+- #include <utility>  // lines 2-2
+
+The full include-list for /data/data/com.termux/files/home/github/ecgen-cpp/source/combin.cpp:
+#include <ecgen/combin.hpp>
+#include <algorithm>               // for fill_n
+#include <cppcoro/coroutine.hpp>   // for cppcoro
+#include <experimental/coroutine>  // for suspend_always, coroutine_handle
+#include <vector>                  // for vector
+---
+
+[ 11%] Building CXX object CMakeFiles/ECGen.dir/source/gray_code.cpp.o
+Warning: include-what-you-use reported diagnostics:
+
+(/data/data/com.termux/files/home/github/ecgen-cpp/include/ecgen/gray_code.hpp has correct #includes/fwd-decls)
+
+/data/data/com.termux/files/home/github/ecgen-cpp/source/gray_code.cpp should add these lines:
+#include <cppcoro/coroutine.hpp>   // for cppcoro
+#include <experimental/coroutine>  // for suspend_always, coroutine_handle
+
+/data/data/com.termux/files/home/github/ecgen-cpp/source/gray_code.cpp should remove these lines:
+
+The full include-list for /data/data/com.termux/files/home/github/ecgen-cpp/source/gray_code.cpp:
+#include <ecgen/gray_code.hpp>
+#include <cppcoro/coroutine.hpp>   // for cppcoro
+#include <experimental/coroutine>  // for suspend_always, coroutine_handle
+---
+
+[ 14%] Building CXX object CMakeFiles/ECGen.dir/source/greeter.cpp.o
+Error running '/data/data/com.termux/files/usr/bin/include-what-you-use': Segmentation fault
+make[2]: *** [CMakeFiles/ECGen.dir/build.make:104: CMakeFiles/ECGen.dir/source/greeter.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:293: CMakeFiles/ECGen.dir/all] Error 2
+make: *** [Makefile:136: all] Error 2
