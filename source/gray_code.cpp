@@ -1,4 +1,6 @@
+#include <cppcoro/coroutine.hpp>  // for cppcoro
 #include <ecgen/gray_code.hpp>
+#include <experimental/coroutine>  // for suspend_always, coroutine_handle
 
 namespace ecgen {
 

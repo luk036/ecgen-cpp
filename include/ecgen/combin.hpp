@@ -1,6 +1,9 @@
 #pragma once
 
-#include <cppcoro/recursive_generator.hpp>
+#include <cppcoro/recursive_generator.hpp>  // for recursive_generator
+#include <tuple>                            // for tuple
+#include <type_traits>                      // for integral_constant
+#include <vector>                           // for vector
 // #include <type_traits>
 
 namespace ecgen {
