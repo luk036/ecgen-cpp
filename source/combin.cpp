@@ -1,8 +1,7 @@
 #include <algorithm>              // for fill_n
-#include <cppcoro/coroutine.hpp>  // for cppcoro
+#include <cppcoro/coroutine.hpp>  // for cppcoro, suspend_always, coroutine_handle
 #include <ecgen/combin.hpp>
-#include <experimental/coroutine>  // for suspend_always, coroutine_handle
-#include <vector>                  // for vector
+#include <vector>  // for vector
 
 namespace ecgen {
 
