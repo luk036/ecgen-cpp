@@ -3,7 +3,7 @@
 #include <cppcoro/recursive_generator.hpp>  // for recursive_generator
 #include <tuple>                            // for tuple
 #include <type_traits>                      // for integral_constant
-#include <vector>                           // for vector
+// #include <vector>                           // for vector
 // #include <type_traits>
 
 namespace ecgen {
@@ -33,7 +33,7 @@ namespace ecgen {
      * @param k
      * @return cppcoro::recursive_generator<std::vector<int>>
      */
-    extern auto EMK(int n, int k) -> cppcoro::recursive_generator<std::vector<int>>;
+    // extern auto EMK(int n, int k) -> cppcoro::recursive_generator<std::vector<int>>;
 
     /**
      * @brief The number of combinations

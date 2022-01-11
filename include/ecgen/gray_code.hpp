@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cppcoro/recursive_generator.hpp>
-#include <vector>
+// #include <vector>
 // #include <type_traits>
 
 namespace ecgen {
@@ -20,6 +20,6 @@ namespace ecgen {
      * @param n
      * @return cppcoro::recursive_generator<std::vector<int>>
      */
-    extern auto BRGC(int n) -> cppcoro::recursive_generator<std::vector<int>>;
+    // extern auto BRGC(int n) -> cppcoro::recursive_generator<std::vector<int>>;
 
 }  // namespace ecgen

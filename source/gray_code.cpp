@@ -1,5 +1,6 @@
 #include <cppcoro/coroutine.hpp>  // for cppcoro, suspend_always, coroutine_handle
 #include <ecgen/gray_code.hpp>
+// #include <vector>
 
 namespace ecgen {
 
@@ -26,13 +27,13 @@ namespace ecgen {
      * @param n
      * @return recursive_generator<std::vector<int>>
      */
-    auto BRGC(int n) -> recursive_generator<std::vector<int>> {
-        auto lst = std::vector(n, 0);
-        co_yield lst;
-        for (auto i : BRGC_gen(n)) {
-            lst[i] = 1 - lst[i];  // flip
-            co_yield lst;
-        }
-    }
+    // auto BRGC(int n) -> recursive_generator<std::vector<int>> {
+    //     auto lst = std::vector(n, 0);
+    //     co_yield lst;
+    //     for (auto i : BRGC_gen(n)) {
+    //         lst[i] = 1 - lst[i];  // flip
+    //         co_yield lst;
+    //     }
+    // }
 
 }  // namespace ecgen

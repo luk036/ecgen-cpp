@@ -1,6 +1,6 @@
 #include <ecgen/perm.hpp>
 #include <numeric>  // import iota
-#include <vector>
+// #include <vector>
 
 namespace ecgen {
 
@@ -38,14 +38,14 @@ namespace ecgen {
      * @return recursive_generator<std::vector<int>>
      * @todo benchmark with SJT_gen
      */
-    auto SJT(int n) -> cppcoro::generator<std::vector<int>> {
-        auto lst = std::vector(n, 0);
-        std::iota(lst.begin(), lst.end(), 0);  // 0, 1, ... n-1
-        for (auto i : SJT_gen(n)) {
-            co_yield lst;
-            std::swap(lst[i], lst[i + 1]);
-        }
-    }
+    // auto SJT(int n) -> cppcoro::generator<std::vector<int>> {
+    //     auto lst = std::vector(n, 0);
+    //     std::iota(lst.begin(), lst.end(), 0);  // 0, 1, ... n-1
+    //     for (auto i : SJT_gen(n)) {
+    //         co_yield lst;
+    //         std::swap(lst[i], lst[i + 1]);
+    //     }
+    // }
 
     /**
      * @brief Generate all permutations by star transposition
