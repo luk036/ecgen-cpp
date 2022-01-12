@@ -1,8 +1,6 @@
 #pragma once
 
 #include <cppcoro/recursive_generator.hpp>
-// #include <vector>
-// #include <type_traits>
 
 namespace ecgen {
 
@@ -15,11 +13,19 @@ namespace ecgen {
     extern auto BRGC_gen(int n) -> cppcoro::recursive_generator<int>;
 
     /**
-     * @brief BRGC
+     * @brief Binary Reflexed Gray Code (less efficiency)
      *
+     * @tparam Container
      * @param n
-     * @return cppcoro::recursive_generator<std::vector<int>>
+     * @return cppcoro::generator<Container&>
      */
-    // extern auto BRGC(int n) -> cppcoro::recursive_generator<std::vector<int>>;
+    template <typename Container> auto BRGC(int n) -> cppcoro::generator<Container&> {
+        auto lst = Container(n, 0);
+        co_yield lst;
+        for (auto i : BRGC_gen(n)) {
+            lst[i] = 1 - lst[i];  // flip
+            co_yield lst;
+        }
+    }
 
 }  // namespace ecgen

@@ -1,10 +1,9 @@
 #pragma once
 
+// #include <algorithm>                        // for fill_n
 #include <cppcoro/recursive_generator.hpp>  // for recursive_generator
 #include <tuple>                            // for tuple
 #include <type_traits>                      // for integral_constant
-// #include <vector>                           // for vector
-// #include <type_traits>
 
 namespace ecgen {
 
@@ -27,13 +26,25 @@ namespace ecgen {
     extern auto EMK_neg(int n, int k) -> cppcoro::recursive_generator<std::tuple<int, int>>;
 
     /**
-     * @brief EMK
+     * @brief Generate all combinations in reverse order by homogeneous
+     * revolving-door
      *
      * @param n
      * @param k
-     * @return cppcoro::recursive_generator<std::vector<int>>
+     * @return recursive_generator<std::vector<int>>
      */
-    // extern auto EMK(int n, int k) -> cppcoro::recursive_generator<std::vector<int>>;
+    template <typename Container> auto EMK(int n, int k, Container& lst)
+        -> cppcoro::generator<Container&> {
+        // auto lst = Container(n, 0);
+        // std::fill_n(lst.begin(), k, 1);
+        co_yield lst;
+        for (auto [x, y] : EMK_gen(n, k)) {
+            auto temp = lst[x];  // swap
+            lst[x] = lst[y];
+            lst[y] = temp;
+            co_yield lst;
+        }
+    }
 
     /**
      * @brief The number of combinations

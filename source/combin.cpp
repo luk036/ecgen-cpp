@@ -1,4 +1,3 @@
-#include <algorithm>              // for fill_n
 #include <cppcoro/coroutine.hpp>  // for cppcoro, suspend_always, coroutine_handle
 #include <ecgen/combin.hpp>
 // #include <vector>  // for vector
@@ -57,23 +56,5 @@ namespace ecgen {
             co_yield EMK_neg(n - 1, k);
         }
     }
-
-    /**
-     * @brief Generate all combinations in reverse order by homogeneous
-     * revolving-door
-     *
-     * @param n
-     * @param k
-     * @return recursive_generator<std::vector<int>>
-     */
-    // auto EMK(int n, int k) -> recursive_generator<std::vector<int>> {
-    //     auto lst = std::vector(n, 0);
-    //     fill_n(lst.begin(), k, 1);
-    //     co_yield lst;
-    //     for (auto [x, y] : EMK_gen(n, k)) {
-    //         std::swap(lst[x], lst[y]);  // swap
-    //         co_yield lst;
-    //     }
-    // }
 
 }  // namespace ecgen

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cppcoro/generator.hpp>
+#include <type_traits>  // for integral_constant
 
 namespace ecgen {
 
@@ -35,7 +36,7 @@ namespace ecgen {
     }
 
     /**
-     * @brief SJT permutation by adjacent transposition
+     * @brief SJT permutation by adjacent transposition (less efficiency)
      *
      * @tparam Container
      * @param perm
@@ -45,7 +46,27 @@ namespace ecgen {
         const auto n = int(perm.size());
         for (auto i : ecgen::SJT_gen(n)) {
             co_yield perm;
-            std::swap(perm[i], perm[i + 1]);  // swap
+            auto temp = perm[i];  // swap
+            perm[i] = perm[i + 1];
+            perm[i + 1] = temp;
+        }
+    }
+
+    /**
+     * @brief Ehr permutation by star transposition (less efficiency)
+     *
+     * @tparam Container
+     * @param perm
+     * @return cppcoro::generator<Container&>
+     */
+    template <typename Container> auto Ehr(Container& perm) -> cppcoro::generator<Container&> {
+        const auto n = int(perm.size());
+        co_yield perm;
+        for (auto i : ecgen::Ehr_gen(n)) {
+            auto temp = perm[0];  // swap
+            perm[0] = perm[i];
+            perm[i] = temp;
+            co_yield perm;
         }
     }
 

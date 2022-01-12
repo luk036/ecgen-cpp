@@ -46,8 +46,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    ecgen::ECGen ecgen(name);
-    std::cout << ecgen.greet(langIt->second) << std::endl;
+    // ecgen::ECGen ecgen(name);
+    // std::cout << ecgen.greet(langIt->second) << std::endl;
 
     return 0;
 }
