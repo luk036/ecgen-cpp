@@ -9,17 +9,17 @@ namespace ecgen {
      * @brief SJT
      *
      * @param n
-     * @return cppcoro::generator<int>
+     * @return cppcoro::generator<size_t>
      */
-    extern auto SJT_gen(int n) -> cppcoro::generator<int>;
+    extern auto SJT_gen(size_t n) -> cppcoro::generator<size_t>;
 
     /**
      * @brief Ehr
      *
      * @param n
-     * @return cppcoro::generator<int>
+     * @return cppcoro::generator<size_t>
      */
-    extern auto Ehr_gen(int n) -> cppcoro::generator<int>;
+    extern auto Ehr_gen(size_t n) -> cppcoro::generator<size_t>;
 
     /**
      * @brief Factorial, N!, the number of permutations
@@ -27,11 +27,11 @@ namespace ecgen {
      * @tparam N
      * @return constexpr auto
      */
-    template <int N> constexpr auto Factorial() {
+    template <size_t N> constexpr auto Factorial() {
         if constexpr (N <= 1) {
-            return std::integral_constant<int, 1U>{};
+            return std::integral_constant<size_t, 1U>{};
         } else {
-            return std::integral_constant<int, N * Factorial<N - 1>()>{};
+            return std::integral_constant<size_t, N * Factorial<N - 1>()>{};
         }
     }
 
@@ -43,8 +43,8 @@ namespace ecgen {
      * @return cppcoro::generator<Container&>
      */
     template <typename Container> auto SJT(Container& perm) -> cppcoro::generator<Container&> {
-        const auto n = int(perm.size());
-        for (auto i : ecgen::SJT_gen(n)) {
+        const auto n = perm.size();
+        for (size_t i : ecgen::SJT_gen(n)) {
             co_yield perm;
             auto temp = perm[i];  // swap
             perm[i] = perm[i + 1];
@@ -60,9 +60,9 @@ namespace ecgen {
      * @return cppcoro::generator<Container&>
      */
     template <typename Container> auto Ehr(Container& perm) -> cppcoro::generator<Container&> {
-        const auto n = int(perm.size());
+        const auto n = perm.size();
         co_yield perm;
-        for (auto i : ecgen::Ehr_gen(n)) {
+        for (size_t i : ecgen::Ehr_gen(n)) {
             auto temp = perm[0];  // swap
             perm[0] = perm[i];
             perm[i] = temp;

@@ -47,11 +47,11 @@ namespace ecgen {
      * @tparam K
      * @return constexpr auto
      */
-    template <int N, int K> constexpr auto Stirling2nd() {
+    template <size_t N, size_t K> constexpr auto Stirling2nd() {
         if constexpr (K >= N || K <= 1) {
-            return std::integral_constant<int, 1>{};
+            return std::integral_constant<size_t, 1>{};
         } else {
-            return std::integral_constant<int, Stirling2nd<N - 1, K - 1>()
+            return std::integral_constant<size_t, Stirling2nd<N - 1, K - 1>()
                                                    + K * Stirling2nd<N - 1, K>()>{};
         }
     }
@@ -61,9 +61,9 @@ namespace ecgen {
      *
      * @param n
      * @param k
-     * @return cppcoro::recursive_generator<std::tuple<int, int>>
+     * @return cppcoro::recursive_generator<std::tuple<size_t, size_t>>
      */
-    extern auto set_partition_gen(int n, int k)
-        -> cppcoro::recursive_generator<std::tuple<int, int>>;
+    extern auto set_partition_gen(size_t n, size_t k)
+        -> cppcoro::recursive_generator<std::tuple<size_t, size_t>>;
 
 }  // namespace ecgen

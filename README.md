@@ -37,8 +37,8 @@ Enumerate combinatoric generator for modern C++.
 // ...
 constexpr auto N = 5;
 auto lst = std::vector{'A', 'E', 'I', 'O', 'U'};
-int cnt = 0;
-for (auto i : ecgen::SJT_gen(N)) {
+size_t cnt = 0;
+for (size_t i : ecgen::SJT_gen(N)) {
     // process lst
     ++cnt;
     std::swap(lst[i], lst[i + 1]);

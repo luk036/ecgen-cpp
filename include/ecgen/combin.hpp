@@ -12,18 +12,18 @@ namespace ecgen {
      *
      * @param n
      * @param k
-     * @return cppcoro::recursive_generator<std::tuple<int, int>>
+     * @return cppcoro::recursive_generator<std::tuple<size_t, size_t>>
      */
-    extern auto EMK_gen(int n, int k) -> cppcoro::recursive_generator<std::tuple<int, int>>;
+    extern auto EMK_gen(size_t n, size_t k) -> cppcoro::recursive_generator<std::tuple<size_t, size_t>>;
 
     /**
      * @brief EMK (NEG)
      *
      * @param n
      * @param k
-     * @return cppcoro::recursive_generator<std::tuple<int, int>>
+     * @return cppcoro::recursive_generator<std::tuple<size_t, size_t>>
      */
-    extern auto EMK_neg(int n, int k) -> cppcoro::recursive_generator<std::tuple<int, int>>;
+    extern auto EMK_neg(size_t n, size_t k) -> cppcoro::recursive_generator<std::tuple<size_t, size_t>>;
 
     /**
      * @brief Generate all combinations in reverse order by homogeneous
@@ -31,9 +31,9 @@ namespace ecgen {
      *
      * @param n
      * @param k
-     * @return recursive_generator<std::vector<int>>
+     * @return recursive_generator<std::vector<size_t>>
      */
-    template <typename Container> auto EMK(int n, int k, Container& lst)
+    template <typename Container> auto EMK(size_t n, size_t k, Container& lst)
         -> cppcoro::generator<Container&> {
         // auto lst = Container(n, 0);
         // std::fill_n(lst.begin(), k, 1);
@@ -53,11 +53,11 @@ namespace ecgen {
      * @tparam K
      * @return constexpr auto
      */
-    template <int N, int K> constexpr auto Combination() {
+    template <size_t N, size_t K> constexpr auto Combination() {
         if constexpr (K >= N || K == 0) {
-            return std::integral_constant<int, 1U>{};
+            return std::integral_constant<size_t, 1U>{};
         } else {
-            return std::integral_constant<int,
+            return std::integral_constant<size_t,
                                           Combination<N - 1, K - 1>() + Combination<N - 1, K>()>{};
         }
     }

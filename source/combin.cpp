@@ -6,7 +6,7 @@ namespace ecgen {
 
     using namespace cppcoro;
 
-    using ret_t = std::tuple<int, int>;
+    using ret_t = std::tuple<size_t, size_t>;
 
     /**
      * @brief Generate all combinations by homogeneous revolving-door
@@ -15,12 +15,12 @@ namespace ecgen {
      * @param k
      * @return recursive_generator<ret_t>
      */
-    auto EMK_gen(int n, int k) -> recursive_generator<ret_t> {
+    auto EMK_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
         if (n <= k || k == 0) {
             co_return;
         }
         if (k == 1) {
-            for (auto i = 0; i != n - 1; ++i) {
+            for (size_t i = 0; i != n - 1; ++i) {
                 co_yield std::make_tuple(i, i + 1);
             }
         } else {
@@ -40,12 +40,12 @@ namespace ecgen {
      * @param k
      * @return recursive_generator<ret_t>
      */
-    auto EMK_neg(int n, int k) -> recursive_generator<ret_t> {
+    auto EMK_neg(size_t n, size_t k) -> recursive_generator<ret_t> {
         if (n <= k || k == 0) {
             co_return;
         }
         if (k == 1) {
-            for (auto i = n - 1; i != 0; --i) {
+            for (size_t i = n - 1; i != 0; --i) {
                 co_yield std::make_tuple(i, i - 1);
             }
         } else {

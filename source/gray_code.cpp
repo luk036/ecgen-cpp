@@ -10,9 +10,9 @@ namespace ecgen {
      * @brief Binary Reflexed Gray Code Generator
      *
      * @param n
-     * @return recursive_generator<int>
+     * @return recursive_generator<size_t>
      */
-    auto BRGC_gen(int n) -> recursive_generator<int> {
+    auto BRGC_gen(size_t n) -> recursive_generator<size_t> {
         if (n < 1) {
             co_return;
         }

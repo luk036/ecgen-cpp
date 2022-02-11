@@ -5,7 +5,7 @@
 #include <vector>
 
 TEST_CASE("Generate all permutations by SJT_gen (odd)") {
-    int cnt = 0;  // start from 0
+    size_t cnt = 0;  // start from 0
     for ([[maybe_unused]] auto i : ecgen::SJT_gen(5)) {
         ++cnt;
     }
@@ -13,7 +13,7 @@ TEST_CASE("Generate all permutations by SJT_gen (odd)") {
 }
 
 TEST_CASE("Generate all permutations by SJT_gen (even)") {
-    int cnt = 0;  // start from 0
+    size_t cnt = 0;  // start from 0
     for ([[maybe_unused]] auto i : ecgen::SJT_gen(6)) {
         ++cnt;
     }
@@ -21,7 +21,7 @@ TEST_CASE("Generate all permutations by SJT_gen (even)") {
 }
 
 TEST_CASE("Generate all permutations by Ehr algorithm (odd)") {
-    int cnt = 1;
+    size_t cnt = 1;
     for ([[maybe_unused]] auto i : ecgen::Ehr_gen(5)) {
         ++cnt;
     }
@@ -29,7 +29,7 @@ TEST_CASE("Generate all permutations by Ehr algorithm (odd)") {
 }
 
 TEST_CASE("Generate all permutations by Ehr algorithm (even)") {
-    int cnt = 1;
+    size_t cnt = 1;
     for ([[maybe_unused]] auto i : ecgen::Ehr_gen(6)) {
         ++cnt;
     }
