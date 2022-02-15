@@ -52,7 +52,7 @@ namespace ecgen {
             return std::integral_constant<size_t, 1>{};
         } else {
             return std::integral_constant<size_t, Stirling2nd<N - 1, K - 1>()
-                                                   + K * Stirling2nd<N - 1, K>()>{};
+                                                      + K * Stirling2nd<N - 1, K>()>{};
         }
     }
 
