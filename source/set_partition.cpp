@@ -8,10 +8,10 @@
 namespace ecgen {
 
     using namespace cppcoro;
-    using ret_t = std::tuple<size_t, size_t>;
+    using ret_t = std::pair<size_t, size_t>;
 
     inline auto Move(size_t x, size_t y) -> recursive_generator<ret_t> {
-        co_yield std::make_tuple(x, y);
+        co_yield std::make_pair(x, y);
     }
 
     // The lists S(n,k,0) and S(n,k,1) satisfy the following properties.

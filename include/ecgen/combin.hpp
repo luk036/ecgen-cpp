@@ -2,7 +2,7 @@
 
 // #include <algorithm>                        // for fill_n
 #include <cppcoro/recursive_generator.hpp>  // for recursive_generator
-#include <tuple>                            // for tuple
+#include <utility>                          // for pair
 #include <type_traits>                      // for integral_constant
 
 namespace ecgen {
@@ -12,20 +12,20 @@ namespace ecgen {
      *
      * @param n
      * @param k
-     * @return cppcoro::recursive_generator<std::tuple<size_t, size_t>>
+     * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
      */
     extern auto EMK_gen(size_t n, size_t k)
-        -> cppcoro::recursive_generator<std::tuple<size_t, size_t>>;
+        -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
 
     /**
      * @brief EMK (NEG)
      *
      * @param n
      * @param k
-     * @return cppcoro::recursive_generator<std::tuple<size_t, size_t>>
+     * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
      */
     extern auto EMK_neg(size_t n, size_t k)
-        -> cppcoro::recursive_generator<std::tuple<size_t, size_t>>;
+        -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
 
     /**
      * @brief Generate all combinations in reverse order by homogeneous

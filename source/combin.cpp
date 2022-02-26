@@ -6,7 +6,7 @@ namespace ecgen {
 
     using namespace cppcoro;
 
-    using ret_t = std::tuple<size_t, size_t>;
+    using ret_t = std::pair<size_t, size_t>;
 
     /**
      * @brief Generate all combinations by homogeneous revolving-door
@@ -21,13 +21,13 @@ namespace ecgen {
         }
         if (k == 1) {
             for (size_t i = 0; i != n - 1; ++i) {
-                co_yield std::make_tuple(i, i + 1);
+                co_yield std::make_pair(i, i + 1);
             }
         } else {
             co_yield EMK_gen(n - 1, k);
-            co_yield std::make_tuple(n - 2, n - 1);
+            co_yield std::make_pair(n - 2, n - 1);
             co_yield EMK_neg(n - 2, k - 1);
-            co_yield std::make_tuple(k - 2, n - 2);
+            co_yield std::make_pair(k - 2, n - 2);
             co_yield EMK_gen(n - 2, k - 2);
         }
     }
@@ -46,13 +46,13 @@ namespace ecgen {
         }
         if (k == 1) {
             for (size_t i = n - 1; i != 0; --i) {
-                co_yield std::make_tuple(i, i - 1);
+                co_yield std::make_pair(i, i - 1);
             }
         } else {
             co_yield EMK_neg(n - 2, k - 2);
-            co_yield std::make_tuple(n - 2, k - 2);
+            co_yield std::make_pair(n - 2, k - 2);
             co_yield EMK_gen(n - 2, k - 1);
-            co_yield std::make_tuple(n - 1, n - 2);
+            co_yield std::make_pair(n - 1, n - 2);
             co_yield EMK_neg(n - 1, k);
         }
     }

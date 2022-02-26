@@ -37,6 +37,7 @@
 
 #include <cppcoro/recursive_generator.hpp>
 #include <type_traits>
+#include <utility>
 
 namespace ecgen {
 
@@ -61,9 +62,9 @@ namespace ecgen {
      *
      * @param n
      * @param k
-     * @return cppcoro::recursive_generator<std::tuple<size_t, size_t>>
+     * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
      */
     extern auto set_partition_gen(size_t n, size_t k)
-        -> cppcoro::recursive_generator<std::tuple<size_t, size_t>>;
+        -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
 
 }  // namespace ecgen
