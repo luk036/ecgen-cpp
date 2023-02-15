@@ -5,7 +5,7 @@ option(ENABLE_TEST_COVERAGE "Enable test coverage" OFF)
 
 # ---- Dependencies ----
 
-CPMAddPackage("gh:doctest/doctest#v2.4.8")
+CPMAddPackage("gh:doctest/doctest#v2.4.9")
 CPMAddPackage("gh:TheLartians/Format.cmake@1.7.0")
 
 # if(TEST_INSTALLED_VERSION) find_package(${PROJECT_NAME} REQUIRED) else() CPMAddPackage(NAME
@@ -24,7 +24,7 @@ set_target_properties(${PROJECT_NAME}Tests PROPERTIES CXX_STANDARD 20)
 # problem in doctest
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   target_compile_options(
-    ${PROJECT_NAME} PUBLIC -Wall -Wpedantic -Wextra -Werror -Wno-deprecated-declarations
+    ${PROJECT_NAME} PUBLIC -Wall -Wpedantic -Wextra -Werror -Wno-deprecated-experimental-coroutine
   )
 elseif(MSVC)
   target_compile_options(${PROJECT_NAME} PUBLIC /W4 /WX)
