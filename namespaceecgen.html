@@ -69,7 +69,7 @@
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              class <a href="classecgen_1_1_e_c_gen.html" class="m-doc">ECGen</a>
+              class <a href="classecgen_1_1ECGen.html" class="m-doc">ECGen</a>
             </dt>
             <dd>A class for saying hello in multiple languages.</dd>
           </dl>
@@ -90,43 +90,46 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#afadde5b3383afcd984645abba9c728a7" class="m-doc">EMK_gen</a>(</span><span class="m-doc-wrap">int n,
-              int k) -&gt; cppcoro::recursive_generator&lt; std::tuple&lt; int, int &gt;&gt; -&gt; auto</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a389a993b86bad64afb6965882113f42e" class="m-doc">EMK_gen</a>(</span><span class="m-doc-wrap">size_t n,
+              size_t k) -&gt; cppcoro::recursive_generator&lt; std::pair&lt; size_t, size_t &gt;&gt; -&gt; auto</span>
             </dt>
             <dd>EMK (GEN)</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a45a81ba92c265fee17bbd8c87281b27a" class="m-doc">EMK_neg</a>(</span><span class="m-doc-wrap">int n,
-              int k) -&gt; cppcoro::recursive_generator&lt; std::tuple&lt; int, int &gt;&gt; -&gt; auto</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a6bd2bed45fb7dae7f85fbc681413b7be" class="m-doc">EMK_neg</a>(</span><span class="m-doc-wrap">size_t n,
+              size_t k) -&gt; cppcoro::recursive_generator&lt; std::pair&lt; size_t, size_t &gt;&gt; -&gt; auto</span>
             </dt>
             <dd>EMK (NEG)</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a2befcfecc177f2291056869b72ea9388" class="m-doc">EMK</a>(</span><span class="m-doc-wrap">int n,
-              int k) -&gt; cppcoro::recursive_generator&lt; std::vector&lt; int &gt;&gt; -&gt; auto</span>
+              <div class="m-doc-template">template&lt;typename Container&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a5d8cf4442a766918bec8ebd089707472" class="m-doc">EMK</a>(</span><span class="m-doc-wrap">size_t n,
+              size_t k,
+              Container&amp; lst) -&gt; cppcoro::generator&lt; Container &amp; &gt; -&gt; auto</span>
             </dt>
-            <dd>EMK.</dd>
+            <dd>Generate all combinations in reverse order by homogeneous revolving-door.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;int N, int K&gt;</div>
+              <div class="m-doc-template">template&lt;size_t N, size_t K&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a2fd41b080cae36cd5d5d172a6889ad21" class="m-doc">Combination</a>(</span><span class="m-doc-wrap">) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
             <dd>The number of combinations.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a2e4a50b7b646af6d360c57a7ca3d89d6" class="m-doc">BRGC_gen</a>(</span><span class="m-doc-wrap">int n) -&gt; cppcoro::recursive_generator&lt; int &gt; -&gt; auto</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ae7a6ec429106e03ae41aace5934c68ce" class="m-doc">BRGC_gen</a>(</span><span class="m-doc-wrap">size_t n) -&gt; cppcoro::recursive_generator&lt; size_t &gt; -&gt; auto</span>
             </dt>
             <dd>Generate reflexed Gray code.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aab9ea7481e074bf46694dfb6c905b2ff" class="m-doc">BRGC</a>(</span><span class="m-doc-wrap">int n) -&gt; cppcoro::recursive_generator&lt; std::vector&lt; int &gt;&gt; -&gt; auto</span>
+              <div class="m-doc-template">template&lt;typename Container&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#adae5b2db09eaa50c89b3f34832fd668d" class="m-doc">BRGC</a>(</span><span class="m-doc-wrap">size_t n) -&gt; cppcoro::generator&lt; Container &amp; &gt; -&gt; auto</span>
             </dt>
-            <dd>BRGC.</dd>
+            <dd>Binary Reflexed Gray Code (less efficiency)</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ab64654ba6c577fc0df85873b7e508e05" class="m-doc">SJT_gen</a>(</span><span class="m-doc-wrap">int n) -&gt; cppcoro::generator&lt; int &gt; -&gt; auto</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a78ca0b362a9b5e6383ddcc9880c9a016" class="m-doc">SJT_gen</a>(</span><span class="m-doc-wrap">size_t n) -&gt; cppcoro::generator&lt; size_t &gt; -&gt; auto</span>
             </dt>
             <dd>SJT.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a2cf0f0fcb6448906ce94f751c734c1c3" class="m-doc">Ehr_gen</a>(</span><span class="m-doc-wrap">int n) -&gt; cppcoro::generator&lt; int &gt; -&gt; auto</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a33449d36667279e6e61905eeaabb0dd1" class="m-doc">Ehr_gen</a>(</span><span class="m-doc-wrap">size_t n) -&gt; cppcoro::generator&lt; size_t &gt; -&gt; auto</span>
             </dt>
             <dd>Ehr.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;int N&gt;</div>
+              <div class="m-doc-template">template&lt;size_t N&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a5e3aaa8c5a68eb5e10c2ac9e1694f4a2" class="m-doc">Factorial</a>(</span><span class="m-doc-wrap">) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
             <dd>Factorial, N!, the number of permutations.</dd>
@@ -134,15 +137,20 @@
               <div class="m-doc-template">template&lt;typename Container&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a30255800e680ce20600d5627b6ba3b4f" class="m-doc">SJT</a>(</span><span class="m-doc-wrap">Container&amp; perm) -&gt; cppcoro::generator&lt; Container &amp; &gt; -&gt; auto</span>
             </dt>
-            <dd>SJT permutation by adjacent transposition.</dd>
+            <dd>SJT permutation by adjacent transposition (less efficiency)</dd>
             <dt>
-              <div class="m-doc-template">template&lt;int N, int K&gt;</div>
+              <div class="m-doc-template">template&lt;typename Container&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a844ae2eaa8480f773b808b96ba454119" class="m-doc">Ehr</a>(</span><span class="m-doc-wrap">Container&amp; perm) -&gt; cppcoro::generator&lt; Container &amp; &gt; -&gt; auto</span>
+            </dt>
+            <dd>Ehr permutation by star transposition (less efficiency)</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;size_t N, size_t K&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a820004c4d80ea9222ee31e86ae2b3f03" class="m-doc">Stirling2nd</a>(</span><span class="m-doc-wrap">) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
             <dd>Stirling number of second kind.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a0894a00b509f040203d9f4c643bede33" class="m-doc">set_partition_gen</a>(</span><span class="m-doc-wrap">int n,
-              int k) -&gt; cppcoro::recursive_generator&lt; std::tuple&lt; int, int &gt;&gt; -&gt; auto</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a739c16ea4bf0506148465e0975a7ca08" class="m-doc">set_partition_gen</a>(</span><span class="m-doc-wrap">size_t n,
+              size_t k) -&gt; cppcoro::recursive_generator&lt; std::pair&lt; size_t, size_t &gt;&gt; -&gt; auto</span>
             </dt>
             <dd>Set the partition gen object.</dd>
           </dl>
@@ -154,15 +162,15 @@
               enum class ecgen::<wbr /><a href="#a2cfc67811789c1d3ade8b4c8f259185c" class="m-doc-self">LanguageCode</a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="greeter_8h.html">&lt;ecgen/greeter.h&gt;</a></div>
             </h3>
-<p>Language codes to be used with the <a href="classecgen_1_1_e_c_gen.html" class="m-doc">ECGen</a> class</p>
+<p>Language codes to be used with the <a href="classecgen_1_1ECGen.html" class="m-doc">ECGen</a> class</p>
           </div></section>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="afadde5b3383afcd984645abba9c728a7"><div>
+          <section class="m-doc-details" id="a389a993b86bad64afb6965882113f42e"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afadde5b3383afcd984645abba9c728a7" class="m-doc-self">EMK_gen</a>(</span><span class="m-doc-wrap">int n,
-              int k) -&gt; cppcoro::recursive_generator&lt; std::tuple&lt; int, int &gt;&gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a389a993b86bad64afb6965882113f42e" class="m-doc-self">EMK_gen</a>(</span><span class="m-doc-wrap">size_t n,
+              size_t k) -&gt; cppcoro::recursive_generator&lt; std::pair&lt; size_t, size_t &gt;&gt;</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="combin_8hpp.html">&lt;ecgen/combin.hpp&gt;</a></div>
             </h3>
             <p>EMK (GEN)</p>
@@ -183,15 +191,15 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>cppcoro::recursive_generator&lt;std::tuple&lt;int, int&gt;&gt;</td>
+                  <td>cppcoro::recursive_generator&lt;std::pair&lt;size_t, size_t&gt;&gt;</td>
                 </tr>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a45a81ba92c265fee17bbd8c87281b27a"><div>
+          <section class="m-doc-details" id="a6bd2bed45fb7dae7f85fbc681413b7be"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a45a81ba92c265fee17bbd8c87281b27a" class="m-doc-self">EMK_neg</a>(</span><span class="m-doc-wrap">int n,
-              int k) -&gt; cppcoro::recursive_generator&lt; std::tuple&lt; int, int &gt;&gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6bd2bed45fb7dae7f85fbc681413b7be" class="m-doc-self">EMK_neg</a>(</span><span class="m-doc-wrap">size_t n,
+              size_t k) -&gt; cppcoro::recursive_generator&lt; std::pair&lt; size_t, size_t &gt;&gt;</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="combin_8hpp.html">&lt;ecgen/combin.hpp&gt;</a></div>
             </h3>
             <p>EMK (NEG)</p>
@@ -212,18 +220,22 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>cppcoro::recursive_generator&lt;std::tuple&lt;int, int&gt;&gt;</td>
+                  <td>cppcoro::recursive_generator&lt;std::pair&lt;size_t, size_t&gt;&gt;</td>
                 </tr>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a2befcfecc177f2291056869b72ea9388"><div>
+          <section class="m-doc-details" id="a5d8cf4442a766918bec8ebd089707472"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2befcfecc177f2291056869b72ea9388" class="m-doc-self">EMK</a>(</span><span class="m-doc-wrap">int n,
-              int k) -&gt; cppcoro::recursive_generator&lt; std::vector&lt; int &gt;&gt;</span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="combin_8hpp.html">&lt;ecgen/combin.hpp&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="combin_8hpp.html">&lt;ecgen/combin.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Container&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5d8cf4442a766918bec8ebd089707472" class="m-doc-self">EMK</a>(</span><span class="m-doc-wrap">size_t n,
+              size_t k,
+              Container&amp; lst) -&gt; cppcoro::generator&lt; Container &amp; &gt;</span></span>
             </h3>
-            <p>EMK.</p>
+            <p>Generate all combinations in reverse order by homogeneous revolving-door.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -237,11 +249,15 @@
                   <td>k</td>
                   <td></td>
                 </tr>
+                <tr>
+                  <td>lst</td>
+                  <td></td>
+                </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>cppcoro::recursive_generator&lt;std::vector&lt;int&gt;&gt;</td>
+                  <td>recursive_generator&lt;std::vector&lt;size_t&gt;&gt;</td>
                 </tr>
               </tfoot>
             </table>
@@ -250,7 +266,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="combin_8hpp.html">&lt;ecgen/combin.hpp&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;int N, int K&gt;
+                template&lt;size_t N, size_t K&gt;
               </div>
               <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2fd41b080cae36cd5d5d172a6889ad21" class="m-doc-self">Combination</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span></span></span>
             </h3>
@@ -277,9 +293,9 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a2e4a50b7b646af6d360c57a7ca3d89d6"><div>
+          <section class="m-doc-details" id="ae7a6ec429106e03ae41aace5934c68ce"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2e4a50b7b646af6d360c57a7ca3d89d6" class="m-doc-self">BRGC_gen</a>(</span><span class="m-doc-wrap">int n) -&gt; cppcoro::recursive_generator&lt; int &gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae7a6ec429106e03ae41aace5934c68ce" class="m-doc-self">BRGC_gen</a>(</span><span class="m-doc-wrap">size_t n) -&gt; cppcoro::recursive_generator&lt; size_t &gt;</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="gray__code_8hpp.html">&lt;ecgen/gray_code.hpp&gt;</a></div>
             </h3>
             <p>Generate reflexed Gray code.</p>
@@ -296,38 +312,50 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>cppcoro::recursive_generator&lt;int&gt;</td>
+                  <td>cppcoro::recursive_generator&lt;size_t&gt;</td>
                 </tr>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="aab9ea7481e074bf46694dfb6c905b2ff"><div>
+          <section class="m-doc-details" id="adae5b2db09eaa50c89b3f34832fd668d"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aab9ea7481e074bf46694dfb6c905b2ff" class="m-doc-self">BRGC</a>(</span><span class="m-doc-wrap">int n) -&gt; cppcoro::recursive_generator&lt; std::vector&lt; int &gt;&gt;</span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="gray__code_8hpp.html">&lt;ecgen/gray_code.hpp&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="gray__code_8hpp.html">&lt;ecgen/gray_code.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Container&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#adae5b2db09eaa50c89b3f34832fd668d" class="m-doc-self">BRGC</a>(</span><span class="m-doc-wrap">size_t n) -&gt; cppcoro::generator&lt; Container &amp; &gt;</span></span>
             </h3>
-            <p>BRGC.</p>
+            <p>Binary Reflexed Gray Code (less efficiency)</p>
             <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Container</td>
+                  <td></td>
+                </tr>
+              </tbody>
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">n</td>
+                  <td>n</td>
                   <td></td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>cppcoro::recursive_generator&lt;std::vector&lt;int&gt;&gt;</td>
+                  <td>cppcoro::generator&lt;Container&amp;&gt;</td>
                 </tr>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ab64654ba6c577fc0df85873b7e508e05"><div>
+          <section class="m-doc-details" id="a78ca0b362a9b5e6383ddcc9880c9a016"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab64654ba6c577fc0df85873b7e508e05" class="m-doc-self">SJT_gen</a>(</span><span class="m-doc-wrap">int n) -&gt; cppcoro::generator&lt; int &gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a78ca0b362a9b5e6383ddcc9880c9a016" class="m-doc-self">SJT_gen</a>(</span><span class="m-doc-wrap">size_t n) -&gt; cppcoro::generator&lt; size_t &gt;</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="perm_8hpp.html">&lt;ecgen/perm.hpp&gt;</a></div>
             </h3>
             <p>SJT.</p>
@@ -344,14 +372,14 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>cppcoro::generator&lt;int&gt;</td>
+                  <td>cppcoro::generator&lt;size_t&gt;</td>
                 </tr>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a2cf0f0fcb6448906ce94f751c734c1c3"><div>
+          <section class="m-doc-details" id="a33449d36667279e6e61905eeaabb0dd1"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2cf0f0fcb6448906ce94f751c734c1c3" class="m-doc-self">Ehr_gen</a>(</span><span class="m-doc-wrap">int n) -&gt; cppcoro::generator&lt; int &gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a33449d36667279e6e61905eeaabb0dd1" class="m-doc-self">Ehr_gen</a>(</span><span class="m-doc-wrap">size_t n) -&gt; cppcoro::generator&lt; size_t &gt;</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="perm_8hpp.html">&lt;ecgen/perm.hpp&gt;</a></div>
             </h3>
             <p>Ehr.</p>
@@ -368,7 +396,7 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>cppcoro::generator&lt;int&gt;</td>
+                  <td>cppcoro::generator&lt;size_t&gt;</td>
                 </tr>
               </tfoot>
             </table>
@@ -377,7 +405,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="perm_8hpp.html">&lt;ecgen/perm.hpp&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;int N&gt;
+                template&lt;size_t N&gt;
               </div>
               <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5e3aaa8c5a68eb5e10c2ac9e1694f4a2" class="m-doc-self">Factorial</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span></span></span>
             </h3>
@@ -408,7 +436,43 @@
               </div>
               <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a30255800e680ce20600d5627b6ba3b4f" class="m-doc-self">SJT</a>(</span><span class="m-doc-wrap">Container&amp; perm) -&gt; cppcoro::generator&lt; Container &amp; &gt;</span></span>
             </h3>
-            <p>SJT permutation by adjacent transposition.</p>
+            <p>SJT permutation by adjacent transposition (less efficiency)</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Container</td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>perm</td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>cppcoro::generator&lt;Container&amp;&gt;</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a844ae2eaa8480f773b808b96ba454119"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="perm_8hpp.html">&lt;ecgen/perm.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Container&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a844ae2eaa8480f773b808b96ba454119" class="m-doc-self">Ehr</a>(</span><span class="m-doc-wrap">Container&amp; perm) -&gt; cppcoro::generator&lt; Container &amp; &gt;</span></span>
+            </h3>
+            <p>Ehr permutation by star transposition (less efficiency)</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -440,7 +504,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="set__partition_8hpp.html">&lt;ecgen/set_partition.hpp&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;int N, int K&gt;
+                template&lt;size_t N, size_t K&gt;
               </div>
               <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a820004c4d80ea9222ee31e86ae2b3f03" class="m-doc-self">Stirling2nd</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span></span></span>
             </h3>
@@ -467,10 +531,10 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a0894a00b509f040203d9f4c643bede33"><div>
+          <section class="m-doc-details" id="a739c16ea4bf0506148465e0975a7ca08"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0894a00b509f040203d9f4c643bede33" class="m-doc-self">set_partition_gen</a>(</span><span class="m-doc-wrap">int n,
-              int k) -&gt; cppcoro::recursive_generator&lt; std::tuple&lt; int, int &gt;&gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto ecgen::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a739c16ea4bf0506148465e0975a7ca08" class="m-doc-self">set_partition_gen</a>(</span><span class="m-doc-wrap">size_t n,
+              size_t k) -&gt; cppcoro::recursive_generator&lt; std::pair&lt; size_t, size_t &gt;&gt;</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="set__partition_8hpp.html">&lt;ecgen/set_partition.hpp&gt;</a></div>
             </h3>
             <p>Set the partition gen object.</p>
@@ -491,7 +555,7 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>cppcoro::recursive_generator&lt;std::tuple&lt;int, int&gt;&gt;</td>
+                  <td>cppcoro::recursive_generator&lt;std::pair&lt;size_t, size_t&gt;&gt;</td>
                 </tr>
               </tfoot>
             </table>
