@@ -32,8 +32,13 @@ auto NEG1_odd(size_t n, size_t k) -> recursive_generator<ret_t>;
 /**
  * @brief Set the partition gen object
  *
- * @param n
- * @param k
+ * The `set_partition_gen` function is a generator function that generates all
+ * possible set partitions of a set of size `n` into `k` non-empty subsets. It
+ * takes two parameters `n` and `k`, which represent the size of the set and the
+ * number of subsets, respectively.
+ *
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 auto set_partition_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
@@ -46,8 +51,8 @@ auto set_partition_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S(n,k,0) even k
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 auto GEN0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
@@ -70,8 +75,8 @@ auto GEN0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S'(n, k, 0) even k
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 auto NEG0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
@@ -94,8 +99,8 @@ auto NEG0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S(n, k, 1) even k
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 auto GEN1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
@@ -118,8 +123,8 @@ auto GEN1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S'(n, k, 1) even k
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 auto NEG1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
@@ -142,8 +147,8 @@ auto NEG1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S(n, k, 0) odd k
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 auto GEN0_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
@@ -164,8 +169,8 @@ auto GEN0_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S'(n, k, 0) odd k
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 auto NEG0_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
@@ -186,8 +191,8 @@ auto NEG0_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S(n, k, 1) odd k
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 auto GEN1_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
@@ -208,8 +213,8 @@ auto GEN1_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S'(n, k, 1) odd k
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 auto NEG1_odd(size_t n, size_t k) -> recursive_generator<ret_t> {

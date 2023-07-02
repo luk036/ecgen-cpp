@@ -60,8 +60,8 @@ template <size_t N, size_t K> constexpr auto Stirling2nd() {
 /**
  * @brief Set the partition gen object
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
  */
 extern auto set_partition_gen(size_t n, size_t k)

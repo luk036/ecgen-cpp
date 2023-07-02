@@ -9,8 +9,12 @@ using ret_t = std::pair<size_t, size_t>;
 /**
  * @brief Generate all combinations by homogeneous revolving-door
  *
- * @param n
- * @param k
+ * `EMK_gen` is a function that generates all combinations by using the
+ * homogeneous revolving-door algorithm. It takes two parameters `n` and `k`, where
+ * `n` is the total number of elements and `k` is the size of each combination.
+ *
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 auto EMK_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
@@ -34,8 +38,8 @@ auto EMK_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
  * @brief Generate all combinations in reverse order by homogeneous
  * revolving-door
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 auto EMK_neg(size_t n, size_t k) -> recursive_generator<ret_t> {

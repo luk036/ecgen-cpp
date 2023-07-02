@@ -6,7 +6,12 @@ namespace ecgen {
 /**
  * @brief Generate all permutations by adjacent transposition
  *
- * @param n
+ * The `SJT_gen` function is generating all permutations of size `n` using the
+ * Steinhaus-Johnson-Trotter algorithm. It returns a
+ * `cppcoro::generator<size_t>`, which is a coroutine-based generator that
+ * yields values of type `size_t`.
+ *
+ * @param[in] n
  * @return cppcoro::generator<size_t>
  */
 auto SJT_gen(size_t n) -> cppcoro::generator<size_t> {
@@ -33,7 +38,11 @@ auto SJT_gen(size_t n) -> cppcoro::generator<size_t> {
 /**
  * @brief Generate all permutations by star transposition
  *
- * @param n
+ * The `Ehr_gen` function is generating all permutations of size `n` using the
+ * Ehrlich-Straus algorithm. It returns a `cppcoro::generator<size_t>`, which is
+ * a coroutine-based generator that yields values of type `size_t`.
+ *
+ * @param[in] n
  * @return cppcoro::generator<size_t>
  */
 auto Ehr_gen(size_t n) -> cppcoro::generator<size_t> {

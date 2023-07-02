@@ -9,8 +9,8 @@ namespace ecgen {
 /**
  * @brief EMK (GEN)
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
  */
 extern auto EMK_gen(size_t n, size_t k)
@@ -19,8 +19,8 @@ extern auto EMK_gen(size_t n, size_t k)
 /**
  * @brief EMK (NEG)
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
  */
 extern auto EMK_neg(size_t n, size_t k)
@@ -30,8 +30,8 @@ extern auto EMK_neg(size_t n, size_t k)
  * @brief Generate all combinations in reverse order by homogeneous
  * revolving-door
  *
- * @param n
- * @param k
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<std::vector<size_t>>
  */
 template <typename Container>
@@ -50,6 +50,10 @@ auto EMK(size_t n, size_t k, Container &lst)
 
 /**
  * @brief The number of combinations
+ *
+ * The `Combination()` function is a template function that calculates the
+ * number of combinations of `K` elements from a set of `N` elements at
+ * compile-time.
  *
  * @tparam N
  * @tparam K
