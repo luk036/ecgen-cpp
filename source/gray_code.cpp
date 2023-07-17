@@ -9,8 +9,8 @@ using namespace cppcoro;
  * @brief Binary Reflexed Gray Code Generator
  *
  * The function `BRGC_gen` is a generator function that generates binary
- * reflexed gray code. It takes an input parameter `n` of type `size_t` and returns
- * a `recursive_generator<size_t>`.
+ * reflexed gray code. It takes an input parameter `n` of type `size_t` and
+ * returns a `recursive_generator<size_t>`.
  *
  * @param[in] n
  * @return recursive_generator<size_t>
