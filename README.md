@@ -13,7 +13,7 @@
 
 🔢 Enumerate combinatoric generator for modern C++.
 
-## Features
+## ✨ Features
 
 - For Gray-code-like generators, only return the "delta" change every time rather than a complete list.
 - Use C++20 coroutine to simplify the coding effort.
