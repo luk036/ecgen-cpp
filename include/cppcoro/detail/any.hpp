@@ -5,18 +5,13 @@
 #ifndef CPPCORO_DETAIL_ANY_HPP_INCLUDED
 #define CPPCORO_DETAIL_ANY_HPP_INCLUDED
 
-namespace cppcoro
-{
-	namespace detail
-	{
-		// Helper type that can be cast-to from any type.
-		struct any
-		{
-			template<typename T>
-			any(T&&) noexcept
-			{}
-		};
-	}
-}
+namespace cppcoro {
+namespace detail {
+// Helper type that can be cast-to from any type.
+struct any {
+  template <typename T> any(T &&) noexcept {}
+};
+} // namespace detail
+} // namespace cppcoro
 
 #endif
