@@ -37,15 +37,15 @@ extern auto EMK_neg(size_t n, size_t k)
 template <typename Container>
 auto EMK(size_t n, size_t k, Container &lst)
     -> cppcoro::generator<Container &> {
-  // auto lst = Container(n, 0);
-  // std::fill_n(lst.begin(), k, 1);
-  co_yield lst;
-  for (auto [x, y] : EMK_gen(n, k)) {
-    auto temp = lst[x]; // swap
-    lst[x] = lst[y];
-    lst[y] = temp;
+    // auto lst = Container(n, 0);
+    // std::fill_n(lst.begin(), k, 1);
     co_yield lst;
-  }
+    for (auto [x, y] : EMK_gen(n, k)) {
+        auto temp = lst[x]; // swap
+        lst[x] = lst[y];
+        lst[y] = temp;
+        co_yield lst;
+    }
 }
 
 /**
@@ -60,12 +60,12 @@ auto EMK(size_t n, size_t k, Container &lst)
  * @return constexpr auto
  */
 template <size_t N, size_t K> constexpr auto Combination() {
-  if constexpr (K >= N || K == 0) {
-    return std::integral_constant<size_t, 1U>{};
-  } else {
-    return std::integral_constant<size_t, Combination<N - 1, K - 1>() +
-                                              Combination<N - 1, K>()>{};
-  }
+    if constexpr (K >= N || K == 0) {
+        return std::integral_constant<size_t, 1U>{};
+    } else {
+        return std::integral_constant<size_t, Combination<N - 1, K - 1>() +
+                                                  Combination<N - 1, K>()>{};
+    }
 }
 
 } // namespace ecgen

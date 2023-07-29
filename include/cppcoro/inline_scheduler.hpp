@@ -9,10 +9,10 @@
 
 namespace cppcoro {
 class inline_scheduler {
-public:
-  inline_scheduler() noexcept = default;
+  public:
+    inline_scheduler() noexcept = default;
 
-  cppcoro::suspend_never schedule() const noexcept { return {}; }
+    cppcoro::suspend_never schedule() const noexcept { return {}; }
 };
 } // namespace cppcoro
 

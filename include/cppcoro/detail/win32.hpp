@@ -34,16 +34,16 @@ using ulong_t = unsigned long;
 /// Structure needs to correspond exactly to the builtin
 /// _OVERLAPPED structure from Windows.h.
 struct overlapped {
-  ulongptr_t Internal;
-  ulongptr_t InternalHigh;
-  union {
-    struct {
-      dword_t Offset;
-      dword_t OffsetHigh;
+    ulongptr_t Internal;
+    ulongptr_t InternalHigh;
+    union {
+        struct {
+            dword_t Offset;
+            dword_t OffsetHigh;
+        };
+        void *Pointer;
     };
-    void *Pointer;
-  };
-  handle_t hEvent;
+    handle_t hEvent;
 };
 
 #if CPPCORO_COMPILER_MSVC
@@ -51,86 +51,86 @@ struct overlapped {
 #endif
 
 struct wsabuf {
-  constexpr wsabuf() noexcept : len(0), buf(nullptr) {}
+    constexpr wsabuf() noexcept : len(0), buf(nullptr) {}
 
-  constexpr wsabuf(void *ptr, std::size_t size)
-      : len(size <= ulong_t(-1) ? ulong_t(size) : ulong_t(-1)),
-        buf(static_cast<char *>(ptr)) {}
+    constexpr wsabuf(void *ptr, std::size_t size)
+        : len(size <= ulong_t(-1) ? ulong_t(size) : ulong_t(-1)),
+          buf(static_cast<char *>(ptr)) {}
 
-  ulong_t len;
-  char *buf;
+    ulong_t len;
+    char *buf;
 };
 
 struct io_state : win32::overlapped {
-  using callback_type = void(io_state *state, win32::dword_t errorCode,
-                             win32::dword_t numberOfBytesTransferred,
-                             win32::ulongptr_t completionKey);
+    using callback_type = void(io_state *state, win32::dword_t errorCode,
+                               win32::dword_t numberOfBytesTransferred,
+                               win32::ulongptr_t completionKey);
 
-  io_state(callback_type *callback = nullptr) noexcept
-      : io_state(std::uint64_t(0), callback) {}
+    io_state(callback_type *callback = nullptr) noexcept
+        : io_state(std::uint64_t(0), callback) {}
 
-  io_state(void *pointer, callback_type *callback) noexcept
-      : m_callback(callback) {
-    this->Internal = 0;
-    this->InternalHigh = 0;
-    this->Pointer = pointer;
-    this->hEvent = nullptr;
-  }
+    io_state(void *pointer, callback_type *callback) noexcept
+        : m_callback(callback) {
+        this->Internal = 0;
+        this->InternalHigh = 0;
+        this->Pointer = pointer;
+        this->hEvent = nullptr;
+    }
 
-  io_state(std::uint64_t offset, callback_type *callback) noexcept
-      : m_callback(callback) {
-    this->Internal = 0;
-    this->InternalHigh = 0;
-    this->Offset = static_cast<dword_t>(offset);
-    this->OffsetHigh = static_cast<dword_t>(offset >> 32);
-    this->hEvent = nullptr;
-  }
+    io_state(std::uint64_t offset, callback_type *callback) noexcept
+        : m_callback(callback) {
+        this->Internal = 0;
+        this->InternalHigh = 0;
+        this->Offset = static_cast<dword_t>(offset);
+        this->OffsetHigh = static_cast<dword_t>(offset >> 32);
+        this->hEvent = nullptr;
+    }
 
-  callback_type *m_callback;
+    callback_type *m_callback;
 };
 
 class safe_handle {
-public:
-  safe_handle() : m_handle(nullptr) {}
+  public:
+    safe_handle() : m_handle(nullptr) {}
 
-  explicit safe_handle(handle_t handle) : m_handle(handle) {}
+    explicit safe_handle(handle_t handle) : m_handle(handle) {}
 
-  safe_handle(const safe_handle &other) = delete;
+    safe_handle(const safe_handle &other) = delete;
 
-  safe_handle(safe_handle &&other) noexcept : m_handle(other.m_handle) {
-    other.m_handle = nullptr;
-  }
+    safe_handle(safe_handle &&other) noexcept : m_handle(other.m_handle) {
+        other.m_handle = nullptr;
+    }
 
-  ~safe_handle() { close(); }
+    ~safe_handle() { close(); }
 
-  safe_handle &operator=(safe_handle handle) noexcept {
-    swap(handle);
-    return *this;
-  }
+    safe_handle &operator=(safe_handle handle) noexcept {
+        swap(handle);
+        return *this;
+    }
 
-  constexpr handle_t handle() const { return m_handle; }
+    constexpr handle_t handle() const { return m_handle; }
 
-  /// Calls CloseHandle() and sets the handle to NULL.
-  void close() noexcept;
+    /// Calls CloseHandle() and sets the handle to NULL.
+    void close() noexcept;
 
-  void swap(safe_handle &other) noexcept {
-    std::swap(m_handle, other.m_handle);
-  }
+    void swap(safe_handle &other) noexcept {
+        std::swap(m_handle, other.m_handle);
+    }
 
-  bool operator==(const safe_handle &other) const {
-    return m_handle == other.m_handle;
-  }
+    bool operator==(const safe_handle &other) const {
+        return m_handle == other.m_handle;
+    }
 
-  bool operator!=(const safe_handle &other) const {
-    return m_handle != other.m_handle;
-  }
+    bool operator!=(const safe_handle &other) const {
+        return m_handle != other.m_handle;
+    }
 
-  bool operator==(handle_t handle) const { return m_handle == handle; }
+    bool operator==(handle_t handle) const { return m_handle == handle; }
 
-  bool operator!=(handle_t handle) const { return m_handle != handle; }
+    bool operator!=(handle_t handle) const { return m_handle != handle; }
 
-private:
-  handle_t m_handle;
+  private:
+    handle_t m_handle;
 };
 } // namespace win32
 } // namespace detail

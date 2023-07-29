@@ -16,14 +16,14 @@
 
 #if defined(__clang__)
 #define CPPCORO_COMPILER_CLANG                                                 \
-  (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
+    (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
 #else
 #define CPPCORO_COMPILER_CLANG 0
 #endif
 
 #if defined(__GNUC__)
 #define CPPCORO_COMPILER_GCC                                                   \
-  (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+    (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #else
 #define CPPCORO_COMPILER_GCC 0
 #endif

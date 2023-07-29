@@ -39,8 +39,8 @@ struct is_awaiter<T,
                               decltype(std::declval<T>().await_resume())>>
     : std::conjunction<std::is_constructible<
                            bool, decltype(std::declval<T>().await_ready())>,
-                       detail::is_valid_await_suspend_return_value<decltype(
-                           std::declval<T>().await_suspend(
+                       detail::is_valid_await_suspend_return_value<
+                           decltype(std::declval<T>().await_suspend(
                                std::declval<cppcoro::coroutine_handle<>>()))>> {
 };
 } // namespace detail

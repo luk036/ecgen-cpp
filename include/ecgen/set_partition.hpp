@@ -49,12 +49,13 @@ namespace ecgen {
  * @return constexpr auto
  */
 template <size_t N, size_t K> constexpr auto Stirling2nd() {
-  if constexpr (K >= N || K <= 1) {
-    return std::integral_constant<size_t, 1>{};
-  } else {
-    return std::integral_constant<size_t, Stirling2nd<N - 1, K - 1>() +
-                                              K * Stirling2nd<N - 1, K>()>{};
-  }
+    if constexpr (K >= N || K <= 1) {
+        return std::integral_constant<size_t, 1>{};
+    } else {
+        return std::integral_constant<size_t,
+                                      Stirling2nd<N - 1, K - 1>() +
+                                          K * Stirling2nd<N - 1, K>()>{};
+    }
 }
 
 /**

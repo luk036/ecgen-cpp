@@ -30,11 +30,11 @@ extern auto Ehr_gen(size_t n) -> cppcoro::generator<size_t>;
  * @return constexpr auto
  */
 template <size_t N> constexpr auto Factorial() {
-  if constexpr (N <= 1) {
-    return std::integral_constant<size_t, 1U>{};
-  } else {
-    return std::integral_constant<size_t, N * Factorial<N - 1>()>{};
-  }
+    if constexpr (N <= 1) {
+        return std::integral_constant<size_t, 1U>{};
+    } else {
+        return std::integral_constant<size_t, N * Factorial<N - 1>()>{};
+    }
 }
 
 /**
@@ -46,13 +46,13 @@ template <size_t N> constexpr auto Factorial() {
  */
 template <typename Container>
 inline auto SJT(Container &perm) -> cppcoro::generator<Container &> {
-  const auto n = perm.size();
-  for (size_t i : ecgen::SJT_gen(n)) {
-    co_yield perm;
-    auto temp = perm[i]; // swap
-    perm[i] = perm[i + 1];
-    perm[i + 1] = temp;
-  }
+    const auto n = perm.size();
+    for (size_t i : ecgen::SJT_gen(n)) {
+        co_yield perm;
+        auto temp = perm[i]; // swap
+        perm[i] = perm[i + 1];
+        perm[i + 1] = temp;
+    }
 }
 
 /**
@@ -64,13 +64,13 @@ inline auto SJT(Container &perm) -> cppcoro::generator<Container &> {
  */
 template <typename Container>
 inline auto Ehr(Container &perm) -> cppcoro::generator<Container &> {
-  const auto n = perm.size();
-  co_yield perm;
-  for (size_t i : ecgen::Ehr_gen(n)) {
-    auto temp = perm[0]; // swap
-    perm[0] = perm[i];
-    perm[i] = temp;
+    const auto n = perm.size();
     co_yield perm;
-  }
+    for (size_t i : ecgen::Ehr_gen(n)) {
+        auto temp = perm[0]; // swap
+        perm[0] = perm[i];
+        perm[i] = temp;
+        co_yield perm;
+    }
 }
 } // namespace ecgen

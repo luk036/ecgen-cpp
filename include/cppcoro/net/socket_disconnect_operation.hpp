@@ -17,55 +17,56 @@ namespace net {
 class socket;
 
 class socket_disconnect_operation_impl {
-public:
-  socket_disconnect_operation_impl(socket &socket) noexcept
-      : m_socket(socket) {}
+  public:
+    socket_disconnect_operation_impl(socket &socket) noexcept
+        : m_socket(socket) {}
 
-  bool try_start(
-      cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
-  void
-  cancel(cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
-  void get_result(cppcoro::detail::win32_overlapped_operation_base &operation);
+    bool try_start(
+        cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
+    void cancel(
+        cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
+    void
+    get_result(cppcoro::detail::win32_overlapped_operation_base &operation);
 
-private:
-  socket &m_socket;
+  private:
+    socket &m_socket;
 };
 
 class socket_disconnect_operation
     : public cppcoro::detail::win32_overlapped_operation<
           socket_disconnect_operation> {
-public:
-  socket_disconnect_operation(socket &socket) noexcept : m_impl(socket) {}
+  public:
+    socket_disconnect_operation(socket &socket) noexcept : m_impl(socket) {}
 
-private:
-  friend class cppcoro::detail::win32_overlapped_operation<
-      socket_disconnect_operation>;
+  private:
+    friend class cppcoro::detail::win32_overlapped_operation<
+        socket_disconnect_operation>;
 
-  bool try_start() noexcept { return m_impl.try_start(*this); }
-  void get_result() { m_impl.get_result(*this); }
+    bool try_start() noexcept { return m_impl.try_start(*this); }
+    void get_result() { m_impl.get_result(*this); }
 
-  socket_disconnect_operation_impl m_impl;
+    socket_disconnect_operation_impl m_impl;
 };
 
 class socket_disconnect_operation_cancellable
     : public cppcoro::detail::win32_overlapped_operation_cancellable<
           socket_disconnect_operation_cancellable> {
-public:
-  socket_disconnect_operation_cancellable(socket &socket,
-                                          cancellation_token &&ct) noexcept
-      : cppcoro::detail::win32_overlapped_operation_cancellable<
-            socket_disconnect_operation_cancellable>(std::move(ct)),
-        m_impl(socket) {}
+  public:
+    socket_disconnect_operation_cancellable(socket &socket,
+                                            cancellation_token &&ct) noexcept
+        : cppcoro::detail::win32_overlapped_operation_cancellable<
+              socket_disconnect_operation_cancellable>(std::move(ct)),
+          m_impl(socket) {}
 
-private:
-  friend class cppcoro::detail::win32_overlapped_operation_cancellable<
-      socket_disconnect_operation_cancellable>;
+  private:
+    friend class cppcoro::detail::win32_overlapped_operation_cancellable<
+        socket_disconnect_operation_cancellable>;
 
-  bool try_start() noexcept { return m_impl.try_start(*this); }
-  void cancel() noexcept { m_impl.cancel(*this); }
-  void get_result() { m_impl.get_result(*this); }
+    bool try_start() noexcept { return m_impl.try_start(*this); }
+    void cancel() noexcept { m_impl.cancel(*this); }
+    void get_result() { m_impl.get_result(*this); }
 
-  socket_disconnect_operation_impl m_impl;
+    socket_disconnect_operation_impl m_impl;
 };
 } // namespace net
 } // namespace cppcoro
