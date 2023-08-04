@@ -9,7 +9,7 @@ if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
   )
 endif()
 
-project(ECGen LANGUAGES CXX)
+project(EcGen LANGUAGES CXX)
 
 # --- Import tools ----
 

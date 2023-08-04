@@ -1,10 +1,9 @@
 set_languages("c++20")
 
 add_rules("mode.debug", "mode.release", "mode.coverage")
--- add_requires("fmt", {alias = "fmt"})
 add_requires("doctest", {alias = "doctest"})
--- add_requires("conan::andreasbuhr-cppcoro/cci.20210113", {alias = "cppcoro"})
--- add_requires("cppcoro", { configs = { shared = true }, alias = "cppcoro"})
+add_requires("fmt 7.1.3", {alias = "fmt"})
+-- add_requires("benchmark", {alias = "benchmark"})
 
 if is_mode("coverage") then
     add_cxflags("-ftest-coverage", "-fprofile-arcs", {force = true})
@@ -13,23 +12,25 @@ end
 if is_plat("linux") then
     set_warnings("all", "error")
     add_cxflags("-Wconversion", {force = true})
+elseif is_plat("windows") then
+    add_cxflags("/W4 /WX /wd4819 /wd4127", {force = true})
 end
 
 target("Ecgen")
     set_kind("static")
     add_includedirs("include", {public = true})
     add_files("source/*.cpp")
-    -- add_packages("cppcoro")
+    add_packages("fmt")
 
 target("test_ecgen")
     set_kind("binary")
     add_deps("Ecgen")
     add_includedirs("include", {public = true})
     add_files("test/source/*.cpp")
-    -- add_packages("doctest", "cppcoro")
     add_packages("doctest")
+    add_packages("fmt")
 
---
+
 -- If you want to known more usage about xmake, please see https://xmake.io
 --
 -- ## FAQ
