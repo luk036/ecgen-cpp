@@ -1,5 +1,0 @@
-name: ecgen-cpp
-channels:
-  - conda-forge
-dependencies:
-  - doxygen
