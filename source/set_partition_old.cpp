@@ -41,7 +41,7 @@ static auto NEG1_odd(size_t n, size_t k) -> recursive_generator<ret_t>;
  * @param[in] k
  * @return recursive_generator<ret_t>
  */
-auto set_partition_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
+auto set_partition_gen_old(size_t n, size_t k) -> recursive_generator<ret_t> {
     if (k % 2 == 0)
         co_yield GEN0_even(n, k);
     else

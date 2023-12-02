@@ -37,34 +37,18 @@
 
 #include <cppcoro/recursive_generator.hpp>
 #include <type_traits>
-#include <utility>  // neccessary???
+#include <utility> // neccessary???
 
 namespace ecgen {
 
-    /**
-     * @brief Stirling number of second kind.
-     *
-     * @tparam N
-     * @tparam K
-     * @return constexpr auto
-     */
-    template <size_t N, size_t K> constexpr auto Stirling2nd() {
-        if constexpr (K >= N || K <= 1) {
-            return std::integral_constant<size_t, 1>{};
-        } else {
-            return std::integral_constant<size_t, Stirling2nd<N - 1, K - 1>()
-                                                      + K * Stirling2nd<N - 1, K>()>{};
-        }
-    }
+/**
+ * @brief Set the partition gen object
+ *
+ * @param[in] n
+ * @param[in] k
+ * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
+ */
+extern auto set_partition_gen_old(size_t n, size_t k)
+    -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
 
-    /**
-     * @brief Set the partition gen object
-     *
-     * @param[in] n
-     * @param[in] k
-     * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
-     */
-    extern auto set_partition_gen(size_t n, size_t k)
-        -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
-
-}  // namespace ecgen
+} // namespace ecgen

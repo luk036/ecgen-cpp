@@ -3,7 +3,7 @@ set_languages("c++20")
 add_rules("mode.debug", "mode.release", "mode.coverage")
 add_requires("doctest", {alias = "doctest"})
 add_requires("fmt 7.1.3", {alias = "fmt"})
--- add_requires("benchmark", {alias = "benchmark"})
+add_requires("benchmark", {alias = "benchmark"})
 
 if is_mode("coverage") then
     add_cxflags("-ftest-coverage", "-fprofile-arcs", {force = true})
@@ -30,6 +30,13 @@ target("test_ecgen")
     add_packages("doctest")
     add_packages("fmt")
 
+
+target("test_EMK")
+    set_kind("binary")
+    add_deps("Ecgen")
+    add_includedirs("include", {public = true})
+    add_files("bench/BM_EMK.cpp")
+    add_packages("benchmark")
 
 -- If you want to known more usage about xmake, please see https://xmake.io
 --
