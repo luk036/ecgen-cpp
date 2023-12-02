@@ -1,7 +1,7 @@
 #include <cassert>
 #include <cctype>
 #include <cstdio>
-#include <ecgen/set_partition.hpp>
+#include <ecgen/set_partition_old.hpp>
 #include <functional>
 #include <utility>
 
@@ -37,51 +37,37 @@ static auto NEG1_odd(size_t n, size_t k) -> recursive_generator<ret_t>;
  * takes two parameters `n` and `k`, which represent the size of the set and the
  * number of subsets, respectively.
  *
- * @param[in] n The parameter `n` represents the size of the set, i.e., the
- * number of elements in the set.
- * @param[in] k The parameter `k` represents the number of non-empty subsets
- * that the set will be
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 auto set_partition_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
-    if (k % 2 == 0) {
-        if (k > 0 && k < n)
-            co_yield GEN0_even(n, k);
-    } else {
-        if (k > 1 && k < n)
-            co_yield GEN0_odd(n, k);
-    }
+    if (k % 2 == 0)
+        co_yield GEN0_even(n, k);
+    else
+        co_yield GEN0_odd(n, k);
 }
 
 /**
  * @brief S(n,k,0) even k
  *
- * @param[in] n The parameter `n` represents the size of the set, i.e., the
- * number of elements in the set.
- * @param[in] k The parameter `k` represents the number of non-empty subsets
- * that the set will be
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 static auto GEN0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
-    if (k > 2) {
+    if (k > 0 && k < n) {
         co_yield GEN0_odd(n - 1, k - 1); // S(n-1, k-1, 0).(k-1)
-    }
-    co_yield Move(n - 1, k - 1);
-    if (k < n - 1) {
+        co_yield Move(n - 1, k - 1);
         co_yield GEN1_even(n - 1, k); // S(n-1, k, 1).(k-1)
         co_yield Move(n, k - 2);
         co_yield NEG1_even(n - 1, k); // S'(n-1, k, 1).(k-2)
+
         for (size_t i = k - 2; i > 1; i -= 2) {
             co_yield Move(n, i - 1);
             co_yield GEN1_even(n - 1, k); // S(n-1, k, 1).i
             co_yield Move(n, i - 2);
             co_yield NEG1_even(n - 1, k); // S'(n-1, k, 1).(i-1)
-        }
-    } else {
-        co_yield Move(n, k - 2);
-        for (size_t i = k - 2; i > 1; i -= 2) {
-            co_yield Move(n, i - 1);
-            co_yield Move(n, i - 2);
         }
     }
 }
@@ -89,32 +75,23 @@ static auto GEN0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S'(n, k, 0) even k
  *
- * @param[in] n The parameter `n` represents the size of the set, i.e., the
- * number of elements in the set.
- * @param[in] k The parameter `k` represents the number of non-empty subsets
- * that the set will be
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 static auto NEG0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
-    if (k < n - 1) {
+    if (k > 0 && k < n) {
         for (size_t i = 1; i < k - 2; i += 2) {
             co_yield GEN1_even(n - 1, k); // S(n-1, k, 1).(i-1)
             co_yield Move(n, i);
             co_yield NEG1_even(n - 1, k); // S'(n-1, k, 1).i
             co_yield Move(n, i + 1);
         }
+
         co_yield GEN1_even(n - 1, k); // S(n-1, k, 1).(k-2)
         co_yield Move(n, k - 1);
         co_yield NEG1_even(n - 1, k); // S(n-1, k, 1).(k-1)
-    } else {
-        for (size_t i = 1; i < k - 2; i += 2) {
-            co_yield Move(n, i);
-            co_yield Move(n, i + 1);
-        }
-        co_yield Move(n, k - 1);
-    }
-    co_yield Move(n - 1, 0);
-    if (k > 3) {
+        co_yield Move(n - 1, 0);
         co_yield NEG0_odd(n - 1, k - 1); // S(n-1, k-1, 1).(k-1)
     }
 }
@@ -122,32 +99,23 @@ static auto NEG0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S(n, k, 1) even k
  *
- * @param[in] n The parameter `n` represents the size of the set, i.e., the
- * number of elements in the set.
- * @param[in] k The parameter `k` represents the number of non-empty subsets
- * that the set will be
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 static auto GEN1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
-    if (k > 3) {
+    if (k > 0 && k < n) {
         co_yield GEN1_odd(n - 1, k - 1);
-    }
-    co_yield Move(k, k - 1);
-    if (k < n - 1) {
+        co_yield Move(k, k - 1);
         co_yield NEG1_even(n - 1, k);
         co_yield Move(n, k - 2);
         co_yield GEN1_even(n - 1, k);
+
         for (size_t i = k - 2; i > 1; i -= 2) {
             co_yield Move(n, i - 1);
             co_yield NEG1_even(n - 1, k);
             co_yield Move(n, i - 2);
             co_yield GEN1_even(n - 1, k);
-        }
-    } else {
-        co_yield Move(n, k - 2);
-        for (size_t i = k - 2; i > 1; i -= 2) {
-            co_yield Move(n, i - 1);
-            co_yield Move(n, i - 2);
         }
     }
 }
@@ -155,32 +123,23 @@ static auto GEN1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S'(n, k, 1) even k
  *
- * @param[in] n The parameter `n` represents the size of the set, i.e., the
- * number of elements in the set.
- * @param[in] k The parameter `k` represents the number of non-empty subsets
- * that the set will be
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 static auto NEG1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
-    if (k < n - 1) {
+    if (k > 0 && k < n) {
         for (size_t i = 1; i < k - 2; i += 2) {
             co_yield NEG1_even(n - 1, k);
             co_yield Move(n, i);
             co_yield GEN1_even(n - 1, k);
             co_yield Move(n, i + 1);
         }
+
         co_yield NEG1_even(n - 1, k);
         co_yield Move(n, k - 1);
         co_yield GEN1_even(n - 1, k);
-    } else {
-        for (size_t i = 1; i < k - 2; i += 2) {
-            co_yield Move(n, i);
-            co_yield Move(n, i + 1);
-        }
-        co_yield Move(n, k - 1);
-    }
-    co_yield Move(k, 0);
-    if (k > 3) {
+        co_yield Move(k, 0);
         co_yield NEG1_odd(n - 1, k - 1);
     }
 }
@@ -188,27 +147,21 @@ static auto NEG1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S(n, k, 0) odd k
  *
- * @param[in] n The parameter `n` represents the size of the set, i.e., the
- * number of elements in the set.
- * @param[in] k The parameter `k` represents the number of non-empty subsets
- * that the set will be
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 static auto GEN0_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
-    co_yield GEN1_even(n - 1, k - 1);
-    co_yield Move(k, k - 1);
-    if (k < n - 1) {
+    if (k > 1 && k < n) {
+        co_yield GEN1_even(n - 1, k - 1);
+        co_yield Move(k, k - 1);
         co_yield NEG1_odd(n - 1, k);
+
         for (size_t i = k - 1; i > 1; i -= 2) {
             co_yield Move(n, i - 1);
             co_yield GEN1_odd(n - 1, k);
             co_yield Move(n, i - 2);
             co_yield NEG1_odd(n - 1, k);
-        }
-    } else {
-        for (size_t i = k - 1; i > 1; i -= 2) {
-            co_yield Move(n, i - 1);
-            co_yield Move(n, i - 2);
         }
     }
 }
@@ -216,55 +169,43 @@ static auto GEN0_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S'(n, k, 0) odd k
  *
- * @param[in] n The parameter `n` represents the size of the set, i.e., the
- * number of elements in the set.
- * @param[in] k The parameter `k` represents the number of non-empty subsets
- * that the set will be
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 static auto NEG0_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
-    if (k < n - 1) {
+    if (k > 1 && k < n) {
         for (size_t i = 1; i < k - 1; i += 2) {
             co_yield GEN1_odd(n - 1, k);
             co_yield Move(n, i);
             co_yield NEG1_odd(n - 1, k);
             co_yield Move(n, i + 1);
         }
+
         co_yield GEN1_odd(n - 1, k);
-    } else {
-        for (size_t i = 1; i < k - 1; i += 2) {
-            co_yield Move(n, i);
-            co_yield Move(n, i + 1);
-        }
+        co_yield Move(k, 0);
+        co_yield NEG1_even(n - 1, k - 1);
     }
-    co_yield Move(k, 0);
-    co_yield NEG1_even(n - 1, k - 1);
 }
 
 /**
  * @brief S(n, k, 1) odd k
  *
- * @param[in] n The parameter `n` represents the size of the set, i.e., the
- * number of elements in the set.
- * @param[in] k The parameter `k` represents the number of non-empty subsets
- * that the set will be
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 static auto GEN1_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
-    co_yield GEN0_even(n - 1, k - 1);
-    co_yield Move(n - 1, k - 1);
-    if (k < n - 1) {
+    if (k > 1 && k < n) {
+        co_yield GEN0_even(n - 1, k - 1);
+        co_yield Move(n - 1, k - 1);
         co_yield GEN1_odd(n - 1, k);
+
         for (size_t i = k - 1; i > 1; i -= 2) {
             co_yield Move(n, i - 1);
             co_yield NEG1_odd(n - 1, k);
             co_yield Move(n, i - 2);
             co_yield GEN1_odd(n - 1, k);
-        }
-    } else {
-        for (size_t i = k - 1; i > 1; i -= 2) {
-            co_yield Move(n, i - 1);
-            co_yield Move(n, i - 2);
         }
     }
 }
@@ -272,28 +213,22 @@ static auto GEN1_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
 /**
  * @brief S'(n, k, 1) odd k
  *
- * @param[in] n The parameter `n` represents the size of the set, i.e., the
- * number of elements in the set.
- * @param[in] k The parameter `k` represents the number of non-empty subsets
- * that the set will be
+ * @param[in] n
+ * @param[in] k
  * @return recursive_generator<ret_t>
  */
 static auto NEG1_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
-    if (k < n - 1) {
+    if (k > 1 && k < n) {
         for (size_t i = 1; i < k - 1; i += 2) {
             co_yield NEG1_odd(n - 1, k);
             co_yield Move(n, i);
             co_yield GEN1_odd(n - 1, k);
             co_yield Move(n, i + 1);
         }
+
         co_yield NEG1_odd(n - 1, k);
-    } else {
-        for (size_t i = 1; i < k - 1; i += 2) {
-            co_yield Move(n, i);
-            co_yield Move(n, i + 1);
-        }
+        co_yield Move(n - 1, 0);
+        co_yield NEG0_even(n - 1, k - 1);
     }
-    co_yield Move(n - 1, 0);
-    co_yield NEG0_even(n - 1, k - 1);
 }
 } // namespace ecgen

@@ -13,18 +13,19 @@ namespace ecgen {
  * @param[in] k
  * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
  */
-extern auto EMK_gen(size_t n, size_t k)
+extern auto EMK_comb_gen(size_t n, size_t k)
     -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
 
-/**
- * @brief EMK (NEG)
- *
- * @param[in] n
- * @param[in] k
- * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
- */
-extern auto EMK_neg(size_t n, size_t k)
-    -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
+// /**
+//  * @brief EMK (NEG)
+//  *
+//  * @param[in] n
+//  * @param[in] k
+//  * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
+//  */
+// extern auto EMK_neg(size_t n, size_t k)
+//     -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
+//
 
 /**
  * @brief Generate all combinations in reverse order by homogeneous
@@ -40,7 +41,7 @@ auto EMK(size_t n, size_t k, Container &lst)
     // auto lst = Container(n, 0);
     // std::fill_n(lst.begin(), k, 1);
     co_yield lst;
-    for (auto [x, y] : EMK_gen(n, k)) {
+    for (auto [x, y] : EMK_comb_gen(n, k)) {
         auto temp = lst[x]; // swap
         lst[x] = lst[y];
         lst[y] = temp;

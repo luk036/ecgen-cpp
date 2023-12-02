@@ -22,12 +22,64 @@ TEST_CASE("Generate Gray code by BRGC_gen (even)") {
     CHECK_EQ(cnt, 64);
 }
 
-TEST_CASE("Generate all combinations by EMK_gen") {
+TEST_CASE("Generate all combinations by EMK_gen (odd, odd)") {
+    constexpr size_t N = 15;
+    constexpr size_t K = 5;
     size_t cnt = 1;
-    for ([[maybe_unused]] auto [x, y] : ecgen::EMK_gen(5, 3)) {
+    for ([[maybe_unused]] auto [x, y] : ecgen::EMK_comb_gen(N, K)) {
         ++cnt;
     }
-    CHECK_EQ(cnt, ecgen::Combination<5, 3>());
+    CHECK_EQ(cnt, ecgen::Combination<N, K>());
+}
+
+TEST_CASE("Generate all combinations by EMK_gen (odd, even)") {
+    constexpr size_t N = 15;
+    constexpr size_t K = 6;
+    size_t cnt = 1;
+    for ([[maybe_unused]] auto [x, y] : ecgen::EMK_comb_gen(N, K)) {
+        ++cnt;
+    }
+    CHECK_EQ(cnt, ecgen::Combination<N, K>());
+}
+
+TEST_CASE("Generate all combinations by EMK_gen (even, odd)") {
+    constexpr size_t N = 16;
+    constexpr size_t K = 5;
+    size_t cnt = 1;
+    for ([[maybe_unused]] auto [x, y] : ecgen::EMK_comb_gen(N, K)) {
+        ++cnt;
+    }
+    CHECK_EQ(cnt, ecgen::Combination<N, K>());
+}
+
+TEST_CASE("Generate all combinations by EMK_gen (even, even)") {
+    constexpr size_t N = 16;
+    constexpr size_t K = 6;
+    size_t cnt = 1;
+    for ([[maybe_unused]] auto [x, y] : ecgen::EMK_comb_gen(N, K)) {
+        ++cnt;
+    }
+    CHECK_EQ(cnt, ecgen::Combination<N, K>());
+}
+
+TEST_CASE("Generate all combinations by EMK_gen (special, even)") {
+    constexpr size_t N = 6;
+    constexpr size_t K = 6;
+    size_t cnt = 1;
+    for ([[maybe_unused]] auto [x, y] : ecgen::EMK_comb_gen(N, K)) {
+        ++cnt;
+    }
+    CHECK_EQ(cnt, ecgen::Combination<N, K>());
+}
+
+TEST_CASE("Generate all combinations by EMK_gen (special, odd)") {
+    constexpr size_t N = 5;
+    constexpr size_t K = 5;
+    size_t cnt = 1;
+    for ([[maybe_unused]] auto [x, y] : ecgen::EMK_comb_gen(N, K)) {
+        ++cnt;
+    }
+    CHECK_EQ(cnt, ecgen::Combination<N, K>());
 }
 
 TEST_CASE("Generate Gray code (odd)") {
