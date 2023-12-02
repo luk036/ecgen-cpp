@@ -1,6 +1,6 @@
 // #include <algorithm> // for fill_n
-#include <ecgen/combin.hpp>
-#include <ecgen/combin_old.hpp>
+#include <ecgen/set_partition.hpp>
+#include <ecgen/set_partition_old.hpp>
 
 #include "benchmark/benchmark.h" // for BENCHMARK, State, BENCHMARK_...
 
@@ -9,12 +9,12 @@
  *
  * @param[in,out] state
  */
-static void EMK_new(benchmark::State &state) {
-    constexpr size_t N = 16;
-    constexpr size_t K = 5;
+static void set_partition_new(benchmark::State &state) {
+    constexpr size_t N = 14;
+    constexpr size_t K = 3;
     while (state.KeepRunning()) {
         size_t cnt = 1;
-        for ([[maybe_unused]] auto [x, y] : ecgen::EMK_comb_gen(N, K)) {
+        for ([[maybe_unused]] auto [x, y] : ecgen::set_partition_gen(N, K)) {
             ++cnt;
         }
         benchmark::DoNotOptimize(cnt);
@@ -22,7 +22,7 @@ static void EMK_new(benchmark::State &state) {
 }
 
 // Register the function as a benchmark
-BENCHMARK(EMK_new);
+BENCHMARK(set_partition_new);
 
 //~~~~~~~~~~~~~~~~
 
@@ -31,18 +31,18 @@ BENCHMARK(EMK_new);
  *
  * @param[in,out] state
  */
-static void EMK_old(benchmark::State &state) {
-    constexpr size_t N = 16;
-    constexpr size_t K = 5;
+static void set_partition_old(benchmark::State &state) {
+    constexpr size_t N = 14;
+    constexpr size_t K = 3;
     while (state.KeepRunning()) {
         size_t cnt = 1;
-        for ([[maybe_unused]] auto [x, y] : ecgen::EMK_gen(N, K)) {
+        for ([[maybe_unused]] auto [x, y] : ecgen::set_partition_gen_old(N, K)) {
             ++cnt;
         }
         benchmark::DoNotOptimize(cnt);
     }
 }
-BENCHMARK(EMK_old);
+BENCHMARK(set_partition_old);
 
 BENCHMARK_MAIN();
 
@@ -50,7 +50,7 @@ BENCHMARK_MAIN();
 ----------------------------------------------------------
 Benchmark                Time             CPU   Iterations
 ----------------------------------------------------------
-EMK_new         131235 ns       131245 ns         4447
-EMK_old          196694 ns       196708 ns         3548
-EMK_No_Trick     129743 ns       129750 ns         5357
+set_partition_new         131235 ns       131245 ns         4447
+set_partition_old          196694 ns       196708 ns         3548
+set_partition_No_Trick     129743 ns       129750 ns         5357
 */
