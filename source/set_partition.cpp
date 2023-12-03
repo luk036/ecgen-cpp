@@ -44,12 +44,12 @@ static auto NEG1_odd(size_t n, size_t k) -> recursive_generator<ret_t>;
  * @return recursive_generator<ret_t>
  */
 auto set_partition_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
-    if (k % 2 == 0) {
-        if (k > 0 && k < n)
+    if (k > 1 && k < n) {
+        if (k % 2 == 0) {
             co_yield GEN0_even(n, k);
-    } else {
-        if (k > 1 && k < n)
+        } else {
             co_yield GEN0_odd(n, k);
+        }
     }
 }
 
