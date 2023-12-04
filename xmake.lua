@@ -30,11 +30,11 @@ target("test_ecgen")
     add_packages("doctest")
     add_packages("fmt")
 
--- target("test_EMK")
+-- target("test_emk")
 --     set_kind("binary")
 --     add_deps("Ecgen")
 --     add_includedirs("include", {public = true})
---     add_files("bench/BM_EMK.cpp")
+--     add_files("bench/BM_emk.cpp")
 --     add_packages("benchmark")
 
 -- If you want to known more usage about xmake, please see https://xmake.io

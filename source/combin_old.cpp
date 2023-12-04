@@ -8,16 +8,18 @@ using ret_t = std::pair<size_t, size_t>;
 /**
  * @brief Generate all combinations by homogeneous revolving-door
  *
- * `EMK_gen` is a function that generates all combinations by using the
+ * `emk_gen` is a function that generates all combinations by using the
  * homogeneous revolving-door algorithm. It takes two parameters `n` and `k`,
  * where `n` is the total number of elements and `k` is the size of each
  * combination.
  *
- * @param[in] n
- * @param[in] k
+ * @param[in] n The parameter `n` represents the total number of elements, and `k` represents the size of
+ * each combination.
+ * @param[in] k The parameter `k` represents the size of each combination. It determines how many elements
+ * are selected from the total number of elements `n` to form a combination.
  * @return recursive_generator<ret_t>
  */
-auto EMK_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
+auto emk_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
     if (n <= k || k == 0) {
         co_return;
     }
@@ -26,11 +28,11 @@ auto EMK_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
             co_yield std::make_pair(i, i + 1);
         }
     } else {
-        co_yield EMK_gen(n - 1, k);
+        co_yield emk_gen(n - 1, k);
         co_yield std::make_pair(n - 2, n - 1);
-        co_yield EMK_neg(n - 2, k - 1);
+        co_yield emk_neg(n - 2, k - 1);
         co_yield std::make_pair(k - 2, n - 2);
-        co_yield EMK_gen(n - 2, k - 2);
+        co_yield emk_gen(n - 2, k - 2);
     }
 }
 
@@ -38,11 +40,13 @@ auto EMK_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
  * @brief Generate all combinations in reverse order by homogeneous
  * revolving-door
  *
- * @param[in] n
- * @param[in] k
+ * @param[in] n The parameter `n` represents the total number of elements, and `k` represents the size of
+ * each combination.
+ * @param[in] k The parameter `k` represents the size of each combination. It determines how many elements
+ * are selected from the total number of elements `n` to form a combination.
  * @return recursive_generator<ret_t>
  */
-auto EMK_neg(size_t n, size_t k) -> recursive_generator<ret_t> {
+auto emk_neg(size_t n, size_t k) -> recursive_generator<ret_t> {
     if (n <= k || k == 0) {
         co_return;
     }
@@ -51,11 +55,11 @@ auto EMK_neg(size_t n, size_t k) -> recursive_generator<ret_t> {
             co_yield std::make_pair(i, i - 1);
         }
     } else {
-        co_yield EMK_neg(n - 2, k - 2);
+        co_yield emk_neg(n - 2, k - 2);
         co_yield std::make_pair(n - 2, k - 2);
-        co_yield EMK_gen(n - 2, k - 1);
+        co_yield emk_gen(n - 2, k - 1);
         co_yield std::make_pair(n - 1, n - 2);
-        co_yield EMK_neg(n - 1, k);
+        co_yield emk_neg(n - 1, k);
     }
 }
 

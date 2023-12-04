@@ -7,23 +7,23 @@
 namespace ecgen {
 
 /**
- * @brief EMK (GEN)
+ * @brief emk (GEN)
  *
  * @param[in] n
  * @param[in] k
  * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
  */
-extern auto EMK_gen(size_t n, size_t k)
+extern auto emk_gen(size_t n, size_t k)
     -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
 
 /**
- * @brief EMK (NEG)
+ * @brief emk (NEG)
  *
  * @param[in] n
  * @param[in] k
  * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
  */
-extern auto EMK_neg(size_t n, size_t k)
+extern auto emk_neg(size_t n, size_t k)
     -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
 
 } // namespace ecgen

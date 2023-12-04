@@ -9,12 +9,12 @@
  *
  * @param[in,out] state
  */
-static void EMK_new(benchmark::State &state) {
+static void emk_new(benchmark::State &state) {
     constexpr size_t N = 16;
     constexpr size_t K = 5;
     while (state.KeepRunning()) {
         size_t cnt = 1;
-        for ([[maybe_unused]] auto [x, y] : ecgen::EMK_comb_gen(N, K)) {
+        for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
             ++cnt;
         }
         benchmark::DoNotOptimize(cnt);
@@ -22,7 +22,7 @@ static void EMK_new(benchmark::State &state) {
 }
 
 // Register the function as a benchmark
-BENCHMARK(EMK_new);
+BENCHMARK(emk_new);
 
 //~~~~~~~~~~~~~~~~
 
@@ -31,18 +31,18 @@ BENCHMARK(EMK_new);
  *
  * @param[in,out] state
  */
-static void EMK_old(benchmark::State &state) {
+static void emk_old(benchmark::State &state) {
     constexpr size_t N = 16;
     constexpr size_t K = 5;
     while (state.KeepRunning()) {
         size_t cnt = 1;
-        for ([[maybe_unused]] auto [x, y] : ecgen::EMK_gen(N, K)) {
+        for ([[maybe_unused]] auto [x, y] : ecgen::emk_gen(N, K)) {
             ++cnt;
         }
         benchmark::DoNotOptimize(cnt);
     }
 }
-BENCHMARK(EMK_old);
+BENCHMARK(emk_old);
 
 BENCHMARK_MAIN();
 
@@ -50,7 +50,7 @@ BENCHMARK_MAIN();
 ----------------------------------------------------------
 Benchmark                Time             CPU   Iterations
 ----------------------------------------------------------
-EMK_new         131235 ns       131245 ns         4447
-EMK_old          196694 ns       196708 ns         3548
-EMK_No_Trick     129743 ns       129750 ns         5357
+emk_new         131235 ns       131245 ns         4447
+emk_old          196694 ns       196708 ns         3548
+emk_No_Trick     129743 ns       129750 ns         5357
 */

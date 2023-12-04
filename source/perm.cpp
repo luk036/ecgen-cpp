@@ -6,15 +6,16 @@ namespace ecgen {
 /**
  * @brief Generate all permutations by adjacent transposition
  *
- * The `SJT_gen` function is generating all permutations of size `n` using the
+ * The `sjt_gen` function is generating all permutations of size `n` using the
  * Steinhaus-Johnson-Trotter algorithm. It returns a
  * `cppcoro::generator<size_t>`, which is a coroutine-based generator that
  * yields values of type `size_t`.
  *
- * @param[in] n
+ * @param[in] n The parameter `n` represents the size of the permutations to be generated. It determines
+ * the number of elements in each permutation.
  * @return cppcoro::generator<size_t>
  */
-auto SJT_gen(size_t n) -> cppcoro::generator<size_t> {
+auto sjt_gen(size_t n) -> cppcoro::generator<size_t> {
     /** Generate the swaps for the Steinhaus-Johnson-Trotter algorithm.*/
     if (n == 2) {
         co_yield 0;
@@ -22,7 +23,7 @@ auto SJT_gen(size_t n) -> cppcoro::generator<size_t> {
         co_return;
     }
 
-    auto &&gen = SJT_gen(n - 1);
+    auto &&gen = sjt_gen(n - 1);
     for (auto it = gen.begin(); it != gen.end(); ++it) {
         for (size_t i = n - 1; i != 0; --i) { // downward
             co_yield i - 1;
@@ -38,14 +39,15 @@ auto SJT_gen(size_t n) -> cppcoro::generator<size_t> {
 /**
  * @brief Generate all permutations by star transposition
  *
- * The `Ehr_gen` function is generating all permutations of size `n` using the
- * Ehrlich-Straus algorithm. It returns a `cppcoro::generator<size_t>`, which is
+ * The `ehr_gen` function is generating all permutations of size `n` using the
+ * ehrlich-Straus algorithm. It returns a `cppcoro::generator<size_t>`, which is
  * a coroutine-based generator that yields values of type `size_t`.
  *
- * @param[in] n
+ * @param[in] n The parameter `n` represents the size of the permutations to be generated. It determines
+ * the number of elements in each permutation.
  * @return cppcoro::generator<size_t>
  */
-auto Ehr_gen(size_t n) -> cppcoro::generator<size_t> {
+auto ehr_gen(size_t n) -> cppcoro::generator<size_t> {
     auto c = std::vector<size_t>(n + 1, 0); // c[0] is never used
     auto b = std::vector<size_t>(n, 0);
     std::iota(b.begin(), b.end(), 0U); // 0, 1, ... n-1
