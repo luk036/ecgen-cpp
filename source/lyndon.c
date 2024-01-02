@@ -27,10 +27,6 @@ int N, D, type, NECK = 0, LYN = 0;
 int a[MAX], b[MAX];
 int matrix[MAX_N][MAX_N];
 int differences[MAX_N];
-int THRESHOLD;
-int D_MINUS_1;
-int D_TIMES_D_MINUS_1;
-int N2;
 
 //-------------------------------------------------------------
 void PrintD(int p) {
@@ -52,25 +48,6 @@ void PrintD(int p) {
     for (b[D] = min; b[D] < 2; b[D]++) {
         if (LYN && (N % a[p] == 0) && (a[p] != N)) {
         } else {
-            for (auto i = 0; i < N; i++) {
-                differences[i] = 0;  // clear
-            }
-            for (auto i = 1; i <= D; i++) {
-                for (auto j = 0; j < i; j++) {
-                    differences[matrix[a[i]][a[j]]] = 1;
-                    differences[matrix[a[j]][a[i]]] = 1;
-                }
-            }
-            bool finish = true;
-            for (auto i = 1; i < N; i++) {
-                if (differences[i] == 0) {
-                    finish = false;
-                }
-            }
-            if (!finish) {
-                continue;
-            }
-            
             // print a
             for (auto i = 1; i <= D; i++) {
                 printf("%d ", a[i]);
@@ -91,31 +68,30 @@ void PrintD(int p) {
 void GenD(int t, int p) {
     int j, max, tail, count;
 
-    if (t >= THRESHOLD && t < D_MINUS_1) {
+    if (t >= (D - 1) / 2) {
         for (auto i = 0; i < N; i++) {
             differences[i] = 0;  // clear
         }
-        for (auto i = 1; i <= t; i++) {
-            for (auto j = 0; j < i; j++) {
+        for (auto i = 0; i <= t; i++) {
+            for (auto j = 0; j <= t; j++) {
                 differences[matrix[a[i]][a[j]]] = 1;
-                differences[matrix[a[j]][a[i]]] = 1;
             }
         }
-        count = 1; // 0 is always there
+        count = 1;
         for (auto i = 1; i < N; i++) {
             if (differences[i] != 0) {
                 count += 1;
             }
         }
-        if (count + D_TIMES_D_MINUS_1 - (t + 1) * t < N) {
+        if (count + D * (D - 1) - (t + 1) * t < N) {
             return;
         }
     }
 
-    if (t >= D_MINUS_1)
+    if (t >= D - 1)
         PrintD(p);
     else {
-        tail = N2 - t;
+        tail = N - (D - t) + 1;
         max = a[t - p + 1] + a[p];
         if (max <= tail) {
             a[t + 1] = max;
@@ -144,12 +120,7 @@ void Init() {
     for (j = 0; j <= D; j++)
         a[j] = 0;
     a[D] = N;
-    a[0] = N; // for convenience
-
-    D_MINUS_1 = D - 1;
-    D_TIMES_D_MINUS_1 = D * D_MINUS_1;
-    THRESHOLD = D_MINUS_1 / 2;
-    N2 = N - D_MINUS_1;
+    a[0] = N;
 
     for (i = 1; i <= N; i++) {
         matrix[i][i] = 0;
@@ -158,7 +129,7 @@ void Init() {
             matrix[j][i] = N - i + j;
         }
     }
-    for (j = N2; j >= (N - 1) / D + 1; j--) {
+    for (j = N - D + 1; j >= (N - 1) / D + 1; j--) {
         a[1] = j;
         b[1] = 1;
         GenD(1, 1);
