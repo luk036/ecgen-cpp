@@ -17,21 +17,20 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX 99
-#define TRUE 1
-#define FALSE 0
+#define MAX 20
+#define MAX_N 200
 
 //-------------------------------------------------------------
 // GLOBAL VARIABLES
 //-------------------------------------------------------------
-int N, K, D, M, type, NECK = 0, LYN = 0;
-int UNRESTRICTED = 0, DENSITY = 0, CONTENT = 0, FORBIDDEN = 0, BRACELET = 0,
-    UNLABELED = 0, CHORD = 0, LIE = 0, CHARM = 0, DB = 0;
+int N, D, type, NECK = 0, LYN = 0;
 int a[MAX], b[MAX];
+int matrix[MAX_N][MAX_N];
+int differences[MAX_N];
 
 //-------------------------------------------------------------
 void PrintD(int p) {
-    int i, j, next, end, min;
+    int next, min;
 
     /* Determine minimum position for next bit */
     next = (D / p) * a[p] + a[D % p];
@@ -45,19 +44,19 @@ void PrintD(int p) {
         p = D;
     } else if ((next == N) && (D % p == 0))
         min = b[p];
-    end = N;
+
     for (b[D] = min; b[D] < 2; b[D]++) {
-        i = 1;
         if (LYN && (N % a[p] == 0) && (a[p] != N)) {
         } else {
-            for (j = 1; j <= end; j++) {
-                if (a[i] == j) {
-                    printf("%d ", b[i]);
-                    i++;
-                } else
-                    printf("0 ");
+            // print a
+            for (auto i = 1; i <= D; i++) {
+                printf("%d ", a[i]);
             }
             printf("\n");
+            exit(0);
+
+            // }
+            // printf("\n");
         }
         p = D;
     }
@@ -67,7 +66,27 @@ void PrintD(int p) {
 // FIXED DENSITY
 /*-----------------------------------------------------------*/
 void GenD(int t, int p) {
-    int i, j, max, tail;
+    int j, max, tail, count;
+
+    if (t >= D / 2) {
+        for (auto i = 0; i < N; i++) {
+            differences[i] = 0;  // clear
+        }
+        for (auto i = 0; i <= t; i++) {
+            for (auto j = 0; j <= t; j++) {
+                differences[matrix[a[i]][a[j]]] = 1;
+            }
+        }
+        count = 1;
+        for (auto i = 1; i < N; i++) {
+            if (differences[i] != 0) {
+                count += 1;
+            }
+        }
+        if (count + D * (D - 1) - ((t + 1) * t) < N) {
+            return;
+        }
+    }
 
     if (t >= D - 1)
         PrintD(p);
@@ -96,19 +115,26 @@ void GenD(int t, int p) {
 /*------------------------------------------------------------*/
 /*------------------------------------------------------------*/
 void Init() {
-    int j;
-
-    a[0] = a[1] = 0;
+    int i, j;
 
     for (j = 0; j <= D; j++)
         a[j] = 0;
     a[D] = N;
+    a[0] = N;
 
+    for (i = 1; i <= N; i++) {
+        matrix[i][i] = 0;
+        for (j = 1; j < i; j++) {
+            matrix[i][j] = i - j;
+            matrix[j][i] = N - i + j;
+        }
+    }
     for (j = N - D + 1; j >= (N - 1) / D + 1; j--) {
         a[1] = j;
         b[1] = 1;
         GenD(1, 1);
     }
+    printf("No solution is found.\n");
 }
 
 //------------------------------------------------------
@@ -117,8 +143,6 @@ void usage() {
 }
 //--------------------------------------------------------------------------------
 int main(int argc, char **argv) {
-    int i, j, n_digit, sum;
-
     if (argc < 4) {
         usage();
         return 1;
@@ -127,30 +151,25 @@ int main(int argc, char **argv) {
     sscanf(argv[2], "%d", &N);
     sscanf(argv[3], "%d", &D);
 
-    if ((type < 1) || ((type > 12) && (type < 21)) || (type > 27) || (N < 1)) {
+    if ((type != 2) && (type != 22)) {
         usage();
         return 1;
     }
 
     // NECKLACES                                LYNDON WORDS
     // -------------                            -------------
-    // 1.  Unrestricted                         21. Unrestricted
     // 2.  Fixed-density                        22. Fixed-density
-    // 3.  Fixed-content necklaces              23. Fixed-content necklaces
-    // 4.  Forbidden substring                  24. Forbidden substring
-    // 5.  Bracelets                            25. Bracelets
-    // 6.  Fixed-content bracelets              26. Fixed-content bracelets
-    // 7.  Unlabeled (binary)                   27. Unlabeled (binary)
-    // 8.  Charm bracelets
-    // 9.  Fixed-content charm bracelets
-    // 10. Chord diagrams
-    // 11. Lyndon brackets (basis for n-th homogeneous component of free Lie
-    // algebra)
-    // 12. De Bruijn cycle
 
-    DENSITY = 1;
-    LYN = 1;
-    K = 2;
+    if (type == 2) {
+        NECK = 1;
+    } else if (type == 22) {
+        LYN = 1;
+    }
+
+    if (N > D * (D - 1) + 1) {
+        printf("Error: N must be less than D*(D-1)+1\n");
+        return 1;
+    }
 
     Init();
     return 0;
