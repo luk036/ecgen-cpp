@@ -27,18 +27,21 @@ int N, D, type, NECK = 0, LYN = 0;
 int a[MAX], b[MAX];
 int matrix[MAX_N][MAX_N];
 int differences[MAX_N];
+int THRESHOLD;
+int D_MINUS_1;
+int D_TIMES_D_MINUS_1;
+int N_MINUS_D;
+int N1;
 
 //-------------------------------------------------------------
 void PrintD(int p) {
-    int next, min;
-
     /* Determine minimum position for next bit */
-    next = (D / p) * a[p] + a[D % p];
+    int next = (D / p) * a[p] + a[D % p];
     if (next < N)
         return;
 
     /* Determine last bit */
-    min = 1;
+    int min = 1;
     if ((next == N) && (D % p != 0)) {
         min = b[D % p] + 1;
         p = D;
@@ -66,48 +69,48 @@ void PrintD(int p) {
 // FIXED DENSITY
 /*-----------------------------------------------------------*/
 void GenD(int t, int p) {
-    int j, max, tail, count;
-
-    if (t >= (D - 1) / 2) {
+    if (t >= THRESHOLD) {
         for (auto i = 0; i < N; i++) {
             differences[i] = 0;  // clear
         }
-        for (auto i = 0; i <= t; i++) {
-            for (auto j = 0; j <= t; j++) {
+        for (auto i = 0; i < t; i++) {
+            for (auto j = i + 1; j <= t; j++) {
                 differences[matrix[a[i]][a[j]]] = 1;
+                differences[matrix[a[j]][a[i]]] = 1;
             }
         }
-        count = 1;
+        int count = 1;
         for (auto i = 1; i < N; i++) {
             if (differences[i] != 0) {
                 count += 1;
             }
         }
-        if (count + D * (D - 1) - (t + 1) * t < N) {
+        if (count - (t + 1) * t < N1) {
             return;
         }
     }
 
-    if (t >= D - 1)
+    int t1 = t + 1;
+    if (t1 >= D)
         PrintD(p);
     else {
-        tail = N - (D - t) + 1;
-        max = a[t - p + 1] + a[p];
+        int tail = N - D + t1;
+        int max = a[t1 - p] + a[p];
         if (max <= tail) {
-            a[t + 1] = max;
-            b[t + 1] = b[t - p + 1];
+            a[t1] = max;
+            b[t1] = b[t1 - p];
 
-            GenD(t + 1, p);
-            if (b[t + 1] == 0) {
-                b[t + 1] = 1;
-                GenD(t + 1, t + 1);
+            GenD(t1, p);
+            if (b[t1] == 0) {
+                b[t1] = 1;
+                GenD(t1, t1);
             }
             tail = max - 1;
         }
-        for (j = tail; j >= a[t] + 1; j--) {
-            a[t + 1] = j;
-            b[t + 1] = 1;
-            GenD(t + 1, t + 1);
+        for (int j = tail; j >= a[t] + 1; j--) {
+            a[t1] = j;
+            b[t1] = 1;
+            GenD(t1, t1);
         }
     }
 }
@@ -120,7 +123,13 @@ void Init() {
     for (j = 0; j <= D; j++)
         a[j] = 0;
     a[D] = N;
-    a[0] = N;
+    a[0] = N; // for convenience
+
+    D_MINUS_1 = D - 1;
+    D_TIMES_D_MINUS_1 = D * (D - 1);
+    THRESHOLD = (D - 1) / 3;
+    N_MINUS_D = N - D;
+    N1 = N - D_TIMES_D_MINUS_1;
 
     for (i = 1; i <= N; i++) {
         matrix[i][i] = 0;
