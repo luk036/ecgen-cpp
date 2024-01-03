@@ -34,41 +34,47 @@ int N_MINUS_D;
 int N1;
 
 //-------------------------------------------------------------
-void PrintD(int p) {
-    /* Determine minimum position for next bit */
-    int next = (D / p) * a[p] + a[D % p];
-    if (next < N)
-        return;
+void PrintD() {
+    // /* Determine minimum position for next bit */
+    // int next = (D / p) * a[p] + a[D % p];
+    // if (next < N)
+    //     return;
 
-    /* Determine last bit */
-    int min = 1;
-    if ((next == N) && (D % p != 0)) {
-        min = b[D % p] + 1;
-        p = D;
-    } else if ((next == N) && (D % p == 0))
-        min = b[p];
+    // /* Determine last bit */
+    // int min = 1;
+    // if ((next == N) && (D % p != 0)) {
+    //     min = b[D % p] + 1;
+    //     p = D;
+    // } else if ((next == N) && (D % p == 0))
+    //     min = b[p];
 
-    for (b[D] = min; b[D] < 2; b[D]++) {
-        if (LYN && (N % a[p] == 0) && (a[p] != N)) {
-        } else {
-            // print a
-            for (auto i = 1; i <= D; i++) {
-                printf("%d ", a[i]);
-            }
-            printf("\n");
-            exit(0);
+    // for (b[D] = min; b[D] < 2; b[D]++) {
+    //     if (LYN && (N % a[p] == 0) && (a[p] != N)) {
+    //     } else {
+    //         // print a
+    //         for (auto i = 1; i <= D; i++) {
+    //             printf("%d ", a[i]);
+    //         }
+    //         printf("\n");
+    //         exit(0);
 
-            // }
-            // printf("\n");
-        }
-        p = D;
+    //         // }
+    //         // printf("\n");
+    //     }
+
+    // print a
+    for (auto i = 1; i <= D; i++) {
+        printf("%d ", a[i]);
     }
+    printf("\n");
+    exit(0);
+
 }
 
 /*-----------------------------------------------------------*/
 // FIXED DENSITY
 /*-----------------------------------------------------------*/
-void GenD(int t, int p) {
+void GenD(int t, int p, int tt) {
     if (t >= THRESHOLD) {
         for (auto i = 0; i < N; i++) {
             differences[i] = 0;  // clear
@@ -85,32 +91,33 @@ void GenD(int t, int p) {
                 count += 1;
             }
         }
-        if (count - (t + 1) * t < N1) {
+        if (count - tt < N1) {
             return;
         }
     }
 
     int t1 = t + 1;
     if (t1 >= D)
-        PrintD(p);
+        PrintD();
     else {
-        int tail = N - D + t1;
+        int tail = N_MINUS_D + t1;
         int max = a[t1 - p] + a[p];
+        int tt = t1 * (t1 + 1);
         if (max <= tail) {
             a[t1] = max;
             b[t1] = b[t1 - p];
 
-            GenD(t1, p);
+            GenD(t1, p, tt);
             if (b[t1] == 0) {
                 b[t1] = 1;
-                GenD(t1, t1);
+                GenD(t1, t1, tt);
             }
             tail = max - 1;
         }
         for (int j = tail; j >= a[t] + 1; j--) {
             a[t1] = j;
             b[t1] = 1;
-            GenD(t1, t1);
+            GenD(t1, t1, tt);
         }
     }
 }
@@ -127,7 +134,6 @@ void Init() {
 
     D_MINUS_1 = D - 1;
     D_TIMES_D_MINUS_1 = D * (D - 1);
-    THRESHOLD = (D - 1) / 3;
     N_MINUS_D = N - D;
     N1 = N - D_TIMES_D_MINUS_1;
 
@@ -138,17 +144,18 @@ void Init() {
             matrix[j][i] = N - i + j;
         }
     }
+
     for (j = N - D + 1; j >= (N - 1) / D + 1; j--) {
         a[1] = j;
         b[1] = 1;
-        GenD(1, 1);
+        GenD(1, 1, 2);
     }
     printf("No solution is found.\n");
 }
 
 //------------------------------------------------------
 void usage() {
-    printf("Usage: necklace [type] [n] [d]\n");
+    printf("Usage: necklace [n] [density] [threshold]\n");
 }
 //--------------------------------------------------------------------------------
 int main(int argc, char **argv) {
@@ -156,24 +163,9 @@ int main(int argc, char **argv) {
         usage();
         return 1;
     }
-    sscanf(argv[1], "%d", &type);
-    sscanf(argv[2], "%d", &N);
-    sscanf(argv[3], "%d", &D);
-
-    if ((type != 2) && (type != 22)) {
-        usage();
-        return 1;
-    }
-
-    // NECKLACES                                LYNDON WORDS
-    // -------------                            -------------
-    // 2.  Fixed-density                        22. Fixed-density
-
-    if (type == 2) {
-        NECK = 1;
-    } else if (type == 22) {
-        LYN = 1;
-    }
+    sscanf(argv[1], "%d", &N);
+    sscanf(argv[2], "%d", &D);
+    sscanf(argv[3], "%d", &THRESHOLD);
 
     if (N > D * (D - 1) + 1) {
         printf("Error: N must be less than D*(D-1)+1\n");
