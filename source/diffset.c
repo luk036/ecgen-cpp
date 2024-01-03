@@ -24,9 +24,8 @@
 //-------------------------------------------------------------
 // GLOBAL VARIABLES
 //-------------------------------------------------------------
-int N, D, type, NECK = 0, LYN = 0;
+int N, D;
 int a[MAX], b[MAX];
-int matrix[MAX_N][MAX_N];
 int differences[MAX_N];
 int THRESHOLD;
 int D_MINUS_1;
@@ -65,10 +64,10 @@ void GenD(int t, int p, int tt) {
         int count = 1;
         for (int i = 1; i < N; i++) {
             if (differences[i] != 0) {
-                count += 1;
+                count++;
             }
         }
-        if (count - tt < N1) {
+        if (count < N1 + tt) {
             return;
         }
     }
@@ -79,22 +78,22 @@ void GenD(int t, int p, int tt) {
     else {
         int tail = N_MINUS_D + t1;
         int max = a[t1 - p] + a[p];
-        int tt = t1 * (t1 + 1);
+        int tt1 = t1 * (t1 + 1);
         if (max <= tail) {
             a[t1] = max;
             b[t1] = b[t1 - p];
 
-            GenD(t1, p, tt);
+            GenD(t1, p, tt1);
             if (b[t1] == 0) {
                 b[t1] = 1;
-                GenD(t1, t1, tt);
+                GenD(t1, t1, tt1);
             }
             tail = max - 1;
         }
         for (int j = tail; j >= a[t] + 1; j--) {
             a[t1] = j;
             b[t1] = 1;
-            GenD(t1, t1, tt);
+            GenD(t1, t1, tt1);
         }
     }
 }
