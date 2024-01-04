@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,7 +25,6 @@
 //-------------------------------------------------------------
 int N, D;
 int a[MAX], b[MAX];
-int differences[MAX_N];
 int THRESHOLD;
 int D_MINUS_1;
 int D_TIMES_D_MINUS_1;
@@ -47,20 +45,19 @@ void PrintD() {
 /*-----------------------------------------------------------*/
 // FIXED DENSITY
 /*-----------------------------------------------------------*/
-void GenD(int t, int p, int tt) {
+void GenD(int t, int p, int tt, int diffset[]) {
+    int differences[MAX_N];
+    memcpy(differences, diffset, SIZE_N);
+
+    for (int i = 0; i < t; i++) {
+        int diff = a[t] - a[i];
+        differences[diff] = 1;
+        differences[N - diff] = 1;
+    }
     if (t >= THRESHOLD) {
         // for (int i = 0; i < N; i++) {
         //     differences[i] = 0; // clear
         // }
-        memset(differences, 0, SIZE_N);
-
-        for (int i = 0; i < t; i++) {
-            for (int j = i + 1; j <= t; j++) {
-                int diff = a[j] - a[i];
-                differences[diff] = 1;
-                differences[N - diff] = 1;
-            }
-        }
         int count = 1;
         for (int i = 1; i < N; i++) {
             if (differences[i] != 0) {
@@ -83,17 +80,17 @@ void GenD(int t, int p, int tt) {
             a[t1] = max;
             b[t1] = b[t1 - p];
 
-            GenD(t1, p, tt1);
+            GenD(t1, p, tt1, differences);
             if (b[t1] == 0) {
                 b[t1] = 1;
-                GenD(t1, t1, tt1);
+                GenD(t1, t1, tt1, differences);
             }
             tail = max - 1;
         }
         for (int j = tail; j >= a[t] + 1; j--) {
             a[t1] = j;
             b[t1] = 1;
-            GenD(t1, t1, tt1);
+            GenD(t1, t1, tt1, differences);
         }
     }
 }
@@ -122,10 +119,14 @@ void Init() {
     //     }
     // }
 
+    int differences[MAX_N];
+    memset(differences, 0, SIZE_N);
+    differences[0] = 1;
+
     for (j = N - D + 1; j >= (N - 1) / D + 1; j--) {
         a[1] = j;
         b[1] = 1;
-        GenD(1, 1, 2);
+        GenD(1, 1, 2, differences);
     }
     printf("No solution is found.\n");
 }
