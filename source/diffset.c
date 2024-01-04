@@ -55,9 +55,6 @@ void GenD(int t, int p, int tt, int diffset[]) {
         differences[N - diff] = 1;
     }
     if (t >= THRESHOLD) {
-        // for (int i = 0; i < N; i++) {
-        //     differences[i] = 0; // clear
-        // }
         int count = 1;
         for (int i = 1; i < N; i++) {
             if (differences[i] != 0) {
