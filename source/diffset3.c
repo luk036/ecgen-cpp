@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAX 20
-#define MAX_N 100
+#define MAX_N 70
 
 #define MIN(a, b) ((a) <= (b))? (a) : (b)
 
@@ -91,7 +91,17 @@ void GenD(int t, int p, int tt, SparseSet *diffset) {
 
     for (int i = 0; i < t; i++) {
         int diff = a[t] - a[i];
-        add(&differences, MIN(diff, N - diff));
+	int element = MIN(diff, N - diff);
+    	int loc = differences.inverse[element];
+    	if (loc < differences.size)
+    	    continue;
+    	int elem = differences.domain[differences.size];
+    	differences.domain[loc] = elem;
+    	differences.domain[differences.size] = element;
+    	differences.inverse[element] = differences.size;
+    	differences.inverse[elem] = loc;
+    	differences.size++;
+        // add(&differences, MIN(diff, N - diff));
     }
 
     if (t >= THRESHOLD) {
