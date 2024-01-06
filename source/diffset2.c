@@ -19,7 +19,9 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAX 20
-#define MAX_N 200
+#define MAX_N 100
+
+#define MIN(a, b) ((a) <= (b))? (a) : (b)
 
 //-------------------------------------------------------------
 // GLOBAL VARIABLES
@@ -31,6 +33,7 @@ int D_MINUS_1;
 int D_TIMES_D_MINUS_1;
 int N_MINUS_D;
 int N1;
+int N2;
 size_t SIZE_N;
 
 //-------------------------------------------------------------
@@ -52,12 +55,11 @@ void GenD(int t, int p, int tt, uint8_t diffset[]) {
 
     for (int i = 0; i < t; i++) {
         int diff = a[t] - a[i];
-        differences[diff] = 1;
-        differences[N - diff] = 1;
+        differences[MIN(diff, N - diff)] = 1;
     }
     if (t >= THRESHOLD) {
-        int count = 1;
-        for (int i = 1; i < N; i++) {
+        int count = 0;
+        for (int i = 1; i <= N2; i++) {
             if (differences[i] != 0) {
                 count++;
             }
@@ -73,7 +75,7 @@ void GenD(int t, int p, int tt, uint8_t diffset[]) {
     else {
         int tail = N_MINUS_D + t1;
         int max = a[t1 - p] + a[p];
-        int tt1 = t1 * (t1 + 1);
+        int tt1 = t1 * (t1 + 1) / 2;
         if (max <= tail) {
             a[t1] = max;
             b[t1] = b[t1 - p];
@@ -96,7 +98,7 @@ void GenD(int t, int p, int tt, uint8_t diffset[]) {
 /*------------------------------------------------------------*/
 /*------------------------------------------------------------*/
 void Init() {
-    int i, j;
+    int j;
 
     for (j = 0; j <= D; j++)
         a[j] = 0;
@@ -106,8 +108,9 @@ void Init() {
     D_MINUS_1 = D - 1;
     D_TIMES_D_MINUS_1 = D * (D - 1);
     N_MINUS_D = N - D;
-    N1 = N - D_TIMES_D_MINUS_1;
-    SIZE_N = N * sizeof(uint8_t);
+    N2 = N / 2;
+    N1 = N2 - D_TIMES_D_MINUS_1 / 2;
+    SIZE_N = (N2 + 1)  * sizeof(uint8_t);
 
     // for (i = 0; i <= N; i++) {
     //     matrix[i][i] = 0;
@@ -124,7 +127,7 @@ void Init() {
     for (j = N - D + 1; j >= (N - 1) / D + 1; j--) {
         a[1] = j;
         b[1] = 1;
-        GenD(1, 1, 2, differences);
+        GenD(1, 1, 1, differences);
     }
     printf("No solution is found.\n");
 }

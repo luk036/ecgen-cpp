@@ -19,7 +19,9 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAX 20
-#define MAX_N 200
+#define MAX_N 100
+
+#define MIN(a, b) ((a) <= (b))? (a) : (b)
 
 //-------------------------------------------------------------
 // GLOBAL VARIABLES
@@ -31,6 +33,7 @@ int D_MINUS_1;
 int D_TIMES_D_MINUS_1;
 int N_MINUS_D;
 int N1;
+int N2;
 size_t SIZE_N;
 
 typedef struct {
@@ -88,8 +91,7 @@ void GenD(int t, int p, int tt, SparseSet *diffset) {
 
     for (int i = 0; i < t; i++) {
         int diff = a[t] - a[i];
-        add(&differences, diff);
-        add(&differences, N - diff);
+        add(&differences, MIN(diff, N - diff));
     }
 
     if (t >= THRESHOLD) {
@@ -104,7 +106,7 @@ void GenD(int t, int p, int tt, SparseSet *diffset) {
     else {
         int tail = N_MINUS_D + t1;
         int max = a[t1 - p] + a[p];
-        int tt1 = t1 * (t1 + 1);
+        int tt1 = t1 * (t1 + 1) / 2;
         if (max <= tail) {
             a[t1] = max;
             b[t1] = b[t1 - p];
@@ -127,7 +129,7 @@ void GenD(int t, int p, int tt, SparseSet *diffset) {
 /*------------------------------------------------------------*/
 /*------------------------------------------------------------*/
 void Init() {
-    int i, j;
+    int j;
 
     for (j = 0; j <= D; j++)
         a[j] = 0;
@@ -137,16 +139,17 @@ void Init() {
     D_MINUS_1 = D - 1;
     D_TIMES_D_MINUS_1 = D * (D - 1);
     N_MINUS_D = N - D;
-    N1 = N - D_TIMES_D_MINUS_1;
-    SIZE_N = N * sizeof(uint8_t);
+    N2 = N / 2;
+    N1 = N2 - D_TIMES_D_MINUS_1 / 2;
+    SIZE_N = (N2 + 1)  * sizeof(uint8_t);
 
     SparseSet differences;
-    init(&differences, 1);
+    init(&differences, 0);
 
     for (j = N - D + 1; j >= (N - 1) / D + 1; j--) {
         a[1] = j;
         b[1] = 1;
-        GenD(1, 1, 2, &differences);
+        GenD(1, 1, 1, &differences);
     }
     printf("No solution is found.\n");
 }
