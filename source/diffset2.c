@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAX 20
-#define MAX_N 100
+#define MAX_N 70
 
 #define MIN(a, b) ((a) <= (b))? (a) : (b)
 
@@ -27,7 +27,7 @@
 // GLOBAL VARIABLES
 //-------------------------------------------------------------
 int N, D;
-uint8_t a[MAX], b[MAX];
+int a[MAX], b[MAX];
 int THRESHOLD;
 int D_MINUS_1;
 int D_TIMES_D_MINUS_1;
@@ -49,8 +49,8 @@ void PrintD() {
 /*-----------------------------------------------------------*/
 // FIXED DENSITY
 /*-----------------------------------------------------------*/
-void GenD(int t, int p, int tt, uint8_t diffset[]) {
-    uint8_t differences[MAX_N];
+void GenD(int t, int p, int tt, int8_t diffset[]) {
+    int8_t differences[MAX_N];
     memcpy(differences, diffset, SIZE_N);
 
     for (int i = 0; i < t; i++) {
@@ -110,7 +110,7 @@ void Init() {
     N_MINUS_D = N - D;
     N2 = N / 2;
     N1 = N2 - D_TIMES_D_MINUS_1 / 2;
-    SIZE_N = (N2 + 1)  * sizeof(uint8_t);
+    SIZE_N = (N2 + 1)  * sizeof(int8_t);
 
     // for (i = 0; i <= N; i++) {
     //     matrix[i][i] = 0;
@@ -120,7 +120,7 @@ void Init() {
     //     }
     // }
 
-    uint8_t differences[MAX_N];
+    int8_t differences[MAX_N];
     memset(differences, 0, SIZE_N);
     differences[0] = 1;
 

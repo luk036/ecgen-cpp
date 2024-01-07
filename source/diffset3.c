@@ -27,7 +27,7 @@
 // GLOBAL VARIABLES
 //-------------------------------------------------------------
 int N, D;
-uint8_t a[MAX], b[MAX];
+int a[MAX], b[MAX];
 int THRESHOLD;
 int D_MINUS_1;
 int D_TIMES_D_MINUS_1;
@@ -39,12 +39,12 @@ size_t SIZE_N;
 typedef struct {
     uint8_t domain[MAX_N];
     uint8_t inverse[MAX_N];
-    uint8_t size;
+    int size;
 } SparseSet;
 
 void init(SparseSet *set, int size) {
     set->size = size;
-    for (uint8_t i = 0; i < MAX_N; i++) {
+    for (int i = 0; i < MAX_N; i++) {
         set->domain[i] = i;
         set->inverse[i] = i;
     }
@@ -56,7 +56,7 @@ void copy(SparseSet *des, SparseSet *src, size_t n) {
     memcpy(des->inverse, src->inverse, n);
 }
 
-void add(SparseSet *set, uint8_t element) {
+void add(SparseSet *set, int element) {
     int loc = set->inverse[element];
     if (loc < set->size)
         return;
