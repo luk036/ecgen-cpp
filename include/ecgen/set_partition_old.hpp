@@ -46,9 +46,9 @@ namespace ecgen {
  *
  * @param[in] n
  * @param[in] k
- * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
+ * @return cppcoro::recursive_generator<std::pair<int, int>>
  */
-extern auto set_partition_gen_old(size_t n, size_t k)
-    -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
+extern auto set_partition_gen_old(int n, int k)
+    -> cppcoro::recursive_generator<std::pair<int, int>>;
 
 } // namespace ecgen

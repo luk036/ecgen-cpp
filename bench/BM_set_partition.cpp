@@ -10,8 +10,8 @@
  * @param[in,out] state
  */
 static void set_partition_new(benchmark::State &state) {
-    constexpr size_t N = 14;
-    constexpr size_t K = 3;
+    constexpr int N = 14;
+    constexpr int K = 3;
     while (state.KeepRunning()) {
         size_t cnt = 1;
         for ([[maybe_unused]] auto [x, y] : ecgen::set_partition_gen(N, K)) {
@@ -36,7 +36,8 @@ static void set_partition_old(benchmark::State &state) {
     constexpr size_t K = 3;
     while (state.KeepRunning()) {
         size_t cnt = 1;
-        for ([[maybe_unused]] auto [x, y] : ecgen::set_partition_gen_old(N, K)) {
+        for ([[maybe_unused]] auto [x, y] :
+             ecgen::set_partition_gen_old(N, K)) {
             ++cnt;
         }
         benchmark::DoNotOptimize(cnt);

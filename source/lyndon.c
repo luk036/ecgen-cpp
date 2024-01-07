@@ -68,7 +68,6 @@ void PrintD() {
     }
     printf("\n");
     exit(0);
-
 }
 
 /*-----------------------------------------------------------*/
@@ -77,7 +76,7 @@ void PrintD() {
 void GenD(int t, int p, int tt) {
     if (t >= THRESHOLD) {
         for (auto i = 0; i < N; i++) {
-            differences[i] = 0;  // clear
+            differences[i] = 0; // clear
         }
         for (auto i = 0; i < t; i++) {
             for (auto j = i + 1; j <= t; j++) {
@@ -154,9 +153,7 @@ void Init() {
 }
 
 //------------------------------------------------------
-void usage() {
-    printf("Usage: necklace [n] [density] [threshold]\n");
-}
+void usage() { printf("Usage: necklace [n] [density] [threshold]\n"); }
 //--------------------------------------------------------------------------------
 int main(int argc, char **argv) {
     if (argc < 4) {

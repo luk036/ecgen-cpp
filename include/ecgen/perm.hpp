@@ -5,31 +5,33 @@
 
 namespace ecgen {
 /**
- * @brief sjt
+ * Generates integers from 0 to n-1 in an order that generates all
+ * permutations of length n using the Steinhaus-Johnson-Trotter algorithm.
  *
- * @param[in] n
- * @return cppcoro::generator<size_t>
+ * @param[in] n The permutation length
+ * @return A cppcoro::generator that yields the permutation indices
  */
-extern auto sjt_gen(size_t n) -> cppcoro::generator<size_t>;
+extern auto sjt_gen(int n) -> cppcoro::generator<int>;
 
 /**
- * @brief ehr
+ * Generates integers from 0 to n-1 in an order that generates all
+ * permutations of length n using the Eades-Hickey-Read (EHR) algorithm.
  *
- * @param[in] n
- * @return cppcoro::generator<size_t>
+ * @param[in] n The permutation length
+ * @return A cppcoro::generator that yields the permutation indices
  */
-extern auto ehr_gen(size_t n) -> cppcoro::generator<size_t>;
+extern auto ehr_gen(int n) -> cppcoro::generator<int>;
 
 /**
- * @brief Factorial, N!, the number of permutations
+ * Computes the factorial of the input number N at compile time.
  *
- * The `Factorial()` function is a template function that calculates the
- * factorial of a given number `N` at compile-time.
+ * This is used to calculate the total number of permutations of length N,
+ * which is N!. It is implemented as a constexpr function template.
  *
- * @tparam N
- * @return constexpr auto
+ * @tparam N - The number to calculate the factorial of.
+ * @return constexpr auto - The factorial of N as a std::integral_constant.
  */
-template <size_t N> constexpr auto Factorial() {
+template <int N> constexpr auto Factorial() {
     if constexpr (N <= 1) {
         return std::integral_constant<size_t, 1U>{};
     } else {
@@ -38,7 +40,8 @@ template <size_t N> constexpr auto Factorial() {
 }
 
 /**
- * @brief sjt permutation by adjacent transposition (less efficiency)
+ * Generates a permutation by applying adjacent transpositions to the input
+ * permutation container. This uses the Steinhaus-Johnson-Trotter algorithm.
  *
  * @tparam Container
  * @param[in] perm
@@ -46,8 +49,8 @@ template <size_t N> constexpr auto Factorial() {
  */
 template <typename Container>
 inline auto sjt(Container &perm) -> cppcoro::generator<Container &> {
-    const auto n = perm.size();
-    for (size_t i : ecgen::sjt_gen(n)) {
+    const auto n = int(perm.size());
+    for (int i : ecgen::sjt_gen(n)) {
         co_yield perm;
         auto temp = perm[i]; // swap
         perm[i] = perm[i + 1];
@@ -56,17 +59,19 @@ inline auto sjt(Container &perm) -> cppcoro::generator<Container &> {
 }
 
 /**
- * @brief ehr permutation by star transposition (less efficiency)
+ * Generates a permutation by applying star transpositions to the input
+ * permutation container. This uses the Eades-Hickey-Read (EHR) algorithm.
  *
- * @tparam Container
- * @param[in] perm
- * @return cppcoro::generator<Container&>
+ * @tparam Container - The type of the permutation container.
+ * @param[in] perm - The permutation container to generate permutations for.
+ * @return A cppcoro::generator that yields references to the permutation
+ * container after each transposition.
  */
 template <typename Container>
 inline auto ehr(Container &perm) -> cppcoro::generator<Container &> {
-    const auto n = perm.size();
+    const auto n = int(perm.size());
     co_yield perm;
-    for (size_t i : ecgen::ehr_gen(n)) {
+    for (int i : ecgen::ehr_gen(n)) {
         auto temp = perm[0]; // swap
         perm[0] = perm[i];
         perm[i] = temp;

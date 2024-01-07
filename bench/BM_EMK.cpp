@@ -10,8 +10,8 @@
  * @param[in,out] state
  */
 static void emk_new(benchmark::State &state) {
-    constexpr size_t N = 16;
-    constexpr size_t K = 5;
+    constexpr int N = 16;
+    constexpr int K = 5;
     while (state.KeepRunning()) {
         size_t cnt = 1;
         for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
@@ -32,8 +32,8 @@ BENCHMARK(emk_new);
  * @param[in,out] state
  */
 static void emk_old(benchmark::State &state) {
-    constexpr size_t N = 16;
-    constexpr size_t K = 5;
+    constexpr int N = 16;
+    constexpr int K = 5;
     while (state.KeepRunning()) {
         size_t cnt = 1;
         for ([[maybe_unused]] auto [x, y] : ecgen::emk_gen(N, K)) {

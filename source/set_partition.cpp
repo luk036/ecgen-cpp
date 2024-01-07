@@ -7,9 +7,9 @@
 
 namespace ecgen {
 using namespace cppcoro;
-using ret_t = std::pair<size_t, size_t>;
+using ret_t = std::pair<int, int>;
 
-inline auto Move(size_t x, size_t y) -> recursive_generator<ret_t> {
+inline auto Move(int x, int y) -> recursive_generator<ret_t> {
     co_yield std::make_pair(x, y);
 }
 
@@ -20,14 +20,14 @@ inline auto Move(size_t x, size_t y) -> recursive_generator<ret_t> {
 // 4. last(S(n,k,1)) = 012...(k-1)0^{n-k}
 // Note that first(S'(n,k,p)) = last(S(n,k,p))
 
-static auto gen0_even(size_t n, size_t k) -> recursive_generator<ret_t>;
-static auto neg0_even(size_t n, size_t k) -> recursive_generator<ret_t>;
-static auto gen1_even(size_t n, size_t k) -> recursive_generator<ret_t>;
-static auto neg1_even(size_t n, size_t k) -> recursive_generator<ret_t>;
-static auto gen0_odd(size_t n, size_t k) -> recursive_generator<ret_t>;
-static auto neg0_odd(size_t n, size_t k) -> recursive_generator<ret_t>;
-static auto gen1_odd(size_t n, size_t k) -> recursive_generator<ret_t>;
-static auto neg1_odd(size_t n, size_t k) -> recursive_generator<ret_t>;
+static auto gen0_even(int n, int k) -> recursive_generator<ret_t>;
+static auto neg0_even(int n, int k) -> recursive_generator<ret_t>;
+static auto gen1_even(int n, int k) -> recursive_generator<ret_t>;
+static auto neg1_even(int n, int k) -> recursive_generator<ret_t>;
+static auto gen0_odd(int n, int k) -> recursive_generator<ret_t>;
+static auto neg0_odd(int n, int k) -> recursive_generator<ret_t>;
+static auto gen1_odd(int n, int k) -> recursive_generator<ret_t>;
+static auto neg1_odd(int n, int k) -> recursive_generator<ret_t>;
 
 /**
  * @brief Set the partition gen object
@@ -43,7 +43,7 @@ static auto neg1_odd(size_t n, size_t k) -> recursive_generator<ret_t>;
  * that the set will be
  * @return recursive_generator<ret_t>
  */
-auto set_partition_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
+auto set_partition_gen(int n, int k) -> recursive_generator<ret_t> {
     if (k > 1 && k < n) {
         if (k % 2 == 0) {
             co_yield gen0_even(n, k);
@@ -62,7 +62,7 @@ auto set_partition_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
  * that the set will be
  * @return recursive_generator<ret_t>
  */
-static auto gen0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
+static auto gen0_even(int n, int k) -> recursive_generator<ret_t> {
     if (k > 2) {
         co_yield gen0_odd(n - 1, k - 1); // S(n-1, k-1, 0).(k-1)
     }
@@ -71,7 +71,7 @@ static auto gen0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
         co_yield gen1_even(n - 1, k); // S(n-1, k, 1).(k-1)
         co_yield Move(n, k - 2);
         co_yield neg1_even(n - 1, k); // S'(n-1, k, 1).(k-2)
-        for (size_t i = k - 2; i > 1; i -= 2) {
+        for (int i = k - 2; i > 1; i -= 2) {
             co_yield Move(n, i - 1);
             co_yield gen1_even(n - 1, k); // S(n-1, k, 1).i
             co_yield Move(n, i - 2);
@@ -79,7 +79,7 @@ static auto gen0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
         }
     } else {
         co_yield Move(n, k - 2);
-        for (size_t i = k - 2; i > 1; i -= 2) {
+        for (int i = k - 2; i > 1; i -= 2) {
             co_yield Move(n, i - 1);
             co_yield Move(n, i - 2);
         }
@@ -95,9 +95,9 @@ static auto gen0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
  * that the set will be
  * @return recursive_generator<ret_t>
  */
-static auto neg0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
+static auto neg0_even(int n, int k) -> recursive_generator<ret_t> {
     if (k < n - 1) {
-        for (size_t i = 1; i < k - 2; i += 2) {
+        for (int i = 1; i < k - 2; i += 2) {
             co_yield gen1_even(n - 1, k); // S(n-1, k, 1).(i-1)
             co_yield Move(n, i);
             co_yield neg1_even(n - 1, k); // S'(n-1, k, 1).i
@@ -107,7 +107,7 @@ static auto neg0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
         co_yield Move(n, k - 1);
         co_yield neg1_even(n - 1, k); // S(n-1, k, 1).(k-1)
     } else {
-        for (size_t i = 1; i < k - 2; i += 2) {
+        for (int i = 1; i < k - 2; i += 2) {
             co_yield Move(n, i);
             co_yield Move(n, i + 1);
         }
@@ -128,7 +128,7 @@ static auto neg0_even(size_t n, size_t k) -> recursive_generator<ret_t> {
  * that the set will be
  * @return recursive_generator<ret_t>
  */
-static auto gen1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
+static auto gen1_even(int n, int k) -> recursive_generator<ret_t> {
     if (k > 3) {
         co_yield gen1_odd(n - 1, k - 1);
     }
@@ -137,7 +137,7 @@ static auto gen1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
         co_yield neg1_even(n - 1, k);
         co_yield Move(n, k - 2);
         co_yield gen1_even(n - 1, k);
-        for (size_t i = k - 2; i > 1; i -= 2) {
+        for (int i = k - 2; i > 1; i -= 2) {
             co_yield Move(n, i - 1);
             co_yield neg1_even(n - 1, k);
             co_yield Move(n, i - 2);
@@ -145,7 +145,7 @@ static auto gen1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
         }
     } else {
         co_yield Move(n, k - 2);
-        for (size_t i = k - 2; i > 1; i -= 2) {
+        for (int i = k - 2; i > 1; i -= 2) {
             co_yield Move(n, i - 1);
             co_yield Move(n, i - 2);
         }
@@ -161,9 +161,9 @@ static auto gen1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
  * that the set will be
  * @return recursive_generator<ret_t>
  */
-static auto neg1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
+static auto neg1_even(int n, int k) -> recursive_generator<ret_t> {
     if (k < n - 1) {
-        for (size_t i = 1; i < k - 2; i += 2) {
+        for (int i = 1; i < k - 2; i += 2) {
             co_yield neg1_even(n - 1, k);
             co_yield Move(n, i);
             co_yield gen1_even(n - 1, k);
@@ -173,7 +173,7 @@ static auto neg1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
         co_yield Move(n, k - 1);
         co_yield gen1_even(n - 1, k);
     } else {
-        for (size_t i = 1; i < k - 2; i += 2) {
+        for (int i = 1; i < k - 2; i += 2) {
             co_yield Move(n, i);
             co_yield Move(n, i + 1);
         }
@@ -194,19 +194,19 @@ static auto neg1_even(size_t n, size_t k) -> recursive_generator<ret_t> {
  * that the set will be
  * @return recursive_generator<ret_t>
  */
-static auto gen0_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
+static auto gen0_odd(int n, int k) -> recursive_generator<ret_t> {
     co_yield gen1_even(n - 1, k - 1);
     co_yield Move(k, k - 1);
     if (k < n - 1) {
         co_yield neg1_odd(n - 1, k);
-        for (size_t i = k - 1; i > 1; i -= 2) {
+        for (int i = k - 1; i > 1; i -= 2) {
             co_yield Move(n, i - 1);
             co_yield gen1_odd(n - 1, k);
             co_yield Move(n, i - 2);
             co_yield neg1_odd(n - 1, k);
         }
     } else {
-        for (size_t i = k - 1; i > 1; i -= 2) {
+        for (int i = k - 1; i > 1; i -= 2) {
             co_yield Move(n, i - 1);
             co_yield Move(n, i - 2);
         }
@@ -222,9 +222,9 @@ static auto gen0_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
  * that the set will be
  * @return recursive_generator<ret_t>
  */
-static auto neg0_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
+static auto neg0_odd(int n, int k) -> recursive_generator<ret_t> {
     if (k < n - 1) {
-        for (size_t i = 1; i < k - 1; i += 2) {
+        for (int i = 1; i < k - 1; i += 2) {
             co_yield gen1_odd(n - 1, k);
             co_yield Move(n, i);
             co_yield neg1_odd(n - 1, k);
@@ -232,7 +232,7 @@ static auto neg0_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
         }
         co_yield gen1_odd(n - 1, k);
     } else {
-        for (size_t i = 1; i < k - 1; i += 2) {
+        for (int i = 1; i < k - 1; i += 2) {
             co_yield Move(n, i);
             co_yield Move(n, i + 1);
         }
@@ -250,19 +250,19 @@ static auto neg0_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
  * that the set will be
  * @return recursive_generator<ret_t>
  */
-static auto gen1_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
+static auto gen1_odd(int n, int k) -> recursive_generator<ret_t> {
     co_yield gen0_even(n - 1, k - 1);
     co_yield Move(n - 1, k - 1);
     if (k < n - 1) {
         co_yield gen1_odd(n - 1, k);
-        for (size_t i = k - 1; i > 1; i -= 2) {
+        for (int i = k - 1; i > 1; i -= 2) {
             co_yield Move(n, i - 1);
             co_yield neg1_odd(n - 1, k);
             co_yield Move(n, i - 2);
             co_yield gen1_odd(n - 1, k);
         }
     } else {
-        for (size_t i = k - 1; i > 1; i -= 2) {
+        for (int i = k - 1; i > 1; i -= 2) {
             co_yield Move(n, i - 1);
             co_yield Move(n, i - 2);
         }
@@ -278,9 +278,9 @@ static auto gen1_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
  * that the set will be
  * @return recursive_generator<ret_t>
  */
-static auto neg1_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
+static auto neg1_odd(int n, int k) -> recursive_generator<ret_t> {
     if (k < n - 1) {
-        for (size_t i = 1; i < k - 1; i += 2) {
+        for (int i = 1; i < k - 1; i += 2) {
             co_yield neg1_odd(n - 1, k);
             co_yield Move(n, i);
             co_yield gen1_odd(n - 1, k);
@@ -288,7 +288,7 @@ static auto neg1_odd(size_t n, size_t k) -> recursive_generator<ret_t> {
         }
         co_yield neg1_odd(n - 1, k);
     } else {
-        for (size_t i = 1; i < k - 1; i += 2) {
+        for (int i = 1; i < k - 1; i += 2) {
             co_yield Move(n, i);
             co_yield Move(n, i + 1);
         }

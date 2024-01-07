@@ -23,8 +23,8 @@ TEST_CASE("Generate Gray code by brgc_gen (even)") {
 }
 
 TEST_CASE("Generate all combinations by emk_gen (odd, odd)") {
-    constexpr size_t N = 15;
-    constexpr size_t K = 5;
+    constexpr int N = 15;
+    constexpr int K = 5;
     size_t cnt = 1;
     for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
         ++cnt;
@@ -33,8 +33,8 @@ TEST_CASE("Generate all combinations by emk_gen (odd, odd)") {
 }
 
 TEST_CASE("Generate all combinations by emk_gen (odd, even)") {
-    constexpr size_t N = 15;
-    constexpr size_t K = 6;
+    constexpr int N = 15;
+    constexpr int K = 6;
     size_t cnt = 1;
     for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
         ++cnt;
@@ -43,8 +43,8 @@ TEST_CASE("Generate all combinations by emk_gen (odd, even)") {
 }
 
 TEST_CASE("Generate all combinations by emk_gen (even, odd)") {
-    constexpr size_t N = 16;
-    constexpr size_t K = 5;
+    constexpr int N = 16;
+    constexpr int K = 5;
     size_t cnt = 1;
     for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
         ++cnt;
@@ -53,8 +53,8 @@ TEST_CASE("Generate all combinations by emk_gen (even, odd)") {
 }
 
 TEST_CASE("Generate all combinations by emk_gen (even, even)") {
-    constexpr size_t N = 16;
-    constexpr size_t K = 6;
+    constexpr int N = 16;
+    constexpr int K = 6;
     size_t cnt = 1;
     for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
         ++cnt;
@@ -63,8 +63,8 @@ TEST_CASE("Generate all combinations by emk_gen (even, even)") {
 }
 
 TEST_CASE("Generate all combinations by emk_gen (special, even)") {
-    constexpr size_t N = 6;
-    constexpr size_t K = 6;
+    constexpr int N = 6;
+    constexpr int K = 6;
     size_t cnt = 1;
     for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
         ++cnt;
@@ -73,8 +73,8 @@ TEST_CASE("Generate all combinations by emk_gen (special, even)") {
 }
 
 TEST_CASE("Generate all combinations by emk_gen (special, odd)") {
-    constexpr size_t N = 5;
-    constexpr size_t K = 5;
+    constexpr int N = 5;
+    constexpr int K = 5;
     size_t cnt = 1;
     for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
         ++cnt;
@@ -92,7 +92,7 @@ TEST_CASE("Generate Gray code (odd)") {
 
 TEST_CASE("Generate Gray code (even)") {
     size_t cnt = 0;
-    for ([[maybe_unused]] auto &l : ecgen::brgc<std::vector<size_t>>(6)) {
+    for ([[maybe_unused]] auto &l : ecgen::brgc<std::vector<int>>(6)) {
         ++cnt;
     }
     CHECK_EQ(cnt, 64);
@@ -108,10 +108,10 @@ TEST_CASE("Generate all combinations (odd)") {
 }
 
 TEST_CASE("Generate all combinations (even)") {
-    constexpr size_t N = 6;
-    constexpr size_t K = 3;
+    constexpr int N = 6;
+    constexpr int K = 3;
     size_t cnt = 0;
-    auto lst = std::vector<size_t>(N, 0);
+    auto lst = std::vector<int>(N, 0);
     std::fill_n(lst.begin(), K, 1);
     for ([[maybe_unused]] auto &l : ecgen::emk(N, K, lst)) {
         ++cnt;

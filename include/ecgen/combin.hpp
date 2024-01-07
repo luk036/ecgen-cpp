@@ -7,39 +7,31 @@
 namespace ecgen {
 
 /**
- * @brief emk (GEN)
+ * Generates all combinations of selecting k elements from a set of n elements.
  *
- * @param[in] n
- * @param[in] k
- * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
+ * This is implemented as a recursive generator function that yields index pairs
+ * representing the combinations using the revolving door algorithm.
+ *
+ * @param[in] n - The number of elements in the full set.
+ * @param[in] k - The number of elements to select in each combination.
+ * @returns A recursive generator yielding index pairs for the k-combinations of
+ * n elements.
  */
-extern auto emk_comb_gen(size_t n, size_t k)
-    -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
-
-// /**
-//  * @brief emk (NEG)
-//  *
-//  * @param[in] n
-//  * @param[in] k
-//  * @return cppcoro::recursive_generator<std::pair<size_t, size_t>>
-//  */
-// extern auto emk_neg(size_t n, size_t k)
-//     -> cppcoro::recursive_generator<std::pair<size_t, size_t>>;
-//
+extern auto emk_comb_gen(int n, int k)
+    -> cppcoro::recursive_generator<std::pair<int, int>>;
 
 /**
- * @brief Generate all combinations in reverse order by homogeneous
- * revolving-door
+ * Generates all k-combinations of a set of n elements in reverse lexicographic
+ * order using the revolving door algorithm.
  *
- * @param[in] n
- * @param[in] k
- * @return recursive_generator<std::vector<size_t>>
+ * @param[in] n - The number of elements in the set.
+ * @param[in] k - The size of the combinations to generate.
+ * @param[in] lst - The container holding the set elements.
+ * @returns A generator that yields each k-combination of lst in reverse
+ * lexicographic order.
  */
 template <typename Container>
-auto emk(size_t n, size_t k, Container &lst)
-    -> cppcoro::generator<Container &> {
-    // auto lst = Container(n, 0);
-    // std::fill_n(lst.begin(), k, 1);
+auto emk(int n, int k, Container &lst) -> cppcoro::generator<Container &> {
     co_yield lst;
     for (auto [x, y] : emk_comb_gen(n, k)) {
         auto temp = lst[x]; // swap
@@ -50,17 +42,16 @@ auto emk(size_t n, size_t k, Container &lst)
 }
 
 /**
- * @brief The number of combinations
+ * Calculates the number of combinations of selecting K elements from a set of N
+ * elements.
  *
- * The `Combination()` function is a template function that calculates the
- * number of combinations of `K` elements from a set of `N` elements at
- * compile-time.
+ * This is a constexpr function that computes the result at compile-time.
  *
- * @tparam N
- * @tparam K
- * @return constexpr auto
+ * @tparam N - The size of the set
+ * @tparam K - The number of elements to select
+ * @return The number of combinations, computed at compile-time.
  */
-template <size_t N, size_t K> constexpr auto Combination() {
+template <int N, int K> constexpr auto Combination() {
     if constexpr (K >= N || K == 0) {
         return std::integral_constant<size_t, 1U>{};
     } else {

@@ -21,7 +21,7 @@
 #define MAX 20
 #define MAX_N 70
 
-#define MIN(a, b) ((a) <= (b))? (a) : (b)
+#define MIN(a, b) ((a) <= (b)) ? (a) : (b)
 
 //-------------------------------------------------------------
 // GLOBAL VARIABLES
@@ -91,16 +91,16 @@ void GenD(int t, int p, int tt, SparseSet *diffset) {
 
     for (int i = 0; i < t; i++) {
         int diff = a[t] - a[i];
-	int element = MIN(diff, N - diff);
-    	int loc = differences.inverse[element];
-    	if (loc < differences.size)
-    	    continue;
-    	int elem = differences.domain[differences.size];
-    	differences.domain[loc] = elem;
-    	differences.domain[differences.size] = element;
-    	differences.inverse[element] = differences.size;
-    	differences.inverse[elem] = loc;
-    	differences.size++;
+        int element = MIN(diff, N - diff);
+        int loc = differences.inverse[element];
+        if (loc < differences.size)
+            continue;
+        int elem = differences.domain[differences.size];
+        differences.domain[loc] = elem;
+        differences.domain[differences.size] = element;
+        differences.inverse[element] = differences.size;
+        differences.inverse[elem] = loc;
+        differences.size++;
         // add(&differences, MIN(diff, N - diff));
     }
 
@@ -151,7 +151,7 @@ void Init() {
     N_MINUS_D = N - D;
     N2 = N / 2;
     N1 = N2 - D_TIMES_D_MINUS_1 / 2;
-    SIZE_N = (N2 + 1)  * sizeof(uint8_t);
+    SIZE_N = (N2 + 1) * sizeof(uint8_t);
 
     SparseSet differences;
     init(&differences, 0);

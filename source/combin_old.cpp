@@ -3,7 +3,7 @@
 
 namespace ecgen {
 using namespace cppcoro;
-using ret_t = std::pair<size_t, size_t>;
+using ret_t = std::pair<int, int>;
 
 /**
  * @brief Generate all combinations by homogeneous revolving-door
@@ -13,18 +13,19 @@ using ret_t = std::pair<size_t, size_t>;
  * where `n` is the total number of elements and `k` is the size of each
  * combination.
  *
- * @param[in] n The parameter `n` represents the total number of elements, and `k` represents the size of
- * each combination.
- * @param[in] k The parameter `k` represents the size of each combination. It determines how many elements
- * are selected from the total number of elements `n` to form a combination.
+ * @param[in] n The parameter `n` represents the total number of elements, and
+ * `k` represents the size of each combination.
+ * @param[in] k The parameter `k` represents the size of each combination. It
+ * determines how many elements are selected from the total number of elements
+ * `n` to form a combination.
  * @return recursive_generator<ret_t>
  */
-auto emk_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
+auto emk_gen(int n, int k) -> recursive_generator<ret_t> {
     if (n <= k || k == 0) {
         co_return;
     }
     if (k == 1) {
-        for (size_t i = 0; i != n - 1; ++i) {
+        for (int i = 0; i != n - 1; ++i) {
             co_yield std::make_pair(i, i + 1);
         }
     } else {
@@ -40,18 +41,19 @@ auto emk_gen(size_t n, size_t k) -> recursive_generator<ret_t> {
  * @brief Generate all combinations in reverse order by homogeneous
  * revolving-door
  *
- * @param[in] n The parameter `n` represents the total number of elements, and `k` represents the size of
- * each combination.
- * @param[in] k The parameter `k` represents the size of each combination. It determines how many elements
- * are selected from the total number of elements `n` to form a combination.
+ * @param[in] n The parameter `n` represents the total number of elements, and
+ * `k` represents the size of each combination.
+ * @param[in] k The parameter `k` represents the size of each combination. It
+ * determines how many elements are selected from the total number of elements
+ * `n` to form a combination.
  * @return recursive_generator<ret_t>
  */
-auto emk_neg(size_t n, size_t k) -> recursive_generator<ret_t> {
+auto emk_neg(int n, int k) -> recursive_generator<ret_t> {
     if (n <= k || k == 0) {
         co_return;
     }
     if (k == 1) {
-        for (size_t i = n - 1; i != 0; --i) {
+        for (int i = n - 1; i != 0; --i) {
             co_yield std::make_pair(i, i - 1);
         }
     } else {

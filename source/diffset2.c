@@ -21,7 +21,7 @@
 #define MAX 20
 #define MAX_N 70
 
-#define MIN(a, b) ((a) <= (b))? (a) : (b)
+#define MIN(a, b) ((a) <= (b)) ? (a) : (b)
 
 //-------------------------------------------------------------
 // GLOBAL VARIABLES
@@ -37,6 +37,9 @@ int N2;
 size_t SIZE_N;
 
 //-------------------------------------------------------------
+/**
+ * Prints the generated set to stdout and exits.
+ */
 void PrintD() {
     // print a
     for (int i = 1; i <= D; i++) {
@@ -49,6 +52,15 @@ void PrintD() {
 /*-----------------------------------------------------------*/
 // FIXED DENSITY
 /*-----------------------------------------------------------*/
+/**
+ * Recursively generates all possible D-sets by building them up one
+ * element at a time.
+ *
+ * t - Current element index being added
+ * p - Previous element index
+ * tt - Triangle number of current index t
+ * diffset[] - Bit array tracking differences between elements
+ */
 void GenD(int t, int p, int tt, int8_t diffset[]) {
     int8_t differences[MAX_N];
     memcpy(differences, diffset, SIZE_N);
@@ -97,6 +109,13 @@ void GenD(int t, int p, int tt, int8_t diffset[]) {
 
 /*------------------------------------------------------------*/
 /*------------------------------------------------------------*/
+/**
+ * Initializes global variables and arrays used for generating necklaces.
+ * Sets up the 'a' and 'b' arrays to track candidate necklaces,
+ * the 'differences' array to track differences between necklace elements,
+ * and key constants used in the generation algorithms.
+ * Calls GenD() recursively to generate all possible necklaces.
+ */
 void Init() {
     int j;
 
@@ -110,7 +129,7 @@ void Init() {
     N_MINUS_D = N - D;
     N2 = N / 2;
     N1 = N2 - D_TIMES_D_MINUS_1 / 2;
-    SIZE_N = (N2 + 1)  * sizeof(int8_t);
+    SIZE_N = (N2 + 1) * sizeof(int8_t);
 
     // for (i = 0; i <= N; i++) {
     //     matrix[i][i] = 0;

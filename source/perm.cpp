@@ -8,14 +8,14 @@ namespace ecgen {
  *
  * The `sjt_gen` function is generating all permutations of size `n` using the
  * Steinhaus-Johnson-Trotter algorithm. It returns a
- * `cppcoro::generator<size_t>`, which is a coroutine-based generator that
- * yields values of type `size_t`.
+ * `cppcoro::generator<int>`, which is a coroutine-based generator that
+ * yields values of type `int`.
  *
- * @param[in] n The parameter `n` represents the size of the permutations to be generated. It determines
- * the number of elements in each permutation.
- * @return cppcoro::generator<size_t>
+ * @param[in] n The parameter `n` represents the size of the permutations to be
+ * generated. It determines the number of elements in each permutation.
+ * @return cppcoro::generator<int>
  */
-auto sjt_gen(size_t n) -> cppcoro::generator<size_t> {
+auto sjt_gen(int n) -> cppcoro::generator<int> {
     /** Generate the swaps for the Steinhaus-Johnson-Trotter algorithm.*/
     if (n == 2) {
         co_yield 0;
@@ -25,11 +25,11 @@ auto sjt_gen(size_t n) -> cppcoro::generator<size_t> {
 
     auto &&gen = sjt_gen(n - 1);
     for (auto it = gen.begin(); it != gen.end(); ++it) {
-        for (size_t i = n - 1; i != 0; --i) { // downward
+        for (int i = n - 1; i != 0; --i) { // downward
             co_yield i - 1;
         }
         co_yield 1 + *it;
-        for (size_t i = 0; i != n - 1; ++i) { // upward
+        for (int i = 0; i != n - 1; ++i) { // upward
             co_yield i;
         }
         co_yield *(++it); // tricky part
@@ -40,20 +40,20 @@ auto sjt_gen(size_t n) -> cppcoro::generator<size_t> {
  * @brief Generate all permutations by star transposition
  *
  * The `ehr_gen` function is generating all permutations of size `n` using the
- * ehrlich-Straus algorithm. It returns a `cppcoro::generator<size_t>`, which is
- * a coroutine-based generator that yields values of type `size_t`.
+ * ehrlich-Straus algorithm. It returns a `cppcoro::generator<int>`, which is
+ * a coroutine-based generator that yields values of type `int`.
  *
- * @param[in] n The parameter `n` represents the size of the permutations to be generated. It determines
- * the number of elements in each permutation.
- * @return cppcoro::generator<size_t>
+ * @param[in] n The parameter `n` represents the size of the permutations to be
+ * generated. It determines the number of elements in each permutation.
+ * @return cppcoro::generator<int>
  */
-auto ehr_gen(size_t n) -> cppcoro::generator<size_t> {
-    auto c = std::vector<size_t>(n + 1, 0); // c[0] is never used
-    auto b = std::vector<size_t>(n, 0);
+auto ehr_gen(int n) -> cppcoro::generator<int> {
+    auto c = std::vector<int>(n + 1, 0); // c[0] is never used
+    auto b = std::vector<int>(n, 0);
     std::iota(b.begin(), b.end(), 0U); // 0, 1, ... n-1
 
     while (true) {
-        size_t k = 1;
+        int k = 1;
         do {
             if (c[k] == k) {
                 c[k] = 0;
@@ -65,7 +65,7 @@ auto ehr_gen(size_t n) -> cppcoro::generator<size_t> {
         }
         c[k] += 1;
         co_yield b[k];
-        for (size_t i = 1, j = k - 1; i < j; ++i, --j) {
+        for (int i = 1, j = k - 1; i < j; ++i, --j) {
             std::swap(b[i], b[j]);
         }
     }

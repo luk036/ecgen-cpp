@@ -1,40 +1,22 @@
-0 0 0 0 1 1 1 1 1 1 1 1 
-0 0 0 1 0 1 1 1 1 1 1 1 
-0 0 0 1 1 0 1 1 1 1 1 1 
-0 0 0 1 1 1 0 1 1 1 1 1 
-0 0 0 1 1 1 1 0 1 1 1 1 
-0 0 0 1 1 1 1 1 0 1 1 1 
-0 0 0 1 1 1 1 1 1 0 1 1 
-0 0 0 1 1 1 1 1 1 1 0 1 
-0 0 1 0 0 1 1 1 1 1 1 1 
-0 0 1 0 1 0 1 1 1 1 1 1 
-0 0 1 0 1 1 0 1 1 1 1 1 
-0 0 1 0 1 1 1 0 1 1 1 1 
-0 0 1 0 1 1 1 1 0 1 1 1 
-0 0 1 0 1 1 1 1 1 0 1 1 
-0 0 1 0 1 1 1 1 1 1 0 1 
-0 0 1 1 0 0 1 1 1 1 1 1 
-0 0 1 1 0 1 0 1 1 1 1 1 
-0 0 1 1 0 1 1 0 1 1 1 1 
-0 0 1 1 0 1 1 1 0 1 1 1 
-0 0 1 1 0 1 1 1 1 0 1 1 
-0 0 1 1 0 1 1 1 1 1 0 1 
-0 0 1 1 1 0 0 1 1 1 1 1 
-0 0 1 1 1 0 1 0 1 1 1 1 
-0 0 1 1 1 0 1 1 0 1 1 1 
-0 0 1 1 1 0 1 1 1 0 1 1 
-0 0 1 1 1 0 1 1 1 1 0 1 
-0 0 1 1 1 1 0 1 0 1 1 1 
-0 0 1 1 1 1 0 1 1 0 1 1 
-0 0 1 1 1 1 0 1 1 1 0 1 
-0 0 1 1 1 1 1 0 1 0 1 1 
-0 0 1 1 1 1 1 0 1 1 0 1 
-0 0 1 1 1 1 1 1 0 1 0 1 
-0 1 0 1 0 1 0 1 1 1 1 1 
-0 1 0 1 0 1 1 0 1 1 1 1 
-0 1 0 1 0 1 1 1 0 1 1 1 
-0 1 0 1 0 1 1 1 1 0 1 1 
-0 1 0 1 1 0 1 0 1 1 1 1 
-0 1 0 1 1 0 1 1 0 1 1 1 
-0 1 0 1 1 0 1 1 1 0 1 1 
-0 1 0 1 1 1 0 1 1 0 1 1 
+The selected code implements an algorithm to generate all unique necklaces of length N with density D.
+
+It takes as input the values for N, D and THRESHOLD. N is the length of the necklaces to generate. D is the density, which represents how many beads there are of each color in the necklace. THRESHOLD is a parameter that controls early stopping of recursive exploration.
+
+The main output is printing all unique necklaces that match the input criteria. A necklace is represented by the array a[], which contains the positions of each bead.
+
+The algorithm uses recursion and backtracking to systematically try all possible combinations. It starts with an empty necklace, and recursively adds new beads to build up a candidate necklace. As it builds each one, it checks if the density criteria is satisfied using the diffset array. If at any point the partial necklace violates the criteria, it backtracks and tries a different bead position instead.
+
+Some key functions it uses are:
+
+GenD() - The main recursive function that builds and checks each necklace
+Init() - Initializes the global data structures and kicks off the first call to GenD()
+PrintD() - Prints out a completed necklace when found
+The core logic flows are:
+
+Initialize global vars and starting state
+Call GenD recursively to build necklaces
+GenD tries a new bead position and checks density
+If valid so far, recursively call GenD to extend the necklace
+If not valid, backtrack and try a new position
+When GenD completes a full necklace, PrintD() is called to output it
+So in summary, it systematically searches for and prints all necklaces matching the input criteria through recursive generation and validity checking. The diffset array tracks the density constraint as each necklace is built up.
