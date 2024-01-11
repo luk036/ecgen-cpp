@@ -17,6 +17,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 
 const auto MAX = 20;
 const auto MAX_N = 70;
@@ -37,17 +38,11 @@ struct DiffCover {
     int n2;
     size_t size_n;
 
-    DiffCover(int n, int d, int threshold):
-        n { n },
-        d { d },
-        threshold { threshold },
-        d_minus_1 { d - 1 },
-        d_times_d_minus_1 { d * (d - 1) },
-        n_minus_d { n - d },
-        n1 { n / 2 - d * (d - 1) / 2 },
-        n2 { n / 2 },
-        size_n { (n / 2 + 1) * sizeof(int8_t) }
-    {
+    DiffCover(int n, int d, int threshold)
+        : n{n}, d{d}, threshold{threshold}, d_minus_1{d - 1},
+          d_times_d_minus_1{d * (d - 1)}, n_minus_d{n - d},
+          n1{n / 2 - d * (d - 1) / 2}, n2{n / 2},
+          size_n{(n / 2 + 1) * sizeof(int8_t)} {
         for (auto j = 0; j <= d; j++)
             a[j] = 0;
 
@@ -142,15 +137,14 @@ struct DiffCover {
         memset(differences, 0, this->size_n);
         differences[0] = 1;
 
-        for (auto j = this->n_minus_d + 1;
-             j >= (this->n - 1) / this->d + 1; j--) {
+        for (auto j = this->n_minus_d + 1; j >= (this->n - 1) / this->d + 1;
+             j--) {
             this->a[1] = j;
             this->b[1] = 1;
             this->GenD(1, 1, 1, differences);
         }
         printf("No solution is found.\n");
     }
-
 };
 //------------------------------------------------------
 void usage() { printf("Usage: necklace [n] [density] [threshold]\n"); }
