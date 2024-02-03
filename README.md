@@ -10,7 +10,7 @@
 
 # 🔢 ecgen-cpp
 
-🔢 Enumerate combinatoric generator for modern C++.
+> Enumerate combinatoric generator for modern C++.
 
 ## ✨ Features
 
