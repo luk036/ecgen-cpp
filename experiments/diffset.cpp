@@ -41,9 +41,9 @@ struct DiffCover {
 
     DiffCover(int n, int d, int threshold)
         : n{n}, d{d}, threshold{threshold}, d_minus_1{d - 1},
-          d_times_d_minus_1{d * (d - 1)}, n_minus_d{n - d}, n1{n / 2 -
-                                                               d * (d - 1) / 2},
-          n2{n / 2}, begin_a{&a[0]}, size_n{(n / 2 + 1) * sizeof(int8_t)} {
+          d_times_d_minus_1{d * (d - 1)}, n_minus_d{n - d},
+          n1{n / 2 - d * (d - 1) / 2}, n2{n / 2}, begin_a{&a[0]},
+          size_n{(n / 2 + 1) * sizeof(int8_t)} {
         for (auto j = 0; j <= d; j++)
             a[j] = 0;
 
@@ -136,13 +136,16 @@ struct DiffCover {
         int8_t differences[MAX_N];
         memset(differences, 0, this->size_n);
         differences[0] = 1;
-
-        for (auto j = this->n_minus_d + 1; j >= (this->n - 1) / this->d + 1;
-             j--) {
+        auto end = (this->n - 1) / this->d + 1;
+        printf("Processing:\n");
+        for (auto j = this->n_minus_d + 1; j >= end; j--) {
+            printf("%3d\r", j - end);
+            fflush(stdout);
             this->a[1] = j;
             this->b[1] = 1;
             this->GenD(1, 1, 1, differences);
         }
+        printf("\n");
         printf("No solution is found.\n");
     }
 };
