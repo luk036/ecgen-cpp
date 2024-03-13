@@ -14,10 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "ThreadPool.h"
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <future> // for future
+#include <vector>
 
 const auto MAX = 20;
 const auto MAX_N = 70;
@@ -36,13 +39,13 @@ struct DiffCover {
     int n_minus_d;
     int n1;
     int n2;
-    const int *begin_a;
+    // const int *begin_a;
     size_t size_n;
 
     DiffCover(int n, int d, int threshold)
         : n{n}, d{d}, threshold{threshold}, d_minus_1{d - 1},
           d_times_d_minus_1{d * (d - 1)}, n_minus_d{n - d},
-          n1{n / 2 - d * (d - 1) / 2}, n2{n / 2}, begin_a{&a[0]},
+          n1{n / 2 - d * (d - 1) / 2}, n2{n / 2}, // begin_a{&a[0]},
           size_n{(n / 2 + 1) * sizeof(int8_t)} {
         for (auto j = 0; j <= d; j++)
             a[j] = 0;
@@ -57,11 +60,13 @@ struct DiffCover {
      */
     void PrintD() const {
         // print a
+        printf("\n");
         for (auto i = 1; i <= this->d; i++) {
             printf("%d ", this->a[i]);
         }
         printf("\n");
-        exit(0);
+        fflush(stdout);
+        return;
     }
 
     /*-----------------------------------------------------------*/
@@ -81,7 +86,7 @@ struct DiffCover {
         memcpy(differences, diffset, this->size_n);
 
         const auto at = this->a[t];
-        for (auto p = this->begin_a; p != this->begin_a + t; ++p) {
+        for (auto p = &this->a[0]; p != &this->a[0] + t; ++p) {
             const auto diff = at - *p;
             const auto n_diff = this->n - diff;
             differences[diff <= n_diff ? diff : n_diff] = 1;
@@ -122,39 +127,12 @@ struct DiffCover {
             }
         }
     }
-
-    /*------------------------------------------------------------*/
-    /*------------------------------------------------------------*/
-    /**
-     * Initializes global variables and arrays used for generating necklaces.
-     * Sets up the 'a' and 'b' arrays to track candidate necklaces,
-     * the 'differences' array to track differences between necklace elements,
-     * and key constants used in the generation algorithms.
-     * Calls GenD() recursively to generate all possible necklaces.
-     */
-    void run() {
-        int8_t differences[MAX_N];
-        memset(differences, 0, this->size_n);
-        differences[0] = 1;
-        auto end = (this->n - 1) / this->d + 1;
-        printf("Processing:\n");
-        printf("%3d\n", end);
-        fflush(stdout);
-        // for (auto j = this->n_minus_d + 1; j >= end; j--) {
-        for (auto j = 31; j >= end; j--) {
-            printf("%3d\r", j - end);
-            fflush(stdout);
-            this->a[1] = j;
-            this->b[1] = 1;
-            this->GenD(1, 1, 1, differences);
-        }
-        printf("\n");
-        printf("No solution is found.\n");
-    }
 };
+
 //------------------------------------------------------
 void usage() { printf("Usage: necklace [n] [density] [threshold]\n"); }
 //--------------------------------------------------------------------------------
+
 int main(int argc, char **argv) {
     if (argc < 4) {
         usage();
@@ -171,7 +149,33 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    DiffCover diff_cover(n, d, threshold);
-    diff_cover.run();
+    // DiffCover diff_cover(n, d, threshold);
+    // printf("%3d\n", end);
+    // diff_cover.run();
+
+    auto num_workers = std::thread::hardware_concurrency() / 2;
+    ThreadPool pool(num_workers);
+    printf("Number of workers: %d\n", num_workers);
+    std::vector<std::future<void>> results;
+    auto end = (n - 1) / d + 1;
+
+    for (auto j = n - d + 1; j >= end; j--) {
+        results.emplace_back(pool.enqueue([&n, &d, &threshold, j]() {
+            DiffCover dc(n, d, threshold);
+            dc.a[1] = j;
+            dc.b[1] = 1;
+            int8_t differences[MAX_N];
+            memset(differences, 0, dc.size_n);
+            differences[0] = 1;
+            dc.GenD(1, 1, 1, differences);
+        }));
+    }
+    auto countdown = n - d + 1 - end;
+    for (auto &&result : results) {
+        printf("%3d\r", countdown--);
+        fflush(stdout);
+        result.get();
+    }
+    printf("\n");
     return 0;
 }
