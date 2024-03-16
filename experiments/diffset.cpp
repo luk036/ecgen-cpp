@@ -140,8 +140,7 @@ struct DiffCover {
         printf("Processing:\n");
         printf("%3d\n", end);
         fflush(stdout);
-        // for (auto j = this->n_minus_d + 1; j >= end; j--) {
-        for (auto j = 31; j >= end; j--) {
+        for (auto j = this->n_minus_d + 1; j >= end; j--) {
             printf("%3d\r", j - end);
             fflush(stdout);
             this->a[1] = j;
