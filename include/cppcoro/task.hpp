@@ -323,7 +323,7 @@ template <typename T = void> class [[nodiscard]] task {
         return !m_coroutine || m_coroutine.done();
     }
 
-    auto operator co_await() const &noexcept {
+    auto operator co_await() const & noexcept {
         struct awaitable : awaitable_base {
             using awaitable_base::awaitable_base;
 
@@ -339,7 +339,7 @@ template <typename T = void> class [[nodiscard]] task {
         return awaitable{m_coroutine};
     }
 
-    auto operator co_await() const &&noexcept {
+    auto operator co_await() const && noexcept {
         struct awaitable : awaitable_base {
             using awaitable_base::awaitable_base;
 
