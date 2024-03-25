@@ -157,9 +157,11 @@ int main(int argc, char **argv) {
     ThreadPool pool(num_workers);
     printf("Number of workers: %d\n", num_workers);
     std::vector<std::future<void>> results;
+    auto start = (n + 1) / 2;
     auto end = (n - 1) / d + 1;
 
-    for (auto j = n - d + 1; j >= end; j--) {
+    // for (auto j = n - d + 1; j >= end; j--) {
+    for (auto j = start; j >= end; j--) {
         results.emplace_back(pool.enqueue([&n, &d, &threshold, j]() {
             DiffCover dc(n, d, threshold);
             dc.a[1] = j;
@@ -170,7 +172,7 @@ int main(int argc, char **argv) {
             dc.GenD(1, 1, 1, differences);
         }));
     }
-    auto countdown = n - d + 1 - end;
+    auto countdown = start - end;
     for (auto &&result : results) {
         printf("%3d\r", countdown--);
         fflush(stdout);
