@@ -40,6 +40,7 @@ execute_process(
   COMMAND ${TEST_EXECUTOR} "${TEST_EXECUTABLE}" ${spec} --list-test-cases
   OUTPUT_VARIABLE output
   RESULT_VARIABLE result
+  WORKING_DIRECTORY "${TEST_WORKING_DIR}"
 )
 if(NOT ${result} EQUAL 0)
   message(FATAL_ERROR "Error running test executable '${TEST_EXECUTABLE}':\n"
@@ -59,12 +60,13 @@ foreach(line ${output})
   endif()
   set(test ${line})
   set(labels "")
-  if(${add_labels} EQUAL 1)
+  if(${add_labels})
     # get test suite that test belongs to
     execute_process(
       COMMAND ${TEST_EXECUTOR} "${TEST_EXECUTABLE}" --test-case=${test} --list-test-suites
       OUTPUT_VARIABLE labeloutput
       RESULT_VARIABLE labelresult
+      WORKING_DIRECTORY "${TEST_WORKING_DIR}"
     )
     if(NOT ${labelresult} EQUAL 0)
       message(FATAL_ERROR "Error running test executable '${TEST_EXECUTABLE}':\n"
@@ -111,9 +113,9 @@ foreach(line ${output})
     PROPERTIES
     WORKING_DIRECTORY
     "${TEST_WORKING_DIR}"
+    ${properties}
     LABELS
     ${labels}
-    ${properties}
   )
   unset(labels)
   list(APPEND tests "${prefix}${test}${suffix}")
