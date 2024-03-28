@@ -21,7 +21,7 @@ template <typename FUNC, typename AWAITABLE> class fmap_awaiter {
 
   public:
     fmap_awaiter(FUNC &&func, AWAITABLE &&awaitable) noexcept(
-        std::is_nothrow_move_constructible_v<awaiter_t> && noexcept(
+        std::is_nothrow_move_constructible_v<awaiter_t> &&noexcept(
             detail::get_awaiter(static_cast<AWAITABLE &&>(awaitable))))
         : m_func(static_cast<FUNC &&>(func)),
           m_awaiter(detail::get_awaiter(static_cast<AWAITABLE &&>(awaitable))) {
@@ -72,11 +72,11 @@ template <typename FUNC, typename AWAITABLE> class fmap_awaitable {
                   int> = 0>
     explicit fmap_awaitable(
         FUNC_ARG &&func,
-        AWAITABLE_ARG &&
-            awaitable) noexcept(std::is_nothrow_constructible_v<FUNC,
-                                                                FUNC_ARG &&> &&
-                                std::is_nothrow_constructible_v<
-                                    AWAITABLE, AWAITABLE_ARG &&>)
+        AWAITABLE_ARG
+            &&awaitable) noexcept(std::is_nothrow_constructible_v<FUNC,
+                                                                  FUNC_ARG &&>
+                                      &&std::is_nothrow_constructible_v<
+                                          AWAITABLE, AWAITABLE_ARG &&>)
         : m_func(static_cast<FUNC_ARG &&>(func)),
           m_awaitable(static_cast<AWAITABLE_ARG &&>(awaitable)) {}
 
