@@ -323,7 +323,7 @@ template <typename T = void> class [[nodiscard]] task {
         return !m_coroutine || m_coroutine.done();
     }
 
-    auto operator co_await() const & noexcept {
+    auto operator co_await() const &noexcept {
         struct awaitable : awaitable_base {
             using awaitable_base::awaitable_base;
 
@@ -339,7 +339,7 @@ template <typename T = void> class [[nodiscard]] task {
         return awaitable{m_coroutine};
     }
 
-    auto operator co_await() const && noexcept {
+    auto operator co_await() const &&noexcept {
         struct awaitable : awaitable_base {
             using awaitable_base::awaitable_base;
 
@@ -391,9 +391,8 @@ task<T &> task_promise<T &>::get_return_object() noexcept {
 } // namespace detail
 
 template <typename AWAITABLE>
-auto make_task(AWAITABLE awaitable)
-    -> task<detail::remove_rvalue_reference_t<
-        typename awaitable_traits<AWAITABLE>::await_result_t>> {
+auto make_task(AWAITABLE awaitable) -> task<detail::remove_rvalue_reference_t<
+    typename awaitable_traits<AWAITABLE>::await_result_t>> {
     co_return co_await static_cast<AWAITABLE &&>(awaitable);
 }
 } // namespace cppcoro

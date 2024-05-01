@@ -9,9 +9,7 @@
 
 namespace cppcoro {
 namespace detail {
-template <typename T> struct unwrap_reference {
-    using type = T;
-};
+template <typename T> struct unwrap_reference { using type = T; };
 
 template <typename T> struct unwrap_reference<std::reference_wrapper<T>> {
     using type = T;

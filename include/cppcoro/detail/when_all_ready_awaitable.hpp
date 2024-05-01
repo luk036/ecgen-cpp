@@ -38,7 +38,7 @@ class when_all_ready_awaitable<std::tuple<TASKS...>> {
     when_all_ready_awaitable(when_all_ready_awaitable &&other) noexcept
         : m_counter(sizeof...(TASKS)), m_tasks(std::move(other.m_tasks)) {}
 
-    auto operator co_await() & noexcept {
+    auto operator co_await() &noexcept {
         struct awaiter {
             awaiter(when_all_ready_awaitable &awaitable) noexcept
                 : m_awaitable(awaitable) {}
@@ -61,7 +61,7 @@ class when_all_ready_awaitable<std::tuple<TASKS...>> {
         return awaiter{*this};
     }
 
-    auto operator co_await() && noexcept {
+    auto operator co_await() &&noexcept {
         struct awaiter {
             awaiter(when_all_ready_awaitable &awaitable) noexcept
                 : m_awaitable(awaitable) {}
@@ -117,7 +117,7 @@ template <typename TASK_CONTAINER> class when_all_ready_awaitable {
     when_all_ready_awaitable &
     operator=(const when_all_ready_awaitable &) = delete;
 
-    auto operator co_await() & noexcept {
+    auto operator co_await() &noexcept {
         class awaiter {
           public:
             awaiter(when_all_ready_awaitable &awaitable)
@@ -141,7 +141,7 @@ template <typename TASK_CONTAINER> class when_all_ready_awaitable {
         return awaiter{*this};
     }
 
-    auto operator co_await() && noexcept {
+    auto operator co_await() &&noexcept {
         class awaiter {
           public:
             awaiter(when_all_ready_awaitable &awaitable)
