@@ -6,7 +6,7 @@ CPMAddPackage(
 )
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   # using GCC
-  # add_compile_options(-fcoroutines)
+  add_compile_options(-fcoroutines)
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   # using clang
   add_compile_options(-stdlib=libc++)
