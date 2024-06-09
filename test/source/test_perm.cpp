@@ -21,7 +21,7 @@ TEST_CASE("Generate all permutations by sjt_gen (even)") {
 }
 
 TEST_CASE("Generate all permutations by ehr algorithm (odd)") {
-    size_t cnt = 1;
+    size_t cnt = 0;
     for ([[maybe_unused]] auto i : ecgen::ehr_gen(5)) {
         ++cnt;
     }
@@ -29,7 +29,7 @@ TEST_CASE("Generate all permutations by ehr algorithm (odd)") {
 }
 
 TEST_CASE("Generate all permutations by ehr algorithm (even)") {
-    size_t cnt = 1;
+    size_t cnt = 0;
     for ([[maybe_unused]] auto i : ecgen::ehr_gen(6)) {
         ++cnt;
     }
@@ -54,20 +54,20 @@ TEST_CASE("Generate all permutations by sjt (even)") {
     CHECK_EQ(cnt, ecgen::Factorial<6>());
 }
 
-TEST_CASE("Generate all permutations by ehr (odd)") {
-    auto cnt = 0; // start from 0
-    auto L = std::vector{1, 3, 5, 7, 9};
-    for ([[maybe_unused]] auto &l : ecgen::ehr(L)) {
-        ++cnt;
-    }
-    CHECK_EQ(cnt, ecgen::Factorial<5>());
-}
-
-TEST_CASE("Generate all permutations by ehr (even)") {
-    auto cnt = 0; // start from 0
-    auto S = std::string("ABCDEF");
-    for ([[maybe_unused]] auto &s : ecgen::ehr(S)) {
-        ++cnt;
-    }
-    CHECK_EQ(cnt, ecgen::Factorial<6>());
-}
+// TEST_CASE("Generate all permutations by ehr (odd)") {
+//     auto cnt = 0; // start from 0
+//     auto L = std::vector{1, 3, 5, 7, 9};
+//     for ([[maybe_unused]] auto &l : ecgen::ehr(L)) {
+//         ++cnt;
+//     }
+//     CHECK_EQ(cnt, ecgen::Factorial<5>());
+// }
+//
+// TEST_CASE("Generate all permutations by ehr (even)") {
+//     auto cnt = 0; // start from 0
+//     auto S = std::string("ABCDEF");
+//     for ([[maybe_unused]] auto &s : ecgen::ehr(S)) {
+//         ++cnt;
+//     }
+//     CHECK_EQ(cnt, ecgen::Factorial<6>());
+// }

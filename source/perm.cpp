@@ -61,6 +61,7 @@ auto ehr_gen(int n) -> cppcoro::generator<int> {
             }
         } while (c[k] >= k);
         if (k == n) {
+            co_yield b[n - 1];
             break;
         }
         c[k] += 1;

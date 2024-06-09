@@ -58,24 +58,4 @@ inline auto sjt(Container &perm) -> cppcoro::generator<Container &> {
     }
 }
 
-/**
- * Generates a permutation by applying star transpositions to the input
- * permutation container. This uses the Eades-Hickey-Read (EHR) algorithm.
- *
- * @tparam Container - The type of the permutation container.
- * @param[in] perm - The permutation container to generate permutations for.
- * @return A cppcoro::generator that yields references to the permutation
- * container after each transposition.
- */
-template <typename Container>
-inline auto ehr(Container &perm) -> cppcoro::generator<Container &> {
-    const auto n = int(perm.size());
-    co_yield perm;
-    for (int i : ecgen::ehr_gen(n)) {
-        auto temp = perm[0]; // swap
-        perm[0] = perm[i];
-        perm[i] = temp;
-        co_yield perm;
-    }
-}
 } // namespace ecgen
