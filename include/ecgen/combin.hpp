@@ -17,8 +17,8 @@ namespace ecgen {
  * @returns A recursive generator yielding index pairs for the k-combinations of
  * n elements.
  */
-extern auto
-emk_comb_gen(int n, int k) -> cppcoro::recursive_generator<std::pair<int, int>>;
+extern auto emk_comb_gen(int n, int k)
+    -> cppcoro::recursive_generator<std::pair<int, int>>;
 
 /**
  * Generates all k-combinations of a set of n elements in reverse lexicographic
