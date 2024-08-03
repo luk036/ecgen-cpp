@@ -34,7 +34,7 @@ target("test_emk")
     set_kind("binary")
     add_deps("Ecgen")
     add_includedirs("include", {public = true})
-    add_files("bench/BM_emk.cpp")
+    add_files("bench/BM_EMK.cpp")
     add_packages("benchmark")
 
 target("test_set_partition")
