@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <ecgen/perm.hpp>
 #include <numeric> // for iota
 #include <vector>
@@ -49,8 +50,8 @@ auto sjt_gen(int n) -> cppcoro::generator<int> {
  */
 auto ehr_gen(int n) -> cppcoro::generator<int> {
     auto c = std::vector<int>(n + 1, 0); // c[0] is never used
-    auto b = std::vector<int>(n, 0);
-    std::iota(b.begin(), b.end(), 0U); // 0, 1, ... n-1
+    auto b = std::vector<int>(n);
+    std::iota(b.begin(), b.end(), 0); // 0, 1, ... n-1
 
     while (true) {
         int k = 1;
@@ -61,14 +62,14 @@ auto ehr_gen(int n) -> cppcoro::generator<int> {
             }
         } while (c[k] >= k);
         if (k == n) {
-            co_yield b[n - 1];
             break;
         }
         c[k] += 1;
         co_yield b[k];
-        for (int i = 1, j = k - 1; i < j; ++i, --j) {
-            std::swap(b[i], b[j]);
-        }
+        // for (int i = 1, j = k - 1; i < j; ++i, --j) {
+        //     std::swap(b[i], b[j]);
+        // }
+        std::reverse(b.begin() + 1, b.begin() + k);
     }
 }
 } // namespace ecgen
