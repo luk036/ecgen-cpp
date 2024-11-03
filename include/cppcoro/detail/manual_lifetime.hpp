@@ -38,10 +38,10 @@ template <typename T> struct manual_lifetime {
         return std::addressof(**this);
     }
 
-    T &operator*() &noexcept { return m_value; }
-    const T &operator*() const &noexcept { return m_value; }
-    T &&operator*() &&noexcept { return static_cast<T &&>(m_value); }
-    const T &&operator*() const &&noexcept {
+    T &operator*() & noexcept { return m_value; }
+    const T &operator*() const & noexcept { return m_value; }
+    T &&operator*() && noexcept { return static_cast<T &&>(m_value); }
+    const T &&operator*() const && noexcept {
         return static_cast<const T &&>(m_value);
     }
 
@@ -92,10 +92,10 @@ template <typename T> struct manual_lifetime<T &&> {
     T *operator->() noexcept { return m_value; }
     const T *operator->() const noexcept { return m_value; }
 
-    T &operator*() &noexcept { return *m_value; }
-    const T &operator*() const &noexcept { return *m_value; }
-    T &&operator*() &&noexcept { return static_cast<T &&>(*m_value); }
-    const T &&operator*() const &&noexcept {
+    T &operator*() & noexcept { return *m_value; }
+    const T &operator*() const & noexcept { return *m_value; }
+    T &&operator*() && noexcept { return static_cast<T &&>(*m_value); }
+    const T &&operator*() const && noexcept {
         return static_cast<const T &&>(*m_value);
     }
 
