@@ -2,7 +2,7 @@
 #include <ecgen/set_partition.hpp>
 #include <ecgen/set_partition_old.hpp>
 
-#include "benchmark/benchmark.h" // for BENCHMARK, State, BENCHMARK_...
+#include "benchmark/benchmark.h"  // for BENCHMARK, State, BENCHMARK_...
 
 /**
  * @brief
@@ -36,8 +36,7 @@ static void set_partition_old(benchmark::State &state) {
     constexpr size_t K = 3;
     while (state.KeepRunning()) {
         size_t cnt = 1;
-        for ([[maybe_unused]] auto [x, y] :
-             ecgen::set_partition_gen_old(N, K)) {
+        for ([[maybe_unused]] auto [x, y] : ecgen::set_partition_gen_old(N, K)) {
             ++cnt;
         }
         benchmark::DoNotOptimize(cnt);

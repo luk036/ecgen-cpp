@@ -37,39 +37,38 @@
 
 #include <cppcoro/recursive_generator.hpp>
 #include <type_traits>
-#include <utility> // neccessary???
+#include <utility>  // neccessary???
 
 namespace ecgen {
 
-/**
- * Computes the Stirling number of the second kind, which counts the number of
- * ways to partition a set of N elements into K nonempty subsets. This is
- * implemented recursively using the recurrence relation for Stirling numbers.
- *
- * @tparam N
- * @tparam K
- * @return constexpr auto
- */
-template <int N, int K> constexpr auto Stirling2nd() {
-    if constexpr (K >= N || K <= 1) {
-        return std::integral_constant<size_t, 1U>{};
-    } else {
-        return std::integral_constant<size_t,
-                                      Stirling2nd<N - 1, K - 1>() +
-                                          K * Stirling2nd<N - 1, K>()>{};
+    /**
+     * Computes the Stirling number of the second kind, which counts the number of
+     * ways to partition a set of N elements into K nonempty subsets. This is
+     * implemented recursively using the recurrence relation for Stirling numbers.
+     *
+     * @tparam N
+     * @tparam K
+     * @return constexpr auto
+     */
+    template <int N, int K> constexpr auto Stirling2nd() {
+        if constexpr (K >= N || K <= 1) {
+            return std::integral_constant<size_t, 1U>{};
+        } else {
+            return std::integral_constant<size_t, Stirling2nd<N - 1, K - 1>()
+                                                      + K * Stirling2nd<N - 1, K>()>{};
+        }
     }
-}
 
-/**
- * A recursive generator that produces all set partitions of {1, ..., n} into k
- * nonempty blocks.
- *
- * @param[in] n - The size of the set to partition.
- * @param[in] k - The number of blocks in the partition.
- * @return A recursive generator that yields std::pair representing each
- * partition.
- */
-extern auto set_partition_gen(int n, int k)
-    -> cppcoro::recursive_generator<std::pair<int, int>>;
+    /**
+     * A recursive generator that produces all set partitions of {1, ..., n} into k
+     * nonempty blocks.
+     *
+     * @param[in] n - The size of the set to partition.
+     * @param[in] k - The number of blocks in the partition.
+     * @return A recursive generator that yields std::pair representing each
+     * partition.
+     */
+    extern auto set_partition_gen(int n, int k)
+        -> cppcoro::recursive_generator<std::pair<int, int>>;
 
-} // namespace ecgen
+}  // namespace ecgen

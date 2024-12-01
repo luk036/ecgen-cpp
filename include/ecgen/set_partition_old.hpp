@@ -37,18 +37,18 @@
 
 #include <cppcoro/recursive_generator.hpp>
 #include <type_traits>
-#include <utility> // neccessary???
+#include <utility>  // neccessary???
 
 namespace ecgen {
 
-/**
- * @brief Set the partition gen object
- *
- * @param[in] n
- * @param[in] k
- * @return cppcoro::recursive_generator<std::pair<int, int>>
- */
-extern auto set_partition_gen_old(int n, int k)
-    -> cppcoro::recursive_generator<std::pair<int, int>>;
+    /**
+     * @brief Set the partition gen object
+     *
+     * @param[in] n
+     * @param[in] k
+     * @return cppcoro::recursive_generator<std::pair<int, int>>
+     */
+    extern auto set_partition_gen_old(int n, int k)
+        -> cppcoro::recursive_generator<std::pair<int, int>>;
 
-} // namespace ecgen
+}  // namespace ecgen

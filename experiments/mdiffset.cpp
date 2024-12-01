@@ -14,13 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "ThreadPool.h"
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <future> // for future
+#include <future>  // for future
 #include <vector>
+
+#include "ThreadPool.h"
 
 const auto MAX = 20;
 const auto MAX_N = 70;
@@ -43,15 +44,19 @@ struct DiffCover {
     size_t size_n;
 
     DiffCover(int n, int d, int threshold)
-        : n{n}, d{d}, threshold{threshold}, d_minus_1{d - 1},
-          d_times_d_minus_1{d * (d - 1)}, n_minus_d{n - d},
-          n1{n / 2 - d * (d - 1) / 2}, n2{n / 2}, // begin_a{&a[0]},
+        : n{n},
+          d{d},
+          threshold{threshold},
+          d_minus_1{d - 1},
+          d_times_d_minus_1{d * (d - 1)},
+          n_minus_d{n - d},
+          n1{n / 2 - d * (d - 1) / 2},
+          n2{n / 2},  // begin_a{&a[0]},
           size_n{(n / 2 + 1) * sizeof(int8_t)} {
-        for (auto j = 0; j <= d; j++)
-            a[j] = 0;
+        for (auto j = 0; j <= d; j++) a[j] = 0;
 
         a[d] = n;
-        a[0] = 0; // for convenience
+        a[0] = 0;  // for convenience
     }
 
     //-------------------------------------------------------------

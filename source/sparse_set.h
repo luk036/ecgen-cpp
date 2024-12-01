@@ -28,8 +28,7 @@ inline void copy(SparseSet *des, SparseSet *src, size_t n) {
 }
 
 inline void add(SparseSet *set, uint8_t element) {
-    if (set->inverse[element] < set->size)
-        return;
+    if (set->inverse[element] < set->size) return;
     set->domain[set->size] = element;
     set->inverse[element] = set->size;
     set->size++;

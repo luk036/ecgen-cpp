@@ -1,6 +1,6 @@
 #include <doctest/doctest.h>
 
-#include <algorithm> // for fill_n
+#include <algorithm>  // for fill_n
 #include <ecgen/combin.hpp>
 #include <ecgen/gray_code.hpp>
 #include <string>

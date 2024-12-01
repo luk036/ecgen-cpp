@@ -8,12 +8,12 @@
 #include <cppcoro/coroutine.hpp>
 
 namespace cppcoro {
-class inline_scheduler {
-  public:
-    inline_scheduler() noexcept = default;
+    class inline_scheduler {
+      public:
+        inline_scheduler() noexcept = default;
 
-    cppcoro::suspend_never schedule() const noexcept { return {}; }
-};
-} // namespace cppcoro
+        cppcoro::suspend_never schedule() const noexcept { return {}; }
+    };
+}  // namespace cppcoro
 
 #endif

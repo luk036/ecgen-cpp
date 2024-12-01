@@ -37,16 +37,17 @@ struct DiffCover {
     int n2;
 
     DiffCover(int n, int d, int threshold)
-        : n{n}, d{d}, threshold{threshold}, n_minus_d{n - d},
-          n1{n / 2 - d * (d - 1) / 2}, n2{n / 2} {
+        : n{n},
+          d{d},
+          threshold{threshold},
+          n_minus_d{n - d},
+          n1{n / 2 - d * (d - 1) / 2},
+          n2{n / 2} {
+        for (auto j = 0; j <= this->n2; j++) differences[j] = 0;
 
-        for (auto j = 0; j <= this->n2; j++)
-            differences[j] = 0;
-
-        for (auto j = 0; j <= d; j++)
-            a[j] = 0;
+        for (auto j = 0; j <= d; j++) a[j] = 0;
         a[d] = n;
-        a[0] = 0; // for convenience
+        a[0] = 0;  // for convenience
     }
 
     //-------------------------------------------------------------
@@ -141,8 +142,7 @@ struct DiffCover {
     void run() {
         this->differences[0] = 1;
 
-        for (auto j = this->n_minus_d + 1; j >= (this->n - 1) / this->d + 1;
-             j--) {
+        for (auto j = this->n_minus_d + 1; j >= (this->n - 1) / this->d + 1; j--) {
             this->a[1] = j;
             this->b[1] = 1;
             this->GenD(1, 1, 1);

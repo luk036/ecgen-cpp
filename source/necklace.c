@@ -34,15 +34,14 @@ typedef struct element {
 //-------------------------------------------------------------
 int N, K, D, M, type, head, NECK = 0, LYN = 0;
 long long int total = 0, limit = -1;
-int UNRESTRICTED = 0, DENSITY = 0, CONTENT = 0, FORBIDDEN = 0, BRACELET = 0,
-    UNLABELED = 0, CHORD = 0, LIE = 0, CHARM = 0, DB = 0;
-int a[MAX], p[MAX], b[MAX], f[MAX], fail[MAX], num[MAX], run[MAX], num_map[MAX],
-    charm[2 * MAX + 2];
+int UNRESTRICTED = 0, DENSITY = 0, CONTENT = 0, FORBIDDEN = 0, BRACELET = 0, UNLABELED = 0,
+    CHORD = 0, LIE = 0, CHARM = 0, DB = 0;
+int a[MAX], p[MAX], b[MAX], f[MAX], fail[MAX], num[MAX], run[MAX], num_map[MAX], charm[2 * MAX + 2];
 int pos[MAX][MAX], split[MAX][MAX], d[MAX][MAX], match[MAX][MAX];
 cell avail[MAX];
-int nb = 0;      // number of blocks
-element B[MAX];  // run length encoding data structure
-char PRIME[MAX]; // relatively prime array for charm bracelets
+int nb = 0;       // number of blocks
+element B[MAX];   // run length encoding data structure
+char PRIME[MAX];  // relatively prime array for charm bracelets
 
 //-------------------------------------------------------------
 //  SUBROUTINES FOR CHARM BRACELETS
@@ -58,12 +57,10 @@ int MinNecklace() {
         i = k + 2;
         p = 1;
         while (charm[i - p] <= charm[i]) {
-            if (charm[i - p] < charm[i])
-                p = i - k;
+            if (charm[i - p] < charm[i]) p = i - k;
             i++;
         }
-        if (p * ((i - k - 1) / p) >= N)
-            break;
+        if (p * ((i - k - 1) / p) >= N) break;
         do {
             k = k + p;
         } while (k < i - p);
@@ -90,8 +87,7 @@ int IsCharm() {
     for (i = 2; i < N - 1; i++) {
         // only consider numbers relatively prime to N
         if (PRIME[i]) {
-            for (j = 0; j < N; j++)
-                charm[j * i % N + 1] = charm[j * i % N + N + 1] = a[j + 1];
+            for (j = 0; j < N; j++) charm[j * i % N + 1] = charm[j * i % N + N + 1] = a[j + 1];
             offset = MinNecklace();
 
             for (j = 1; j <= N; j++) {
@@ -117,8 +113,7 @@ void Print() {
 
     if (CHORD) {
         total++;
-        for (j = 0; j < 2 * N; j++)
-            printf("%d ", a[j]);
+        for (j = 0; j < 2 * N; j++) printf("%d ", a[j]);
         printf("\n");
     } else {
         if (!CHARM || (CHARM && IsCharm())) {
@@ -137,8 +132,7 @@ void Print() {
 void PrintDB(int p) {
     int j;
 
-    for (j = 1; j <= p; j++)
-        printf("%d", a[j]);
+    for (j = 1; j <= p; j++) printf("%d", a[j]);
     total += p;
 }
 //-------------------------------------------------------------
@@ -147,8 +141,7 @@ void PrintD(int p) {
 
     /* Determine minimum position for next bit */
     next = (D / p) * a[p] + a[D % p];
-    if (next < N)
-        return;
+    if (next < N) return;
 
     /* Determine last bit */
     min = 1;
@@ -218,8 +211,7 @@ int CheckSuffix(int s) {
 void Remove(int i) {
     int p, n;
 
-    if (i == head)
-        head = avail[i].next;
+    if (i == head) head = avail[i].next;
     p = avail[i].prev;
     n = avail[i].next;
     avail[p].next = n;
@@ -233,8 +225,7 @@ void Add(int i) {
     n = avail[i].next;
     avail[n].prev = i;
     avail[p].next = i;
-    if (avail[i].prev == K + 1)
-        head = i;
+    if (avail[i].prev == K + 1) head = i;
 }
 
 /*------------------------------------------------------------*/
@@ -305,19 +296,12 @@ int CheckRevF() {
     int j;
 
     j = 1;
-    while (B[j].v == B[nb - j + 1].v && B[j].s == B[nb - j + 1].s &&
-           j <= nb / 2)
-        j++;
-    if (j > nb / 2)
-        return 0;
-    if (B[j].s < B[nb - j + 1].s)
-        return 1;
-    if (B[j].s > B[nb - j + 1].s)
-        return -1;
-    if (B[j].v < B[nb - j + 1].v && B[j + 1].s < B[nb - j + 1].s)
-        return 1;
-    if (B[j].v > B[nb - j + 1].v && B[j].s < B[nb - j].s)
-        return 1;
+    while (B[j].v == B[nb - j + 1].v && B[j].s == B[nb - j + 1].s && j <= nb / 2) j++;
+    if (j > nb / 2) return 0;
+    if (B[j].s < B[nb - j + 1].s) return 1;
+    if (B[j].s > B[nb - j + 1].s) return -1;
+    if (B[j].v < B[nb - j + 1].v && B[j + 1].s < B[nb - j + 1].s) return 1;
+    if (B[j].v > B[nb - j + 1].v && B[j].s < B[nb - j].s) return 1;
     return -1;
 }
 /*------------------------------------------------------------*/
@@ -409,18 +393,15 @@ void GenA(int t, int p, int s) {
             a[t] = j;
 
             num[j]--;
-            if (num[j] == 0)
-                Remove(j);
+            if (num[j] == 0) Remove(j);
 
-            if (j != K)
-                s2 = t + 1;
+            if (j != K) s2 = t + 1;
             if (j == a[t - p])
                 GenA(t + 1, p, s2);
             else
                 GenA(t + 1, t, s2);
 
-            if (num[j] == 0)
-                Add(j);
+            if (num[j] == 0) Add(j);
             num[j]++;
 
             j = avail[j].next;
@@ -435,25 +416,19 @@ void GenF(int t, int p, int s) {
     int j, q;
 
     if (t > N) {
-        if (NECK && N % p == 0 && CheckSuffix(s))
-            Print();
-        if (LYN && N == p && CheckSuffix(s))
-            Print();
+        if (NECK && N % p == 0 && CheckSuffix(s)) Print();
+        if (LYN && N == p && CheckSuffix(s)) Print();
     } else {
         a[t] = a[t - p];
         q = d[s][a[t]];
-        if (t < M)
-            SetMatch(t);
-        if (q != M)
-            GenF(t + 1, p, q);
+        if (t < M) SetMatch(t);
+        if (q != M) GenF(t + 1, p, q);
 
         for (j = a[t - p] + 1; j <= K - 1; j++) {
             a[t] = j;
             q = d[s][j];
-            if (t < M)
-                SetMatch(t);
-            if (q != M)
-                GenF(t + 1, t, q);
+            if (t < M) SetMatch(t);
+            if (q != M) GenF(t + 1, t, q);
         }
     }
 }
@@ -470,24 +445,20 @@ void GenB(int t, int p, int r, int u, int v, int RS) {
             RS = TRUE;
     }
     if (t > N) {
-        if ((RS == FALSE) && ((NECK && N % p == 0) || (LYN && N == p)))
-            Print();
+        if ((RS == FALSE) && ((NECK && N % p == 0) || (LYN && N == p))) Print();
     } else {
         a[t] = a[t - p];
         if (a[t] == a[1])
             v++;
         else
             v = 0;
-        if ((u == -1) && (a[t - 1] != a[1]))
-            u = r = t - 2;
+        if ((u == -1) && (a[t - 1] != a[1])) u = r = t - 2;
 
         if ((u != -1) && (t == N) && (a[N] == a[1])) {
         } else if (u == v) {
             rev = CheckRev(t, u);
-            if (rev == 0)
-                GenB(t + 1, p, r, u, v, RS);
-            if (rev == 1)
-                GenB(t + 1, p, t, u, v, FALSE);
+            if (rev == 0) GenB(t + 1, p, r, u, v, RS);
+            if (rev == 1) GenB(t + 1, p, t, u, v, FALSE);
         } else
             GenB(t + 1, p, r, u, v, RS);
         for (j = a[t - p] + 1; j <= K - 1; ++j) {
@@ -501,7 +472,7 @@ void GenB(int t, int p, int r, int u, int v, int RS) {
 /*-----------------------------------------------------------*/
 void GenBF(int t, int p, int r, int z, int b, int RS) {
     int j, z2, p2, c;
-    int i, count, order[20]; // used for lex generation
+    int i, count, order[20];  // used for lex generation
 
     // Incremental comparison of a[r+1...n] with its reversal
     if (t - 1 > (N - r) / 2 + r) {
@@ -513,15 +484,10 @@ void GenBF(int t, int p, int r, int z, int b, int RS) {
 
     // Termination condition - only characters k remain to be appended
     if (num[K] == N - t + 1) {
-        if (num[K] > run[t - p])
-            p = N;
-        if (num[K] > 0 && t != r + 1 && B[b + 1].s == K && B[b + 1].v > num[K])
-            RS = TRUE;
-        if (num[K] > 0 && t != r + 1 &&
-            (B[b + 1].s != K || B[b + 1].v < num[K]))
-            RS = FALSE;
-        if ((RS == FALSE) && ((NECK && N % p == 0) || (LYN && N == p)))
-            Print();
+        if (num[K] > run[t - p]) p = N;
+        if (num[K] > 0 && t != r + 1 && B[b + 1].s == K && B[b + 1].v > num[K]) RS = TRUE;
+        if (num[K] > 0 && t != r + 1 && (B[b + 1].s != K || B[b + 1].v < num[K])) RS = FALSE;
+        if ((RS == FALSE) && ((NECK && N % p == 0) || (LYN && N == p))) Print();
     }
     // Recursively extend the prenecklace - unless only 0s remain to be appended
     else if (num[1] != N - t + 1) {
@@ -542,22 +508,16 @@ void GenBF(int t, int p, int r, int z, int b, int RS) {
             run[z] = t - z;
             UpdateRunLength(j);
             num[j]--;
-            if (num[j] == 0)
-                Remove(j);
+            if (num[j] == 0) Remove(j);
             a[t] = j;
             z2 = z;
-            if (j != K)
-                z2 = t + 1;
+            if (j != K) z2 = t + 1;
             p2 = p;
-            if (j != a[t - p])
-                p2 = t;
+            if (j != a[t - p]) p2 = t;
             c = CheckRevF();
-            if (c == 0)
-                GenBF(t + 1, p2, t, z2, nb, FALSE);
-            if (c == 1)
-                GenBF(t + 1, p2, r, z2, b, RS);
-            if (num[j] == 0)
-                Add(j);
+            if (c == 0) GenBF(t + 1, p2, t, z2, nb, FALSE);
+            if (c == 1) GenBF(t + 1, p2, r, z2, b, RS);
+            if (num[j] == 0) Add(j);
             num[j]++;
             RestoreRunLength();
             // j = avail[j].next;
@@ -570,8 +530,7 @@ void GenBF(int t, int p, int r, int z, int b, int RS) {
 /*-----------------------------------------------------------*/
 void GenU(int t, int p, int c) {
     if (t > N) {
-        if ((NECK && N % p == 0) || (LYN && N == p))
-            Print();
+        if ((NECK && N % p == 0) || (LYN && N == p)) Print();
     } else {
         if (a[t - c] == 0) {
             if (a[t - p] == 0) {
@@ -605,8 +564,7 @@ void GenRestC(int s, int e, int v) {
             AddC(e);
             AddC(s);
         }
-        if (N * 2 - avail[e].next + s >= v)
-            GenRestC(s, avail[e].next, v);
+        if (N * 2 - avail[e].next + s >= v) GenRestC(s, avail[e].next, v);
     }
 }
 /*-----------------------------------------------------------*/
@@ -615,11 +573,9 @@ void GenC2(int s, int t, int p, int T, int P, int len, int num_sec) {
 
     min = pos[len][t - p];
     if (len == N && s > N) {
-        if (T == N)
-            Print();
+        if (T == N) Print();
     } else if (t == 1 && s > P) {
-        if (len < N)
-            GenC2(head, 1, 1, T, P, len + 1, 0);
+        if (len < N) GenC2(head, 1, 1, T, P, len + 1, 0);
     } else if (s > (num_sec + 1) * P) {
         pos[len][t] = P;
         if (min == P)
@@ -637,8 +593,7 @@ void GenC2(int s, int t, int p, int T, int P, int len, int num_sec) {
         e = (s + len) % (N * 2);
         if (s % P >= min && avail[e].next != e) {
             next = avail[s].next;
-            if (next == e)
-                next = avail[e].next;
+            if (next == e) next = avail[e].next;
             a[s] = (N * 2 + e - s) % (N * 2);
             a[e] = N * 2 - a[s];
             RemoveC(s);
@@ -668,8 +623,7 @@ void GenC(int s, int t, int p, int v, int last) {
         e = (s + v) % (N * 2);
         if (s >= min && avail[e].next != e) {
             next = avail[s].next;
-            if (next == e)
-                next = avail[e].next;
+            if (next == e) next = avail[e].next;
             a[s] = v;
             a[e] = N * 2 - v;
             RemoveC(s);
@@ -677,11 +631,9 @@ void GenC(int s, int t, int p, int v, int last) {
             pos[v][t] = s - last;
 
             p2 = p;
-            if (s != min)
-                p2 = t;
+            if (s != min) p2 = t;
             GenC(next, t + 1, p2, v, s);
-            if (s + pos[v][t + 1 - p2] < N * 2)
-                GenRestC(head, avail[head].next, v + 1);
+            if (s + pos[v][t + 1 - p2] < N * 2) GenRestC(head, avail[head].next, v + 1);
             AddC(e);
             AddC(s);
         }
@@ -706,15 +658,12 @@ void GenL(int t) {
             }
         }
     } else {
-        for (i = 1; i <= N; i++)
-            q[i] = p[i];
+        for (i = 1; i <= N; i++) q[i] = p[i];
         for (j = a[t - p[1]]; j <= K - 1; j++) {
             a[t] = j;
             for (i = 1; i <= t - 1; i++) {
-                if (a[t] < a[t - p[i]])
-                    p[i] = 0;
-                if (a[t] > a[t - p[i]])
-                    p[i] = t - i + 1;
+                if (a[t] < a[t - p[i]]) p[i] = 0;
+                if (a[t] > a[t - p[i]]) p[i] = t - i + 1;
             }
             for (i = t - 1; i >= 1; i--) {
                 if (p[i + 1] == t - i)
@@ -723,8 +672,7 @@ void GenL(int t) {
                     split[i][t] = split[i + 1][t];
             }
             GenL(t + 1);
-            for (i = 1; i <= N; i++)
-                p[i] = q[i];
+            for (i = 1; i <= N; i++) p[i] = q[i];
         }
     }
 }
@@ -734,29 +682,24 @@ void Init() {
     int i, j;
 
     if (CHARM)
-        for (i = 1; i < N; i++)
-            PRIME[i] = (Gcd(N, i) == 1);
+        for (i = 1; i < N; i++) PRIME[i] = (Gcd(N, i) == 1);
 
     a[0] = a[1] = 0;
     //----------------
-    if (UNRESTRICTED)
-        Gen(1, 1);
+    if (UNRESTRICTED) Gen(1, 1);
     //----------------
     if (DENSITY) {
-        for (j = 0; j <= D; j++)
-            a[j] = 0;
+        for (j = 0; j <= D; j++) a[j] = 0;
         if (D == 0) {
             if (NECK) {
                 total++;
-                for (j = 1; j <= N; j++)
-                    printf("0 ");
+                for (j = 1; j <= N; j++) printf("0 ");
                 printf("\n");
             }
         } else if (D == 1) {
             for (i = 1; i < K; i++) {
                 total++;
-                for (j = 1; j < N; j++)
-                    printf("0 ");
+                for (j = 1; j < N; j++) printf("0 ");
                 printf("%d \n", i);
             }
         } else {
@@ -784,8 +727,7 @@ void Init() {
         }
         a[1] = 1;
         num[1]--;
-        if (num[1] == 0)
-            Remove(1);
+        if (num[1] == 0) Remove(1);
 
         if (BRACELET) {
             B[0].s = 0;
@@ -797,15 +739,13 @@ void Init() {
     //----------------
     if (FORBIDDEN) {
         /* Pre process */
-        for (j = 1; j < M; j++)
-            match[j][0] = TRUE;
+        for (j = 1; j < M; j++) match[j][0] = TRUE;
 
         /* Failure Function */
         fail[1] = 0;
         for (j = 2; j <= M; j++) {
             i = fail[j - 1];
-            while (f[j] != f[i + 1] && i > 0)
-                i = fail[i];
+            while (f[j] != f[i + 1] && i > 0) i = fail[i];
             if (f[j] != f[i + 1] && i == 0)
                 fail[j] = 0;
             else
@@ -813,29 +753,23 @@ void Init() {
         }
 
         /* Transition Function */
-        for (j = 1; j <= M; j++)
-            d[j - 1][f[j]] = j;
+        for (j = 1; j <= M; j++) d[j - 1][f[j]] = j;
         for (j = 0; j < K; j++)
-            if (j != f[1])
-                d[0][j] = 0;
+            if (j != f[1]) d[0][j] = 0;
         for (j = 1; j <= M; j++)
             for (i = 0; i < K; i++)
-                if (i != f[j + 1])
-                    d[j][i] = d[fail[j]][i];
+                if (i != f[j + 1]) d[j][i] = d[fail[j]][i];
 
         GenF(1, 1, 0);
     }
     //----------------
-    if (UNLABELED)
-        GenU(2, 1, 1);
+    if (UNLABELED) GenU(2, 1, 1);
     //----------------
-    if (BRACELET && !CONTENT)
-        GenB(1, 1, 1, -1, 0, FALSE);
+    if (BRACELET && !CONTENT) GenB(1, 1, 1, -1, 0, FALSE);
     //----------------
     if (CHORD) {
         InitListC();
-        for (i = 1; i < N; i++)
-            pos[i][0] = 0;
+        for (i = 1; i < N; i++) pos[i][0] = 0;
         for (i = 1; i < N; i++) {
             a[0] = i;
             a[i] = N * 2 - i;
@@ -844,22 +778,21 @@ void Init() {
             GenRestC(head, avail[head].next, i + 1);
             AddC(i);
         }
-        for (i = 0; i < N * 2; i++)
-            a[i] = N;
+        for (i = 0; i < N * 2; i++) a[i] = N;
         Print();
     }
     //----------------
     if (LIE) {
         p[0] = 0;
-        for (i = 1; i <= N; i++)
-            p[i] = 1;
+        for (i = 1; i <= N; i++) p[i] = 1;
         GenL(1);
     }
 }
 //------------------------------------------------------
 void usage() {
-    printf("Usage: necklace [type] [n] [k] [max] [d | m forbid_substring | "
-           "content] (1<=type<=12 or 21<=type<=27, n>=1, k>=2)\n");
+    printf(
+        "Usage: necklace [type] [n] [k] [max] [d | m forbid_substring | "
+        "content] (1<=type<=12 or 21<=type<=27, n>=1, k>=2)\n");
 }
 //--------------------------------------------------------------------------------
 int main(int argc, char **argv) {
@@ -874,8 +807,7 @@ int main(int argc, char **argv) {
     sscanf(argv[3], "%d", &K);
     sscanf(argv[4], "%lld", &limit);
 
-    if ((type < 1) || ((type > 12) && (type < 21)) || (type > 27) || (N < 1) ||
-        (K < 2)) {
+    if ((type < 1) || ((type > 12) && (type < 21)) || (type > 27) || (N < 1) || (K < 2)) {
         usage();
         return 1;
     }
@@ -896,35 +828,24 @@ int main(int argc, char **argv) {
     // algebra)
     // 12. De Bruijn cycle
 
-    if (type == 1 || type == 21)
-        UNRESTRICTED = 1; // SLOANE A000031 and A001037
-    if (type == 2 || type == 22)
-        DENSITY = 1;
-    if (type == 3 || type == 6 || type == 9 || type == 23 || type == 26)
-        CONTENT = 1;
-    if (type == 4 || type == 24)
-        FORBIDDEN = 1;
-    if (type == 5 || type == 6 || type == 8 || type == 9 || type == 25 ||
-        type == 26)
-        BRACELET = 1; // SLOANE A000029 and A001371
-    if (type == 7 || type == 27)
-        UNLABELED = 1; // SLOANE A000013 and A000048
-    if (type == 8 || type == 9)
-        CHARM = 1; // SLOANE A002729
-    if (type == 10)
-        CHORD = 1; // SLOANE A007769
-    if (type == 11)
-        LIE = 1;
-    if (type == 12)
-        UNRESTRICTED = DB = 1;
+    if (type == 1 || type == 21) UNRESTRICTED = 1;  // SLOANE A000031 and A001037
+    if (type == 2 || type == 22) DENSITY = 1;
+    if (type == 3 || type == 6 || type == 9 || type == 23 || type == 26) CONTENT = 1;
+    if (type == 4 || type == 24) FORBIDDEN = 1;
+    if (type == 5 || type == 6 || type == 8 || type == 9 || type == 25 || type == 26)
+        BRACELET = 1;                            // SLOANE A000029 and A001371
+    if (type == 7 || type == 27) UNLABELED = 1;  // SLOANE A000013 and A000048
+    if (type == 8 || type == 9) CHARM = 1;       // SLOANE A002729
+    if (type == 10) CHORD = 1;                   // SLOANE A007769
+    if (type == 11) LIE = 1;
+    if (type == 12) UNRESTRICTED = DB = 1;
 
     if (type <= 20)
         NECK = 1;
     else
         LYN = 1;
 
-    if (UNLABELED || CHORD)
-        K = 2;
+    if (UNLABELED || CHORD) K = 2;
 
     //---------------------------------------
     if (DENSITY) {
@@ -966,7 +887,7 @@ int main(int argc, char **argv) {
             usage();
             return 1;
         }
-        sscanf(argv[5], "%d", &M); // Length of forbidden subsequence
+        sscanf(argv[5], "%d", &M);  // Length of forbidden subsequence
         if (argc != 6 + M) {
             printf("invalid forbidden substring\n");
             return 1;

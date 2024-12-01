@@ -40,15 +40,20 @@ struct DiffCover {
     size_t size_n;
 
     DiffCover(int n, int d, int threshold)
-        : n{n}, d{d}, threshold{threshold}, d_minus_1{d - 1},
-          d_times_d_minus_1{d * (d - 1)}, n_minus_d{n - d}, n1{n / 2 -
-                                                               d * (d - 1) / 2},
-          n2{n / 2}, begin_a{&a[0]}, size_n{(n / 2 + 1) * sizeof(int8_t)} {
-        for (auto j = 0; j <= d; j++)
-            a[j] = 0;
+        : n{n},
+          d{d},
+          threshold{threshold},
+          d_minus_1{d - 1},
+          d_times_d_minus_1{d * (d - 1)},
+          n_minus_d{n - d},
+          n1{n / 2 - d * (d - 1) / 2},
+          n2{n / 2},
+          begin_a{&a[0]},
+          size_n{(n / 2 + 1) * sizeof(int8_t)} {
+        for (auto j = 0; j <= d; j++) a[j] = 0;
 
         a[d] = n;
-        a[0] = 0; // for convenience
+        a[0] = 0;  // for convenience
     }
 
     //-------------------------------------------------------------

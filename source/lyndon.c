@@ -76,7 +76,7 @@ void PrintD() {
 void GenD(int t, int p, int tt) {
     if (t >= THRESHOLD) {
         for (auto i = 0; i < N; i++) {
-            differences[i] = 0; // clear
+            differences[i] = 0;  // clear
         }
         for (auto i = 0; i < t; i++) {
             for (auto j = i + 1; j <= t; j++) {
@@ -126,10 +126,9 @@ void GenD(int t, int p, int tt) {
 void Init() {
     int i, j;
 
-    for (j = 0; j <= D; j++)
-        a[j] = 0;
+    for (j = 0; j <= D; j++) a[j] = 0;
     a[D] = N;
-    a[0] = N; // for convenience
+    a[0] = N;  // for convenience
 
     D_MINUS_1 = D - 1;
     D_TIMES_D_MINUS_1 = D * (D - 1);

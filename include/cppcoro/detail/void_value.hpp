@@ -6,9 +6,9 @@
 #define CPPCORO_DETAIL_VOID_VALUE_HPP_INCLUDED
 
 namespace cppcoro {
-namespace detail {
-struct void_value {};
-} // namespace detail
-} // namespace cppcoro
+    namespace detail {
+        struct void_value {};
+    }  // namespace detail
+}  // namespace cppcoro
 
 #endif

@@ -1,7 +1,7 @@
 #include <ecgen/combin.hpp>
 #include <ecgen/combin_old.hpp>
 
-#include "benchmark/benchmark.h" // for BENCHMARK, State, BENCHMARK_...
+#include "benchmark/benchmark.h"  // for BENCHMARK, State, BENCHMARK_...
 
 /**
  * The function `emk_new` generates combinations of size K from a set of size N
