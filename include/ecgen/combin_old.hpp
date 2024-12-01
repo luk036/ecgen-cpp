@@ -17,8 +17,8 @@ namespace ecgen {
  * @returns A recursive generator yielding all k-combinations as pairs of
  * indices.
  */
-extern auto emk_gen(int n,
-                    int k) -> cppcoro::recursive_generator<std::pair<int, int>>;
+extern auto emk_gen(int n, int k)
+    -> cppcoro::recursive_generator<std::pair<int, int>>;
 
 /**
  * Generates all k-combinations from a set of n elements, without repetition.
@@ -32,7 +32,7 @@ extern auto emk_gen(int n,
  * @returns A recursive generator yielding all k-combinations as pairs of
  * indices.
  */
-extern auto emk_neg(int n,
-                    int k) -> cppcoro::recursive_generator<std::pair<int, int>>;
+extern auto emk_neg(int n, int k)
+    -> cppcoro::recursive_generator<std::pair<int, int>>;
 
 } // namespace ecgen
