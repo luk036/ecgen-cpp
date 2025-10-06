@@ -1,6 +1,11 @@
 set_languages("c++20")
 
 add_rules("mode.debug", "mode.release", "mode.coverage")
+
+if is_mode("release") then
+    set_optimize("fastest")
+end
+
 add_requires("doctest", {alias = "doctest"})
 add_requires("fmt", {alias = "fmt"})
 add_requires("benchmark", {alias = "benchmark"})
@@ -32,6 +37,7 @@ target("test_ecgen")
     add_files("test/source/*.cpp")
     add_packages("doctest")
     add_packages("fmt")
+    add_tests("default")
 
 target("test_emk")
     set_kind("binary")
