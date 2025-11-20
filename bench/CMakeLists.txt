@@ -14,13 +14,13 @@ include(../specific.cmake)
 CPMAddPackage(
   NAME benchmark
   GITHUB_REPOSITORY google/benchmark
-  VERSION 1.8.3
+  VERSION 1.9.4
   OPTIONS "BENCHMARK_ENABLE_TESTING Off"
 )
 
 if(benchmark_ADDED)
   # enable c++11 to avoid compilation errors
-  set_target_properties(benchmark PROPERTIES CXX_STANDARD 20)
+  set_target_properties(benchmark PROPERTIES CXX_STANDARD 17)
 endif()
 
 CPMAddPackage(NAME EcGen SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
@@ -33,7 +33,7 @@ enable_testing()
 
 # enable compiler warnings
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-  target_compile_options(EcGen PUBLIC -Wall -Wextra)
+  target_compile_options(EcGen PUBLIC -Wall -Wextra -Wno-error=restrict)
 elseif(MSVC)
   target_compile_options(EcGen PUBLIC /W4 /WX /wd4146 /wd4127 /wd4996)
   # target_compile_definitions(EcGenTests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
