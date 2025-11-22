@@ -32,7 +32,7 @@ namespace ecgen {
     template <typename Container> auto emk(int n, int k, Container &lst)
         -> cppcoro::generator<Container &> {
         co_yield lst;
-        for (auto [x, y] : emk_comb_gen(n, k)) {
+        for (const auto &[x, y] : emk_comb_gen(n, k)) {
             auto temp = lst[x];  // swap
             lst[x] = lst[y];
             lst[y] = temp;

@@ -33,7 +33,7 @@ namespace ecgen {
     template <typename Container> auto brgc(int n) -> cppcoro::generator<Container &> {
         auto lst = Container(n, 0);
         co_yield lst;
-        for (int i : brgc_gen(n)) {
+        for (const int i : brgc_gen(n)) {
             lst[i] = 1 - lst[i];  // flip
             co_yield lst;
         }
