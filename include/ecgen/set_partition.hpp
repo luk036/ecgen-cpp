@@ -46,6 +46,12 @@ namespace ecgen {
      * ways to partition a set of N elements into K nonempty subsets. This is
      * implemented recursively using the recurrence relation for Stirling numbers.
      *
+     * Example visualization for S(4,2) - partitions of 4 elements into 2 blocks:
+     * ```svgbob
+     *    {1,2}{3,4}  {1,3}{2,4}  {1,4}{2,3}  {1}{2,3,4}  {1,2,3}{4}  {1,3,4}{2}
+     *      1 1 0 0     1 0 1 0     1 0 0 1     0 1 1 1     0 0 0 1     0 1 1 0
+     * ```
+     *
      * @tparam N
      * @tparam K
      * @return constexpr auto
@@ -62,6 +68,12 @@ namespace ecgen {
     /**
      * A recursive generator that produces all set partitions of {1, ..., n} into k
      * nonempty blocks.
+     *
+     * Example visualization for n=4, k=2 (partitions into 2 blocks):
+     * ```svgbob
+     *    Set {1,2,3,4} -> {{1,2},{3,4}}  {{1,3},{2,4}}  {{1,4},{2,3}}  {{1},{2,3,4}}  {{1,2,3},{4}}
+     *                    Block 0  Block 1  Block 0  Block 1  Block 0  Block 1  Block 0  Block 1   Block 0   Block 1
+     * ```
      *
      * @param[in] n - The size of the set to partition.
      * @param[in] k - The number of blocks in the partition.

@@ -9,6 +9,14 @@ namespace ecgen {
      * The recursive Gray code sequence is an ordering of all 2^n bitstrings of
      * length n, such that adjacent strings differ by only one bit flip.
      *
+     * Example visualization for n=3:
+     * ```svgbob
+     *    000 -> 001 -> 011 -> 010 -> 110 -> 111 -> 101 -> 100
+     *     |     |     |     |     |     |     |     |
+     *     0     1     3     2     6     7     5     4
+     *     (each adjacent pair differs by exactly one bit)
+     * ```
+     *
      * This generates the sequence efficiently using recursion and bit manipulation.
      *
      * @param[in] n - The length of the Gray code sequence to generate.
@@ -22,6 +30,18 @@ namespace ecgen {
      *
      * The Binary Reflexed Gray Code is an ordering of all bitstrings of length n,
      * such that adjacent strings differ by only one bit flip.
+     *
+     * Example visualization for n=3:
+     * ```svgbob
+     *    Step 0: [0,0,0] (000)
+     *    Step 1: [0,0,1] (001) - flip bit 0
+     *    Step 2: [0,1,1] (011) - flip bit 1
+     *    Step 3: [0,1,0] (010) - flip bit 0
+     *    Step 4: [1,1,0] (110) - flip bit 2
+     *    Step 5: [1,1,1] (111) - flip bit 0
+     *    Step 6: [1,0,1] (101) - flip bit 1
+     *    Step 7: [1,0,0] (100) - flip bit 0
+     * ```
      *
      * This implementation uses a for loop to iterate through the recursive
      * Gray Code generator, flipping bits at each step to generate the sequence.
