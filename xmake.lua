@@ -8,6 +8,7 @@ end
 
 add_requires("doctest", {alias = "doctest"})
 add_requires("fmt", {alias = "fmt"})
+add_requires("spdlog", {alias = "spdlog"})
 add_requires("benchmark", {alias = "benchmark"})
 
 if is_mode("coverage") then
@@ -18,8 +19,8 @@ if is_plat("linux") then
     set_warnings("all", "error")
     -- add_cxflags("-Wconversion", {force = true})
     -- add_cxflags("-nostdinc++", {force = true})
-    -- add_sysincludedirs(os.getenv("PREFIX") .. "/include/c++/v1", {public = true})
-    -- add_sysincludedirs(os.getenv("PREFIX") .. "/include", {public = true})
+    add_sysincludedirs("/data/data/com.termux/files/usr/include/c++/v1", {public = true})
+    add_sysincludedirs("/data/data/com.termux/files/usr/include", {public = true})
 elseif is_plat("windows") then
     add_cxflags("/W4 /WX /wd4819 /wd4127 /wd4996", {force = true})
 end
@@ -28,7 +29,7 @@ target("Ecgen")
     set_kind("static")
     add_includedirs("include", {public = true})
     add_files("source/*.cpp")
-    add_packages("fmt")
+    add_packages("fmt", "spdlog")
 
 target("test_ecgen")
     set_kind("binary")
@@ -36,7 +37,7 @@ target("test_ecgen")
     add_includedirs("include", {public = true})
     add_files("test/source/*.cpp")
     add_packages("doctest")
-    add_packages("fmt")
+    add_packages("fmt", "spdlog")
     add_tests("default")
 
 target("test_emk")
@@ -52,6 +53,13 @@ target("test_set_partition")
     add_includedirs("include", {public = true})
     add_files("bench/BM_set_partition.cpp")
     add_packages("benchmark")
+
+target("spdlog_example")
+    set_kind("binary")
+    add_deps("Ecgen")
+    add_includedirs("include", {public = true})
+    add_files("examples/spdlog_example.cpp")
+    add_packages("fmt", "spdlog")
 
 -- If you want to known more usage about xmake, please see https://xmake.io
 --

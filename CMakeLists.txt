@@ -59,6 +59,9 @@ target_include_directories(
                          $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
 
+# ---- Add examples subdirectory ----
+# add_subdirectory(examples)
+
 # ---- Create an installable target ----
 # this allows users to install and find the library via `find_package()`.
 
@@ -75,5 +78,5 @@ packageProject(
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   VERSION_HEADER "${VERSION_HEADER_LOCATION}"
   COMPATIBILITY SameMajorVersion
-  DEPENDENCIES "fmt 10.2.1"
+  DEPENDENCIES "fmt 10.2.1" "spdlog 1.14.1"
 )
