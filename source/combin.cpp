@@ -37,8 +37,8 @@ namespace ecgen {
             co_yield emk_gen_even(n - 1, k);
             co_yield std::make_pair(n - 2, n - 1);
             if (k == 2) {
-                for (int i = n - 3; i != 0; --i) {
-                    co_yield std::make_pair(i, i - 1);
+                for (int idx = n - 3; idx != 0; --idx) {
+                    co_yield std::make_pair(idx, idx - 1);
                 }
             } else {
                 co_yield emk_neg_odd(n - 2, k - 1);
@@ -75,8 +75,8 @@ namespace ecgen {
         }
         co_yield std::make_pair(k - 2, n - 2);
         if (k == 3) {
-            for (int i = 0; i != n - 3; ++i) {
-                co_yield std::make_pair(i, i + 1);
+            for (int idx = 0; idx != n - 3; ++idx) {
+                co_yield std::make_pair(idx, idx + 1);
             }
         } else {
             co_yield emk_gen_odd(n - 2, k - 2);
@@ -127,8 +127,8 @@ namespace ecgen {
      */
     static auto emk_neg_odd(int n, int k) -> recursive_generator<ret_t> {
         if (k == 3) {
-            for (int i = n - 3; i != 0; --i) {
-                co_yield std::make_pair(i, i - 1);
+            for (int idx = n - 3; idx != 0; --idx) {
+                co_yield std::make_pair(idx, idx - 1);
             }
         } else {
             co_yield emk_neg_odd(n - 2, k - 2);
@@ -163,8 +163,8 @@ namespace ecgen {
             co_return;
         }
         if (k == 1) {
-            for (int i = 0; i != n - 1; ++i) {
-                co_yield std::make_pair(i, i + 1);
+            for (int idx = 0; idx != n - 1; ++idx) {
+                co_yield std::make_pair(idx, idx + 1);
             }
         }
         if (k % 2 == 0) {

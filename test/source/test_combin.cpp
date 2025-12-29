@@ -6,7 +6,7 @@
 
 TEST_CASE("Generate all combinations by emk_comb_gen") {
     size_t cnt = 0;
-    for ([[maybe_unused]] auto i : ecgen::emk_comb_gen(5, 3)) {
+    for ([[maybe_unused]] auto idx : ecgen::emk_comb_gen(5, 3)) {
         ++cnt;
     }
     CHECK_EQ(cnt, ecgen::Combination<5, 3>() - 1);

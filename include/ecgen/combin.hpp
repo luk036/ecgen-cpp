@@ -54,10 +54,10 @@ namespace ecgen {
     template <typename Container> auto emk(int n, int k, Container &lst)
         -> cppcoro::generator<Container &> {
         co_yield lst;
-        for (const auto &[x, y] : emk_comb_gen(n, k)) {
-            auto temp = lst[x];  // swap
-            lst[x] = lst[y];
-            lst[y] = temp;
+        for (const auto &[pos_x, pos_y] : emk_comb_gen(n, k)) {
+            auto temp = lst[pos_x];  // swap
+            lst[pos_x] = lst[pos_y];
+            lst[pos_y] = temp;
             co_yield lst;
         }
     }

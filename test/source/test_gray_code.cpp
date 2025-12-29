@@ -8,7 +8,7 @@
 
 TEST_CASE("Generate Gray code by brgc_gen (odd)") {
     size_t cnt = 1;
-    for ([[maybe_unused]] auto i : ecgen::brgc_gen(5)) {
+    for ([[maybe_unused]] auto idx : ecgen::brgc_gen(5)) {
         ++cnt;
     }
     CHECK_EQ(cnt, 32);
@@ -16,7 +16,7 @@ TEST_CASE("Generate Gray code by brgc_gen (odd)") {
 
 TEST_CASE("Generate Gray code by brgc_gen (even)") {
     size_t cnt = 1;
-    for ([[maybe_unused]] auto i : ecgen::brgc_gen(6)) {
+    for ([[maybe_unused]] auto idx : ecgen::brgc_gen(6)) {
         ++cnt;
     }
     CHECK_EQ(cnt, 64);
@@ -26,7 +26,7 @@ TEST_CASE("Generate all combinations by emk_gen (odd, odd)") {
     constexpr int N = 15;
     constexpr int K = 5;
     size_t cnt = 1;
-    for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
+    for ([[maybe_unused]] auto [pos_x, pos_y] : ecgen::emk_comb_gen(N, K)) {
         ++cnt;
     }
     CHECK_EQ(cnt, ecgen::Combination<N, K>());
@@ -36,7 +36,7 @@ TEST_CASE("Generate all combinations by emk_gen (odd, even)") {
     constexpr int N = 15;
     constexpr int K = 6;
     size_t cnt = 1;
-    for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
+    for ([[maybe_unused]] auto [pos_x, pos_y] : ecgen::emk_comb_gen(N, K)) {
         ++cnt;
     }
     CHECK_EQ(cnt, ecgen::Combination<N, K>());
@@ -46,7 +46,7 @@ TEST_CASE("Generate all combinations by emk_gen (even, odd)") {
     constexpr int N = 16;
     constexpr int K = 5;
     size_t cnt = 1;
-    for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
+    for ([[maybe_unused]] auto [pos_x, pos_y] : ecgen::emk_comb_gen(N, K)) {
         ++cnt;
     }
     CHECK_EQ(cnt, ecgen::Combination<N, K>());
@@ -56,7 +56,7 @@ TEST_CASE("Generate all combinations by emk_gen (even, even)") {
     constexpr int N = 16;
     constexpr int K = 6;
     size_t cnt = 1;
-    for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
+    for ([[maybe_unused]] auto [pos_x, pos_y] : ecgen::emk_comb_gen(N, K)) {
         ++cnt;
     }
     CHECK_EQ(cnt, ecgen::Combination<N, K>());
@@ -66,7 +66,7 @@ TEST_CASE("Generate all combinations by emk_gen (special, even)") {
     constexpr int N = 6;
     constexpr int K = 6;
     size_t cnt = 1;
-    for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
+    for ([[maybe_unused]] auto [pos_x, pos_y] : ecgen::emk_comb_gen(N, K)) {
         ++cnt;
     }
     CHECK_EQ(cnt, ecgen::Combination<N, K>());

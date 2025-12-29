@@ -83,11 +83,11 @@ namespace ecgen {
     template <typename Container> inline auto sjt(Container &perm)
         -> cppcoro::generator<Container &> {
         const auto n = int(perm.size());
-        for (const int i : ecgen::sjt_gen(n)) {
+        for (const int idx : ecgen::sjt_gen(n)) {
             co_yield perm;
-            auto temp = perm[i];  // swap
-            perm[i] = perm[i + 1];
-            perm[i + 1] = temp;
+            auto temp = perm[idx];  // swap
+            perm[idx] = perm[idx + 1];
+            perm[idx + 1] = temp;
         }
     }
 
