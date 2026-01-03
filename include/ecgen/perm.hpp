@@ -85,9 +85,9 @@ namespace ecgen {
         const auto n = int(perm.size());
         for (const int idx : ecgen::sjt_gen(n)) {
             co_yield perm;
-            auto temp = perm[idx];  // swap
-            perm[idx] = perm[idx + 1];
-            perm[idx + 1] = temp;
+            auto temp = perm[static_cast<typename Container::size_type>(idx)];  // swap
+            perm[static_cast<typename Container::size_type>(idx)] = perm[static_cast<typename Container::size_type>(idx + 1)];
+            perm[static_cast<typename Container::size_type>(idx + 1)] = temp;
         }
     }
 

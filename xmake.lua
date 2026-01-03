@@ -18,9 +18,13 @@ end
 if is_plat("linux") then
     set_warnings("all", "error")
     add_cxflags("-Wconversion", {force = true})
-    -- add_cxflags("-nostdinc++", {force = true})
-    -- add_sysincludedirs("/data/data/com.termux/files/usr/include/c++/v1", {public = true})
-    -- add_sysincludedirs("/data/data/com.termux/files/usr/include", {public = true})
+    add_cxflags("-Wno-unused-command-line-argument", {force = true})
+    -- Check if we're on Termux/Android
+    local termux_prefix = os.getenv("PREFIX")
+    if termux_prefix then
+        add_sysincludedirs(termux_prefix .. "/include/c++/v1", {public = true})
+        add_sysincludedirs(termux_prefix .. "/include", {public = true})
+    end
 elseif is_plat("windows") then
     add_cxflags("/W4 /WX /wd4819 /wd4127 /wd4996", {force = true})
 end

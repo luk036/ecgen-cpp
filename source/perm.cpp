@@ -49,27 +49,28 @@ namespace ecgen {
      * @return cppcoro::generator<int>
      */
     auto ehr_gen(int n) -> cppcoro::generator<int> {
-        auto counters = std::vector<int>(n + 1, 0);  // counters[0] is never used
-        auto buffer = std::vector<int>(n);
-        std::iota(buffer.begin(), buffer.end(), 0);  // 0, 1, ... n-1
-
-        while (true) {
-            int idx = 1;
-            do {
-                if (counters[idx] == idx) {
-                    counters[idx] = 0;
-                    idx += 1;
+            auto counters = std::vector<int>(static_cast<size_t>(n + 1), 0);  // counters[0] is never used
+            auto buffer = std::vector<int>(static_cast<size_t>(n));
+            std::iota(buffer.begin(), buffer.end(), 0);  // 0, 1, ... n-1
+    
+            while (true) {
+                int idx = 1;
+                do {
+                    if (counters[static_cast<size_t>(idx)] == idx) {
+                        counters[static_cast<size_t>(idx)] = 0;
+                        idx += 1;
+                    }
+                } while (counters[static_cast<size_t>(idx)] >= idx);
+                if (idx == n) {
+                    break;
                 }
-            } while (counters[idx] >= idx);
-            if (idx == n) {
-                break;
+                counters[static_cast<size_t>(idx)] += 1;
+                co_yield buffer[static_cast<size_t>(idx)];
+                // for (int i = 1, j = idx - 1; i < j; ++i, --j) {
+                //     std::swap(buffer[i], buffer[j]);
+    
+                // }
+                std::reverse(buffer.begin() + 1, buffer.begin() + idx);
             }
-            counters[idx] += 1;
-            co_yield buffer[idx];
-            // for (int i = 1, j = idx - 1; i < j; ++i, --j) {
-            //     std::swap(buffer[i], buffer[j]);
-            // }
-            std::reverse(buffer.begin() + 1, buffer.begin() + idx);
         }
-    }
 }  // namespace ecgen

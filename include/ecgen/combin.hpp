@@ -55,9 +55,9 @@ namespace ecgen {
         -> cppcoro::generator<Container &> {
         co_yield lst;
         for (const auto &[pos_x, pos_y] : emk_comb_gen(n, k)) {
-            auto temp = lst[pos_x];  // swap
-            lst[pos_x] = lst[pos_y];
-            lst[pos_y] = temp;
+            auto temp = lst[static_cast<typename Container::size_type>(pos_x)];  // swap
+            lst[static_cast<typename Container::size_type>(pos_x)] = lst[static_cast<typename Container::size_type>(pos_y)];
+            lst[static_cast<typename Container::size_type>(pos_y)] = temp;
             co_yield lst;
         }
     }

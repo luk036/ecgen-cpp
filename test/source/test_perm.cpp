@@ -25,7 +25,7 @@ TEST_CASE("Generate all permutations by ehr algorithm (odd)") {
     auto perm = std::vector{1, 3, 5, 7, 9};
     for (auto idx : ecgen::ehr_gen(5)) {
         ++cnt;
-        std::swap(perm[0], perm[idx]);
+        std::swap(perm[0], perm[static_cast<std::vector<int>::size_type>(idx)]);
     }
     CHECK_EQ(cnt, ecgen::Factorial<5>());
     auto lst = std::vector{9, 7, 3, 5, 1};
@@ -38,7 +38,7 @@ TEST_CASE("Generate all permutations by ehr algorithm (even)") {
     auto perm = lst;
     for (auto idx : ecgen::ehr_gen(6)) {
         ++cnt;
-        std::swap(perm[0], perm[idx]);
+        std::swap(perm[0], perm[static_cast<std::vector<int>::size_type>(idx)]);
     }
     std::swap(perm[0], perm[5]);
     CHECK_EQ(cnt, ecgen::Factorial<6>());
