@@ -66,6 +66,8 @@ namespace cppcoro {
                 };
 
                 if (generator.m_promise != nullptr) {
+                    // m_root is always initialized to 'this' in the constructor
+                    // NOLINTNEXTLINE(clang-analyzer-core.NullDereference)
                     m_root->m_parentOrLeaf = generator.m_promise;
                     generator.m_promise->m_root = m_root;
                     generator.m_promise->m_parentOrLeaf = this;
@@ -75,6 +77,7 @@ namespace cppcoro {
                         return awaitable{generator.m_promise};
                     }
 
+                    // NOLINTNEXTLINE(clang-analyzer-core.NullDereference)
                     m_root->m_parentOrLeaf = this;
                 }
 
