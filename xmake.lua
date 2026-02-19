@@ -3,67 +3,67 @@ set_languages("c++20")
 add_rules("mode.debug", "mode.release", "mode.coverage")
 
 if is_mode("release") then
-    set_optimize("fastest")
+	set_optimize("fast")
 end
 
-add_requires("doctest", {alias = "doctest"})
-add_requires("fmt", {alias = "fmt"})
-add_requires("spdlog", {alias = "spdlog"})
-add_requires("benchmark", {alias = "benchmark"})
+add_requires("doctest", { alias = "doctest" })
+add_requires("fmt", { alias = "fmt" })
+add_requires("spdlog", { alias = "spdlog" })
+add_requires("benchmark", { alias = "benchmark" })
 
 if is_mode("coverage") then
-    add_cxflags("-ftest-coverage", "-fprofile-arcs", {force = true})
+	add_cxflags("-ftest-coverage", "-fprofile-arcs", { force = true })
 end
 
 if is_plat("linux") then
-    set_warnings("all", "error")
-    add_cxflags("-Wconversion", {force = true})
-    add_cxflags("-Wno-unused-command-line-argument", {force = true})
-    -- Check if we're on Termux/Android
-    local termux_prefix = os.getenv("PREFIX")
-    if termux_prefix then
-        add_sysincludedirs(termux_prefix .. "/include/c++/v1", {public = true})
-        add_sysincludedirs(termux_prefix .. "/include", {public = true})
-    end
+	set_warnings("all", "error")
+	add_cxflags("-Wconversion", { force = true })
+	add_cxflags("-Wno-unused-command-line-argument", { force = true })
+	-- Check if we're on Termux/Android
+	local termux_prefix = os.getenv("PREFIX")
+	if termux_prefix then
+		add_sysincludedirs(termux_prefix .. "/include/c++/v1", { public = true })
+		add_sysincludedirs(termux_prefix .. "/include", { public = true })
+	end
 elseif is_plat("windows") then
-    add_cxflags("/W4 /WX /wd4819 /wd4127 /wd4996", {force = true})
+	add_cxflags("/W4 /WX /wd4819 /wd4127 /wd4996", { force = true })
 end
 
 target("Ecgen")
-    set_kind("static")
-    add_includedirs("include", {public = true})
-    add_files("source/*.cpp")
-    add_packages("fmt", "spdlog")
+set_kind("static")
+add_includedirs("include", { public = true })
+add_files("source/*.cpp")
+add_packages("fmt", "spdlog")
 
 target("test_ecgen")
-    set_kind("binary")
-    add_deps("Ecgen")
-    add_includedirs("include", {public = true})
-    add_files("test/source/*.cpp")
-    add_packages("doctest")
-    add_packages("fmt", "spdlog")
-    add_tests("default")
+set_kind("binary")
+add_deps("Ecgen")
+add_includedirs("include", { public = true })
+add_files("test/source/*.cpp")
+add_packages("doctest")
+add_packages("fmt", "spdlog")
+add_tests("default")
 
 target("test_emk")
-    set_kind("binary")
-    add_deps("Ecgen")
-    add_includedirs("include", {public = true})
-    add_files("bench/BM_EMK.cpp")
-    add_packages("benchmark")
+set_kind("binary")
+add_deps("Ecgen")
+add_includedirs("include", { public = true })
+add_files("bench/BM_EMK.cpp")
+add_packages("benchmark")
 
 target("test_set_partition")
-    set_kind("binary")
-    add_deps("Ecgen")
-    add_includedirs("include", {public = true})
-    add_files("bench/BM_set_partition.cpp")
-    add_packages("benchmark")
+set_kind("binary")
+add_deps("Ecgen")
+add_includedirs("include", { public = true })
+add_files("bench/BM_set_partition.cpp")
+add_packages("benchmark")
 
 target("spdlog_example")
-    set_kind("binary")
-    add_deps("Ecgen")
-    add_includedirs("include", {public = true})
-    add_files("examples/spdlog_example.cpp")
-    add_packages("fmt", "spdlog")
+set_kind("binary")
+add_deps("Ecgen")
+add_includedirs("include", { public = true })
+add_files("examples/spdlog_example.cpp")
+add_packages("fmt", "spdlog")
 
 -- If you want to known more usage about xmake, please see https://xmake.io
 --
@@ -132,4 +132,3 @@ target("spdlog_example")
 --
 -- @endcode
 --
-
