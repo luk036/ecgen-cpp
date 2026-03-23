@@ -1,3 +1,12 @@
+/**
+ * @file ThreadPool.h
+ * @brief Thread Pool implementation for parallel task execution
+ *
+ * A thread pool that manages a fixed number of worker threads for executing
+ * tasks in parallel. Tasks are submitted via the enqueue method and executed
+ * by available worker threads.
+ */
+
 #ifndef THREAD_POOL_H
 #define THREAD_POOL_H
 
@@ -11,15 +20,57 @@
 #include <thread>
 #include <vector>
 
+/**
+ * @brief Thread Pool class
+ *
+ * A thread pool that manages a fixed number of worker threads for parallel
+ * task execution. Tasks are submitted via the enqueue method and executed
+ * by available worker threads.
+ *
+ * The pool uses a work-stealing pattern where worker threads wait on a
+ * condition variable for new tasks. When a task is enqueued, one worker
+ * is notified to process it.
+ */
 class ThreadPool {
   public:
+    /**
+     * @brief Construct a thread pool with the specified number of threads
+     *
+     * Creates a thread pool with the given number of worker threads.
+     * Each thread runs continuously, waiting for tasks to execute.
+     *
+     * @param[in] threads Number of worker threads to create
+     */
     ThreadPool(size_t);
+
+    /**
+     * @brief Enqueue a task for execution
+     *
+     * Adds a new task to the thread pool's work queue. The task will be
+     * executed by an available worker thread. Returns a future that can be
+     * used to retrieve the result of the task.
+     *
+     * @tparam F Function type
+     * @tparam Args Argument types
+     * @param[in] f The function to execute
+     * @param[in] args Arguments to pass to the function
+     * @return std::future containing the result of the function
+     * @throws std::runtime_error if enqueue is called after stopping the pool
+     */
     template <class F, class... Args> auto enqueue(F &&f, Args &&...args)
 #if __cplusplus >= 201703L
         -> std::future<typename std::invoke_result<F, Args...>::type>;
 #else
         -> std::future<typename std::result_of<F(Args...)>::type>;
 #endif
+
+    /**
+     * @brief Destructor - stops all threads and joins them
+     *
+     * Signals all worker threads to stop, notifies all waiting threads,
+     * and joins all threads. All pending tasks will be executed before
+     * the threads terminate.
+     */
     ~ThreadPool();
 
   private:
