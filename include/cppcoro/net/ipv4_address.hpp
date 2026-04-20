@@ -30,7 +30,7 @@ namespace cppcoro::net {
                                         std::uint8_t b3)
             : m_bytes{b0, b1, b2, b3} {}
 
-        constexpr const bytes_t &bytes() const { return m_bytes; }
+        constexpr const bytes_t& bytes() const { return m_bytes; }
 
         constexpr std::uint32_t to_integer() const {
             return std::uint32_t(m_bytes[0]) << 24 | std::uint32_t(m_bytes[1]) << 16

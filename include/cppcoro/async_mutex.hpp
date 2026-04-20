@@ -109,7 +109,7 @@ namespace cppcoro {
         // the mutex. These operations will acquire the lock in the order
         // they appear in this list. Waiters in this list will acquire the
         // mutex before waiters added to the m_newWaiters list.
-        async_mutex_lock_operation *m_waiters;
+        async_mutex_lock_operation* m_waiters;
     };
 
     /// \brief
@@ -122,15 +122,15 @@ namespace cppcoro {
     /// object itself.
     class async_mutex_lock {
       public:
-        explicit async_mutex_lock(async_mutex &mutex, std::adopt_lock_t) noexcept
+        explicit async_mutex_lock(async_mutex& mutex, std::adopt_lock_t) noexcept
             : m_mutex(&mutex) {}
 
-        async_mutex_lock(async_mutex_lock &&other) noexcept : m_mutex(other.m_mutex) {
+        async_mutex_lock(async_mutex_lock&& other) noexcept : m_mutex(other.m_mutex) {
             other.m_mutex = nullptr;
         }
 
-        async_mutex_lock(const async_mutex_lock &other) = delete;
-        async_mutex_lock &operator=(const async_mutex_lock &other) = delete;
+        async_mutex_lock(const async_mutex_lock& other) = delete;
+        async_mutex_lock& operator=(const async_mutex_lock& other) = delete;
 
         // Releases the lock.
         ~async_mutex_lock() {
@@ -140,12 +140,12 @@ namespace cppcoro {
         }
 
       private:
-        async_mutex *m_mutex;
+        async_mutex* m_mutex;
     };
 
     class async_mutex_lock_operation {
       public:
-        explicit async_mutex_lock_operation(async_mutex &mutex) noexcept : m_mutex(mutex) {}
+        explicit async_mutex_lock_operation(async_mutex& mutex) noexcept : m_mutex(mutex) {}
 
         bool await_ready() const noexcept { return false; }
         bool await_suspend(cppcoro::coroutine_handle<> awaiter) noexcept;
@@ -154,10 +154,10 @@ namespace cppcoro {
       protected:
         friend class async_mutex;
 
-        async_mutex &m_mutex;
+        async_mutex& m_mutex;
 
       private:
-        async_mutex_lock_operation *m_next;
+        async_mutex_lock_operation* m_next;
         cppcoro::coroutine_handle<> m_awaiter;
     };
 

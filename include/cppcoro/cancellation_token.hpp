@@ -21,17 +21,17 @@ namespace cppcoro {
         /// Copy another cancellation token.
         ///
         /// New token will refer to the same underlying state.
-        cancellation_token(const cancellation_token &other) noexcept;
+        cancellation_token(const cancellation_token& other) noexcept;
 
-        cancellation_token(cancellation_token &&other) noexcept;
+        cancellation_token(cancellation_token&& other) noexcept;
 
         ~cancellation_token();
 
-        cancellation_token &operator=(const cancellation_token &other) noexcept;
+        cancellation_token& operator=(const cancellation_token& other) noexcept;
 
-        cancellation_token &operator=(cancellation_token &&other) noexcept;
+        cancellation_token& operator=(cancellation_token&& other) noexcept;
 
-        void swap(cancellation_token &other) noexcept;
+        void swap(cancellation_token& other) noexcept;
 
         /// Query if it is possible that this operation will be cancelled
         /// or not.
@@ -52,12 +52,12 @@ namespace cppcoro {
         friend class cancellation_source;
         friend class cancellation_registration;
 
-        cancellation_token(detail::cancellation_state *state) noexcept;
+        cancellation_token(detail::cancellation_state* state) noexcept;
 
-        detail::cancellation_state *m_state;
+        detail::cancellation_state* m_state;
     };
 
-    inline void swap(cancellation_token &a, cancellation_token &b) noexcept { a.swap(b); }
+    inline void swap(cancellation_token& a, cancellation_token& b) noexcept { a.swap(b); }
 }  // namespace cppcoro
 
 #endif

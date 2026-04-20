@@ -17,10 +17,10 @@ namespace cppcoro {
             : m_state(initiallySet ? this : nullptr) {}
 
         void set() noexcept {
-            void *oldValue = m_state.exchange(this, std::memory_order_release);
+            void* oldValue = m_state.exchange(this, std::memory_order_release);
             if (oldValue != nullptr && oldValue != this) {
                 // There was a waiting coroutine that we now need to resume.
-                auto handle = *static_cast<cppcoro::coroutine_handle<> *>(oldValue);
+                auto handle = *static_cast<cppcoro::coroutine_handle<>*>(oldValue);
 
                 // We also need to transition the state back to 'not set' before
                 // resuming the coroutine. This operation needs to be 'acquire'
@@ -39,7 +39,7 @@ namespace cppcoro {
         auto operator co_await() const noexcept {
             class awaiter {
               public:
-                awaiter(const single_consumer_async_auto_reset_event &event) noexcept
+                awaiter(const single_consumer_async_auto_reset_event& event) noexcept
                     : m_event(event) {}
 
                 bool await_ready() const noexcept { return false; }
@@ -47,7 +47,7 @@ namespace cppcoro {
                 bool await_suspend(cppcoro::coroutine_handle<> awaitingCoroutine) noexcept {
                     m_awaitingCoroutine = awaitingCoroutine;
 
-                    void *oldValue = nullptr;
+                    void* oldValue = nullptr;
                     if (!m_event.m_state.compare_exchange_strong(oldValue, &m_awaitingCoroutine,
                                                                  std::memory_order_release,
                                                                  std::memory_order_relaxed)) {
@@ -68,7 +68,7 @@ namespace cppcoro {
                 void await_resume() noexcept {}
 
               private:
-                const single_consumer_async_auto_reset_event &m_event;
+                const single_consumer_async_auto_reset_event& m_event;
                 cppcoro::coroutine_handle<> m_awaitingCoroutine;
             };
 
@@ -79,7 +79,7 @@ namespace cppcoro {
         // nullptr - not set, no waiter
         // this    - set
         // other   - not set, pointer is address of a coroutine_handle<> to resume.
-        mutable std::atomic<void *> m_state;
+        mutable std::atomic<void*> m_state;
     };
 }  // namespace cppcoro
 

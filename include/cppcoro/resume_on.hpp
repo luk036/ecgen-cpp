@@ -14,18 +14,18 @@
 
 namespace cppcoro {
     template <typename SCHEDULER> struct resume_on_transform {
-        explicit resume_on_transform(SCHEDULER &s) noexcept : scheduler(s) {}
+        explicit resume_on_transform(SCHEDULER& s) noexcept : scheduler(s) {}
 
-        SCHEDULER &scheduler;
+        SCHEDULER& scheduler;
     };
 
     template <typename SCHEDULER>
-    resume_on_transform<SCHEDULER> resume_on(SCHEDULER &scheduler) noexcept {
+    resume_on_transform<SCHEDULER> resume_on(SCHEDULER& scheduler) noexcept {
         return resume_on_transform<SCHEDULER>(scheduler);
     }
 
     template <typename T, typename SCHEDULER>
-    decltype(auto) operator|(T &&value, resume_on_transform<SCHEDULER> transform) {
+    decltype(auto) operator|(T&& value, resume_on_transform<SCHEDULER> transform) {
         return resume_on(transform.scheduler, std::forward<T>(value));
     }
 
@@ -33,7 +33,7 @@ namespace cppcoro {
               typename AWAIT_RESULT = detail::remove_rvalue_reference_t<
                   typename awaitable_traits<AWAITABLE>::await_result_t>,
               std::enable_if_t<!std::is_void_v<AWAIT_RESULT>, int> = 0>
-    auto resume_on(SCHEDULER &scheduler, AWAITABLE awaitable) -> task<AWAIT_RESULT> {
+    auto resume_on(SCHEDULER& scheduler, AWAITABLE awaitable) -> task<AWAIT_RESULT> {
         bool rescheduled = false;
         std::exception_ptr ex;
         try {
@@ -43,9 +43,9 @@ namespace cppcoro {
             // in the awaiter that would otherwise be a temporary
             // and destructed before the value could be returned.
 
-            auto &&awaiter = detail::get_awaiter(static_cast<AWAITABLE &&>(awaitable));
+            auto&& awaiter = detail::get_awaiter(static_cast<AWAITABLE&&>(awaitable));
 
-            auto &&result = co_await static_cast<decltype(awaiter)>(awaiter);
+            auto&& result = co_await static_cast<decltype(awaiter)>(awaiter);
 
             // Flag as rescheduled before scheduling in case it is the
             // schedule() operation that throws an exception as we don't
@@ -72,10 +72,10 @@ namespace cppcoro {
               typename AWAIT_RESULT = detail::remove_rvalue_reference_t<
                   typename awaitable_traits<AWAITABLE>::await_result_t>,
               std::enable_if_t<std::is_void_v<AWAIT_RESULT>, int> = 0>
-    auto resume_on(SCHEDULER &scheduler, AWAITABLE awaitable) -> task<> {
+    auto resume_on(SCHEDULER& scheduler, AWAITABLE awaitable) -> task<> {
         std::exception_ptr ex;
         try {
-            co_await static_cast<AWAITABLE &&>(awaitable);
+            co_await static_cast<AWAITABLE&&>(awaitable);
         } catch (...) {
             ex = std::current_exception();
         }
@@ -93,9 +93,9 @@ namespace cppcoro {
     }
 
     template <typename SCHEDULER, typename T>
-    async_generator<T> resume_on(SCHEDULER &scheduler, async_generator<T> source) {
+    async_generator<T> resume_on(SCHEDULER& scheduler, async_generator<T> source) {
         for (auto iter = co_await source.begin(); iter != source.end(); co_await ++iter) {
-            auto &value = *iter;
+            auto& value = *iter;
             co_await scheduler.schedule();
             co_yield value;
         }

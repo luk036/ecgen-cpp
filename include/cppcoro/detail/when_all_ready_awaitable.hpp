@@ -25,20 +25,20 @@ namespace cppcoro {
 
         template <typename... TASKS> class when_all_ready_awaitable<std::tuple<TASKS...>> {
           public:
-            explicit when_all_ready_awaitable(TASKS &&...tasks) noexcept(
+            explicit when_all_ready_awaitable(TASKS&&... tasks) noexcept(
                 std::conjunction_v<std::is_nothrow_move_constructible<TASKS>...>)
                 : m_counter(sizeof...(TASKS)), m_tasks(std::move(tasks)...) {}
 
-            explicit when_all_ready_awaitable(std::tuple<TASKS...> &&tasks) noexcept(
+            explicit when_all_ready_awaitable(std::tuple<TASKS...>&& tasks) noexcept(
                 std::is_nothrow_move_constructible_v<std::tuple<TASKS...>>)
                 : m_counter(sizeof...(TASKS)), m_tasks(std::move(tasks)) {}
 
-            when_all_ready_awaitable(when_all_ready_awaitable &&other) noexcept
+            when_all_ready_awaitable(when_all_ready_awaitable&& other) noexcept
                 : m_counter(sizeof...(TASKS)), m_tasks(std::move(other.m_tasks)) {}
 
-            auto operator co_await() &noexcept {
+            auto operator co_await() & noexcept {
                 struct awaiter {
-                    awaiter(when_all_ready_awaitable &awaitable) noexcept
+                    awaiter(when_all_ready_awaitable& awaitable) noexcept
                         : m_awaitable(awaitable) {}
 
                     bool await_ready() const noexcept { return m_awaitable.is_ready(); }
@@ -47,18 +47,18 @@ namespace cppcoro {
                         return m_awaitable.try_await(awaitingCoroutine);
                     }
 
-                    std::tuple<TASKS...> &await_resume() noexcept { return m_awaitable.m_tasks; }
+                    std::tuple<TASKS...>& await_resume() noexcept { return m_awaitable.m_tasks; }
 
                   private:
-                    when_all_ready_awaitable &m_awaitable;
+                    when_all_ready_awaitable& m_awaitable;
                 };
 
                 return awaiter{*this};
             }
 
-            auto operator co_await() &&noexcept {
+            auto operator co_await() && noexcept {
                 struct awaiter {
-                    awaiter(when_all_ready_awaitable &awaitable) noexcept
+                    awaiter(when_all_ready_awaitable& awaitable) noexcept
                         : m_awaitable(awaitable) {}
 
                     bool await_ready() const noexcept { return m_awaitable.is_ready(); }
@@ -67,12 +67,12 @@ namespace cppcoro {
                         return m_awaitable.try_await(awaitingCoroutine);
                     }
 
-                    std::tuple<TASKS...> &&await_resume() noexcept {
+                    std::tuple<TASKS...>&& await_resume() noexcept {
                         return std::move(m_awaitable.m_tasks);
                     }
 
                   private:
-                    when_all_ready_awaitable &m_awaitable;
+                    when_all_ready_awaitable& m_awaitable;
                 };
 
                 return awaiter{*this};
@@ -98,20 +98,20 @@ namespace cppcoro {
 
         template <typename TASK_CONTAINER> class when_all_ready_awaitable {
           public:
-            explicit when_all_ready_awaitable(TASK_CONTAINER &&tasks) noexcept
+            explicit when_all_ready_awaitable(TASK_CONTAINER&& tasks) noexcept
                 : m_counter(tasks.size()), m_tasks(std::forward<TASK_CONTAINER>(tasks)) {}
 
-            when_all_ready_awaitable(when_all_ready_awaitable &&other) noexcept(
+            when_all_ready_awaitable(when_all_ready_awaitable&& other) noexcept(
                 std::is_nothrow_move_constructible_v<TASK_CONTAINER>)
                 : m_counter(other.m_tasks.size()), m_tasks(std::move(other.m_tasks)) {}
 
-            when_all_ready_awaitable(const when_all_ready_awaitable &) = delete;
-            when_all_ready_awaitable &operator=(const when_all_ready_awaitable &) = delete;
+            when_all_ready_awaitable(const when_all_ready_awaitable&) = delete;
+            when_all_ready_awaitable& operator=(const when_all_ready_awaitable&) = delete;
 
-            auto operator co_await() &noexcept {
+            auto operator co_await() & noexcept {
                 class awaiter {
                   public:
-                    awaiter(when_all_ready_awaitable &awaitable) : m_awaitable(awaitable) {}
+                    awaiter(when_all_ready_awaitable& awaitable) : m_awaitable(awaitable) {}
 
                     bool await_ready() const noexcept { return m_awaitable.is_ready(); }
 
@@ -119,19 +119,19 @@ namespace cppcoro {
                         return m_awaitable.try_await(awaitingCoroutine);
                     }
 
-                    TASK_CONTAINER &await_resume() noexcept { return m_awaitable.m_tasks; }
+                    TASK_CONTAINER& await_resume() noexcept { return m_awaitable.m_tasks; }
 
                   private:
-                    when_all_ready_awaitable &m_awaitable;
+                    when_all_ready_awaitable& m_awaitable;
                 };
 
                 return awaiter{*this};
             }
 
-            auto operator co_await() &&noexcept {
+            auto operator co_await() && noexcept {
                 class awaiter {
                   public:
-                    awaiter(when_all_ready_awaitable &awaitable) : m_awaitable(awaitable) {}
+                    awaiter(when_all_ready_awaitable& awaitable) : m_awaitable(awaitable) {}
 
                     bool await_ready() const noexcept { return m_awaitable.is_ready(); }
 
@@ -139,12 +139,12 @@ namespace cppcoro {
                         return m_awaitable.try_await(awaitingCoroutine);
                     }
 
-                    TASK_CONTAINER &&await_resume() noexcept {
+                    TASK_CONTAINER&& await_resume() noexcept {
                         return std::move(m_awaitable.m_tasks);
                     }
 
                   private:
-                    when_all_ready_awaitable &m_awaitable;
+                    when_all_ready_awaitable& m_awaitable;
                 };
 
                 return awaiter{*this};
@@ -154,7 +154,7 @@ namespace cppcoro {
             bool is_ready() const noexcept { return m_counter.is_ready(); }
 
             bool try_await(cppcoro::coroutine_handle<> awaitingCoroutine) noexcept {
-                for (auto &&task : m_tasks) {
+                for (auto&& task : m_tasks) {
                     task.start(m_counter);
                 }
 

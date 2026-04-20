@@ -18,16 +18,16 @@
 namespace cppcoro {
     class file_read_operation_impl {
       public:
-        file_read_operation_impl(detail::win32::handle_t fileHandle, void *buffer,
+        file_read_operation_impl(detail::win32::handle_t fileHandle, void* buffer,
                                  std::size_t byteCount) noexcept
             : m_fileHandle(fileHandle), m_buffer(buffer), m_byteCount(byteCount) {}
 
-        bool try_start(cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
-        void cancel(cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
+        bool try_start(cppcoro::detail::win32_overlapped_operation_base& operation) noexcept;
+        void cancel(cppcoro::detail::win32_overlapped_operation_base& operation) noexcept;
 
       private:
         detail::win32::handle_t m_fileHandle;
-        void *m_buffer;
+        void* m_buffer;
         std::size_t m_byteCount;
     };
 
@@ -35,7 +35,7 @@ namespace cppcoro {
         : public cppcoro::detail::win32_overlapped_operation<file_read_operation> {
       public:
         file_read_operation(detail::win32::handle_t fileHandle, std::uint64_t fileOffset,
-                            void *buffer, std::size_t byteCount) noexcept
+                            void* buffer, std::size_t byteCount) noexcept
             : cppcoro::detail::win32_overlapped_operation<file_read_operation>(fileOffset),
               m_impl(fileHandle, buffer, byteCount) {}
 
@@ -52,11 +52,11 @@ namespace cppcoro {
               file_read_operation_cancellable> {
       public:
         file_read_operation_cancellable(detail::win32::handle_t fileHandle,
-                                        std::uint64_t fileOffset, void *buffer,
+                                        std::uint64_t fileOffset, void* buffer,
                                         std::size_t byteCount,
-                                        cancellation_token &&cancellationToken) noexcept
+                                        cancellation_token&& cancellationToken) noexcept
             : cppcoro::detail::win32_overlapped_operation_cancellable<
-                file_read_operation_cancellable>(fileOffset, std::move(cancellationToken)),
+                  file_read_operation_cancellable>(fileOffset, std::move(cancellationToken)),
               m_impl(fileHandle, buffer, byteCount) {}
 
       private:

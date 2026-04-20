@@ -13,30 +13,30 @@
 
 namespace cppcoro {
     template <typename SCHEDULER> struct schedule_on_transform {
-        explicit schedule_on_transform(SCHEDULER &scheduler) noexcept : scheduler(scheduler) {}
+        explicit schedule_on_transform(SCHEDULER& scheduler) noexcept : scheduler(scheduler) {}
 
-        SCHEDULER &scheduler;
+        SCHEDULER& scheduler;
     };
 
     template <typename SCHEDULER>
-    schedule_on_transform<SCHEDULER> schedule_on(SCHEDULER &scheduler) {
+    schedule_on_transform<SCHEDULER> schedule_on(SCHEDULER& scheduler) {
         return schedule_on_transform<SCHEDULER>{scheduler};
     }
 
     template <typename T, typename SCHEDULER>
-    decltype(auto) operator|(T &&value, schedule_on_transform<SCHEDULER> transform) {
+    decltype(auto) operator|(T&& value, schedule_on_transform<SCHEDULER> transform) {
         return schedule_on(transform.scheduler, std::forward<T>(value));
     }
 
     template <typename SCHEDULER, typename AWAITABLE>
-    auto schedule_on(SCHEDULER &scheduler, AWAITABLE awaitable) -> task<
+    auto schedule_on(SCHEDULER& scheduler, AWAITABLE awaitable) -> task<
         detail::remove_rvalue_reference_t<typename awaitable_traits<AWAITABLE>::await_result_t>> {
         co_await scheduler.schedule();
         co_return co_await std::move(awaitable);
     }
 
     template <typename T, typename SCHEDULER>
-    async_generator<T> schedule_on(SCHEDULER &scheduler, async_generator<T> source) {
+    async_generator<T> schedule_on(SCHEDULER& scheduler, async_generator<T> source) {
         // Transfer exection to the scheduler before the implicit calls to
         // 'co_await begin()' or subsequent calls to `co_await
         // iterator::operator++()` below. This ensures that all calls to the

@@ -24,12 +24,13 @@ namespace cppcoro {
     template <typename... AWAITABLES,
               std::enable_if_t<std::conjunction_v<is_awaitable<detail::unwrap_reference_t<
                                    std::remove_reference_t<AWAITABLES>>>...>,
-                               int> = 0>
-    [[nodiscard]] auto when_all(AWAITABLES &&...awaitables) {
+                               int>
+              = 0>
+    [[nodiscard]] auto when_all(AWAITABLES&&... awaitables) {
         return fmap(
-            [](auto &&taskTuple) {
+            [](auto&& taskTuple) {
                 return std::apply(
-                    [](auto &&...tasks) {
+                    [](auto&&... tasks) {
                         return std::make_tuple(
                             static_cast<decltype(tasks)>(tasks).non_void_result()...);
                     },
@@ -47,8 +48,8 @@ namespace cppcoro {
               std::enable_if_t<std::is_void_v<RESULT>, int> = 0>
     [[nodiscard]] auto when_all(std::vector<AWAITABLE> awaitables) {
         return fmap(
-            [](auto &&taskVector) {
-                for (auto &task : taskVector) {
+            [](auto&& taskVector) {
+                for (auto& task : taskVector) {
                     task.result();
                 }
             },
@@ -65,10 +66,10 @@ namespace cppcoro {
                                             std::remove_reference_t<RESULT>>;
 
         return fmap(
-            [](auto &&taskVector) {
+            [](auto&& taskVector) {
                 std::vector<result_t> results;
                 results.reserve(taskVector.size());
-                for (auto &task : taskVector) {
+                for (auto& task : taskVector) {
                     if constexpr (std::is_rvalue_reference_v<decltype(taskVector)>) {
                         results.emplace_back(std::move(task).result());
                     } else {

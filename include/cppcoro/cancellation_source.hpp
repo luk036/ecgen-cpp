@@ -19,15 +19,15 @@ namespace cppcoro {
 
         /// Create a new reference to the same underlying cancellation
         /// source as \p other.
-        cancellation_source(const cancellation_source &other) noexcept;
+        cancellation_source(const cancellation_source& other) noexcept;
 
-        cancellation_source(cancellation_source &&other) noexcept;
+        cancellation_source(cancellation_source&& other) noexcept;
 
         ~cancellation_source();
 
-        cancellation_source &operator=(const cancellation_source &other) noexcept;
+        cancellation_source& operator=(const cancellation_source& other) noexcept;
 
-        cancellation_source &operator=(cancellation_source &&other) noexcept;
+        cancellation_source& operator=(cancellation_source&& other) noexcept;
 
         /// Query if this cancellation source can be cancelled.
         ///
@@ -58,7 +58,7 @@ namespace cppcoro {
         bool is_cancellation_requested() const noexcept;
 
       private:
-        detail::cancellation_state *m_state;
+        detail::cancellation_state* m_state;
     };
 }  // namespace cppcoro
 

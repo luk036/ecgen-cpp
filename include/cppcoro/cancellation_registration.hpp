@@ -44,14 +44,14 @@ namespace cppcoro {
         /// If registration failed due to insufficient memory available.
         template <typename FUNC,
                   typename
-                  = std::enable_if_t<std::is_constructible_v<std::function<void()>, FUNC &&>>>
-        cancellation_registration(cancellation_token token, FUNC &&callback)
+                  = std::enable_if_t<std::is_constructible_v<std::function<void()>, FUNC&&>>>
+        cancellation_registration(cancellation_token token, FUNC&& callback)
             : m_callback(std::forward<FUNC>(callback)) {
             register_callback(std::move(token));
         }
 
-        cancellation_registration(const cancellation_registration &other) = delete;
-        cancellation_registration &operator=(const cancellation_registration &other) = delete;
+        cancellation_registration(const cancellation_registration& other) = delete;
+        cancellation_registration& operator=(const cancellation_registration& other) = delete;
 
         /// Deregisters the callback.
         ///
@@ -68,11 +68,11 @@ namespace cppcoro {
         friend class detail::cancellation_state;
         friend struct detail::cancellation_registration_state;
 
-        void register_callback(cancellation_token &&token);
+        void register_callback(cancellation_token&& token);
 
-        detail::cancellation_state *m_state;
+        detail::cancellation_state* m_state;
         std::function<void()> m_callback;
-        detail::cancellation_registration_list_chunk *m_chunk;
+        detail::cancellation_registration_list_chunk* m_chunk;
         std::uint32_t m_entryIndex;
     };
 }  // namespace cppcoro

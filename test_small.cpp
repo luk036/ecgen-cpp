@@ -1,6 +1,6 @@
-#include <iostream>
 #include <ecgen/combin.hpp>
 #include <ecgen/perm.hpp>
+#include <iostream>
 
 int main() {
     std::cout << "Testing small values..." << std::endl;

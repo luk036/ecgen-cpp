@@ -21,7 +21,7 @@ namespace cppcoro {
       public:
         using size_type = typename sequence_range<SEQUENCE, TRAITS>::size_type;
 
-        single_producer_sequencer(const sequence_barrier<SEQUENCE, TRAITS> &consumerBarrier,
+        single_producer_sequencer(const sequence_barrier<SEQUENCE, TRAITS>& consumerBarrier,
                                   std::size_t bufferSize,
                                   SEQUENCE initialSequence = TRAITS::initial_sequence) noexcept
             : m_consumerBarrier(consumerBarrier),
@@ -39,7 +39,7 @@ namespace cppcoro {
         /// written to the ring-buffer.
         template <typename SCHEDULER>
         [[nodiscard]] single_producer_sequencer_claim_one_operation<SEQUENCE, TRAITS, SCHEDULER>
-        claim_one(SCHEDULER &scheduler) noexcept;
+        claim_one(SCHEDULER& scheduler) noexcept;
 
         /// Claim one or more contiguous slots in the ring-buffer.
         ///
@@ -59,7 +59,7 @@ namespace cppcoro {
         /// consumers.
         template <typename SCHEDULER>
         [[nodiscard]] single_producer_sequencer_claim_operation<SEQUENCE, TRAITS, SCHEDULER>
-        claim_up_to(std::size_t count, SCHEDULER &scheduler) noexcept;
+        claim_up_to(std::size_t count, SCHEDULER& scheduler) noexcept;
 
         /// Publish the specified sequence number.
         ///
@@ -73,7 +73,7 @@ namespace cppcoro {
         ///
         /// This is equivalent to just publishing the last sequence number in the
         /// range.
-        void publish(const sequence_range<SEQUENCE, TRAITS> &sequences) noexcept {
+        void publish(const sequence_range<SEQUENCE, TRAITS>& sequences) noexcept {
             m_producerBarrier.publish(sequences.back());
         }
 
@@ -98,7 +98,7 @@ namespace cppcoro {
         /// requested sequence number to be published.
         template <typename SCHEDULER>
         [[nodiscard]] auto wait_until_published(SEQUENCE targetSequence,
-                                                SCHEDULER &scheduler) const noexcept {
+                                                SCHEDULER& scheduler) const noexcept {
             return m_producerBarrier.wait_until_published(targetSequence, scheduler);
         }
 
@@ -114,7 +114,7 @@ namespace cppcoro {
 #    pragma warning(disable : 4324)  // C4324: structure was padded due to alignment specifier
 #endif
 
-        const sequence_barrier<SEQUENCE, TRAITS> &m_consumerBarrier;
+        const sequence_barrier<SEQUENCE, TRAITS>& m_consumerBarrier;
         const std::size_t m_bufferSize;
 
         alignas(CPPCORO_CPU_CACHE_LINE) SEQUENCE m_nextToClaim;
@@ -130,10 +130,11 @@ namespace cppcoro {
     class single_producer_sequencer_claim_one_operation {
       public:
         single_producer_sequencer_claim_one_operation(
-            single_producer_sequencer<SEQUENCE, TRAITS> &sequencer, SCHEDULER &scheduler) noexcept
+            single_producer_sequencer<SEQUENCE, TRAITS>& sequencer, SCHEDULER& scheduler) noexcept
             : m_consumerWaitOperation(
-                sequencer.m_consumerBarrier,
-                static_cast<SEQUENCE>(sequencer.m_nextToClaim - sequencer.m_bufferSize), scheduler),
+                  sequencer.m_consumerBarrier,
+                  static_cast<SEQUENCE>(sequencer.m_nextToClaim - sequencer.m_bufferSize),
+                  scheduler),
               m_sequencer(sequencer) {}
 
         bool await_ready() const noexcept { return m_consumerWaitOperation.await_ready(); }
@@ -146,18 +147,19 @@ namespace cppcoro {
 
       private:
         sequence_barrier_wait_operation<SEQUENCE, TRAITS, SCHEDULER> m_consumerWaitOperation;
-        single_producer_sequencer<SEQUENCE, TRAITS> &m_sequencer;
+        single_producer_sequencer<SEQUENCE, TRAITS>& m_sequencer;
     };
 
     template <typename SEQUENCE, typename TRAITS, typename SCHEDULER>
     class single_producer_sequencer_claim_operation {
       public:
         explicit single_producer_sequencer_claim_operation(
-            single_producer_sequencer<SEQUENCE, TRAITS> &sequencer, std::size_t count,
-            SCHEDULER &scheduler) noexcept
+            single_producer_sequencer<SEQUENCE, TRAITS>& sequencer, std::size_t count,
+            SCHEDULER& scheduler) noexcept
             : m_consumerWaitOperation(
-                sequencer.m_consumerBarrier,
-                static_cast<SEQUENCE>(sequencer.m_nextToClaim - sequencer.m_bufferSize), scheduler),
+                  sequencer.m_consumerBarrier,
+                  static_cast<SEQUENCE>(sequencer.m_nextToClaim - sequencer.m_bufferSize),
+                  scheduler),
               m_sequencer(sequencer),
               m_count(count) {}
 
@@ -181,13 +183,13 @@ namespace cppcoro {
 
       private:
         sequence_barrier_wait_operation<SEQUENCE, TRAITS, SCHEDULER> m_consumerWaitOperation;
-        single_producer_sequencer<SEQUENCE, TRAITS> &m_sequencer;
+        single_producer_sequencer<SEQUENCE, TRAITS>& m_sequencer;
         std::size_t m_count;
     };
 
     template <typename SEQUENCE, typename TRAITS> template <typename SCHEDULER>
     [[nodiscard]] single_producer_sequencer_claim_one_operation<SEQUENCE, TRAITS, SCHEDULER>
-    single_producer_sequencer<SEQUENCE, TRAITS>::claim_one(SCHEDULER &scheduler) noexcept {
+    single_producer_sequencer<SEQUENCE, TRAITS>::claim_one(SCHEDULER& scheduler) noexcept {
         return single_producer_sequencer_claim_one_operation<SEQUENCE, TRAITS, SCHEDULER>{
             *this, scheduler};
     }
@@ -195,7 +197,7 @@ namespace cppcoro {
     template <typename SEQUENCE, typename TRAITS> template <typename SCHEDULER>
     [[nodiscard]] single_producer_sequencer_claim_operation<SEQUENCE, TRAITS, SCHEDULER>
     single_producer_sequencer<SEQUENCE, TRAITS>::claim_up_to(std::size_t count,
-                                                             SCHEDULER &scheduler) noexcept {
+                                                             SCHEDULER& scheduler) noexcept {
         return single_producer_sequencer_claim_operation<SEQUENCE, TRAITS, SCHEDULER>(*this, count,
                                                                                       scheduler);
     }

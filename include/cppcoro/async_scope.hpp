@@ -21,8 +21,8 @@ namespace cppcoro {
             assert(m_continuation);
         }
 
-        template <typename AWAITABLE> void spawn(AWAITABLE &&awaitable) {
-            [](async_scope *scope, std::decay_t<AWAITABLE> awaitable) -> oneway_task {
+        template <typename AWAITABLE> void spawn(AWAITABLE&& awaitable) {
+            [](async_scope* scope, std::decay_t<AWAITABLE> awaitable) -> oneway_task {
                 scope->on_work_started();
                 auto decrementOnCompletion = on_scope_exit([scope] { scope->on_work_finished(); });
                 co_await std::move(awaitable);
@@ -31,10 +31,10 @@ namespace cppcoro {
 
         [[nodiscard]] auto join() noexcept {
             class awaiter {
-                async_scope *m_scope;
+                async_scope* m_scope;
 
               public:
-                awaiter(async_scope *scope) noexcept : m_scope(scope) {}
+                awaiter(async_scope* scope) noexcept : m_scope(scope) {}
 
                 bool await_ready() noexcept {
                     return m_scope->m_count.load(std::memory_order_acquire) == 0;

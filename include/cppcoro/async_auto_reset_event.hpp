@@ -59,18 +59,18 @@ namespace cppcoro {
         // Bits 32-63 - Waiter count
         mutable std::atomic<std::uint64_t> m_state;
 
-        mutable std::atomic<async_auto_reset_event_operation *> m_newWaiters;
+        mutable std::atomic<async_auto_reset_event_operation*> m_newWaiters;
 
-        mutable async_auto_reset_event_operation *m_waiters;
+        mutable async_auto_reset_event_operation* m_waiters;
     };
 
     class async_auto_reset_event_operation {
       public:
         async_auto_reset_event_operation() noexcept;
 
-        explicit async_auto_reset_event_operation(const async_auto_reset_event &event) noexcept;
+        explicit async_auto_reset_event_operation(const async_auto_reset_event& event) noexcept;
 
-        async_auto_reset_event_operation(const async_auto_reset_event_operation &other) noexcept;
+        async_auto_reset_event_operation(const async_auto_reset_event_operation& other) noexcept;
 
         bool await_ready() const noexcept { return m_event == nullptr; }
         bool await_suspend(cppcoro::coroutine_handle<> awaiter) noexcept;
@@ -79,8 +79,8 @@ namespace cppcoro {
       private:
         friend class async_auto_reset_event;
 
-        const async_auto_reset_event *m_event;
-        async_auto_reset_event_operation *m_next;
+        const async_auto_reset_event* m_event;
+        async_auto_reset_event_operation* m_next;
         cppcoro::coroutine_handle<> m_awaiter;
         std::atomic<std::uint32_t> m_refCount;
     };

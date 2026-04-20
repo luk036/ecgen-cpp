@@ -21,19 +21,19 @@ namespace cppcoro {
             using iterator_category = std::random_access_iterator_tag;
             using value_type = SEQUENCE;
             using difference_type = typename TRAITS::difference_type;
-            using reference = const SEQUENCE &;
-            using pointer = const SEQUENCE *;
+            using reference = const SEQUENCE&;
+            using pointer = const SEQUENCE*;
 
             explicit constexpr const_iterator(SEQUENCE value) noexcept : m_value(value) {}
 
-            const SEQUENCE &operator*() const noexcept { return m_value; }
-            const SEQUENCE *operator->() const noexcept { return std::addressof(m_value); }
+            const SEQUENCE& operator*() const noexcept { return m_value; }
+            const SEQUENCE* operator->() const noexcept { return std::addressof(m_value); }
 
-            const_iterator &operator++() noexcept {
+            const_iterator& operator++() noexcept {
                 ++m_value;
                 return *this;
             }
-            const_iterator &operator--() noexcept {
+            const_iterator& operator--() noexcept {
                 --m_value;
                 return *this;
             }

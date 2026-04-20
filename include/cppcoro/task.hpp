@@ -41,7 +41,7 @@ namespace cppcoro {
                 // were crashing under x86 optimised builds.
                 template <typename PROMISE> CPPCORO_NOINLINE void await_suspend(
                     cppcoro::coroutine_handle<PROMISE> coroutine) noexcept {
-                    task_promise_base &promise = coroutine.promise();
+                    task_promise_base& promise = coroutine.promise();
 
                     // Use 'release' memory semantics in case we finish before the
                     // awaiter can suspend so that the awaiting thread sees our
@@ -112,20 +112,19 @@ namespace cppcoro {
             task<T> get_return_object() noexcept;
 
             void unhandled_exception() noexcept {
-                ::new (static_cast<void *>(std::addressof(m_exception)))
+                ::new (static_cast<void*>(std::addressof(m_exception)))
                     std::exception_ptr(std::current_exception());
                 m_resultType = result_type::exception;
             }
 
             template <typename VALUE,
-                      typename = std::enable_if_t<std::is_convertible_v<VALUE &&, T>>>
-            void return_value(VALUE &&value) noexcept(
-                std::is_nothrow_constructible_v<T, VALUE &&>) {
-                ::new (static_cast<void *>(std::addressof(m_value))) T(std::forward<VALUE>(value));
+                      typename = std::enable_if_t<std::is_convertible_v<VALUE&&, T>>>
+            void return_value(VALUE&& value) noexcept(std::is_nothrow_constructible_v<T, VALUE&&>) {
+                ::new (static_cast<void*>(std::addressof(m_value))) T(std::forward<VALUE>(value));
                 m_resultType = result_type::value;
             }
 
-            T &result() & {
+            T& result() & {
                 if (m_resultType == result_type::exception) {
                     std::rethrow_exception(m_exception);
                 }
@@ -143,7 +142,7 @@ namespace cppcoro {
             // See
             // https://github.com/lewissbaker/cppcoro/issues/40#issuecomment-326864107
             using rvalue_type
-                = std::conditional_t<std::is_arithmetic_v<T> || std::is_pointer_v<T>, T, T &&>;
+                = std::conditional_t<std::is_arithmetic_v<T> || std::is_pointer_v<T>, T, T&&>;
 
             rvalue_type result() && {
                 if (m_resultType == result_type::exception) {
@@ -186,17 +185,17 @@ namespace cppcoro {
             std::exception_ptr m_exception;
         };
 
-        template <typename T> class task_promise<T &> : public task_promise_base {
+        template <typename T> class task_promise<T&> : public task_promise_base {
           public:
             task_promise() noexcept = default;
 
-            task<T &> get_return_object() noexcept;
+            task<T&> get_return_object() noexcept;
 
             void unhandled_exception() noexcept { m_exception = std::current_exception(); }
 
-            void return_value(T &value) noexcept { m_value = std::addressof(value); }
+            void return_value(T& value) noexcept { m_value = std::addressof(value); }
 
-            T &result() {
+            T& result() {
                 if (m_exception) {
                     std::rethrow_exception(m_exception);
                 }
@@ -205,7 +204,7 @@ namespace cppcoro {
             }
 
           private:
-            T *m_value = nullptr;
+            T* m_value = nullptr;
             std::exception_ptr m_exception;
         };
     }  // namespace detail
@@ -270,11 +269,11 @@ namespace cppcoro {
 
         explicit task(cppcoro::coroutine_handle<promise_type> coroutine) : m_coroutine(coroutine) {}
 
-        task(task &&t) noexcept : m_coroutine(t.m_coroutine) { t.m_coroutine = nullptr; }
+        task(task&& t) noexcept : m_coroutine(t.m_coroutine) { t.m_coroutine = nullptr; }
 
         /// Disable copy construction/assignment.
-        task(const task &) = delete;
-        task &operator=(const task &) = delete;
+        task(const task&) = delete;
+        task& operator=(const task&) = delete;
 
         /// Frees resources used by this task.
         ~task() {
@@ -283,7 +282,7 @@ namespace cppcoro {
             }
         }
 
-        task &operator=(task &&other) noexcept {
+        task& operator=(task&& other) noexcept {
             if (std::addressof(other) != this) {
                 if (m_coroutine) {
                     m_coroutine.destroy();
@@ -302,7 +301,7 @@ namespace cppcoro {
         /// Awaiting a task that is ready is guaranteed not to block/suspend.
         bool is_ready() const noexcept { return !m_coroutine || m_coroutine.done(); }
 
-        auto operator co_await() const &noexcept {
+        auto operator co_await() const& noexcept {
             struct awaitable : awaitable_base {
                 using awaitable_base::awaitable_base;
 
@@ -318,7 +317,7 @@ namespace cppcoro {
             return awaitable{m_coroutine};
         }
 
-        auto operator co_await() const &&noexcept {
+        auto operator co_await() const&& noexcept {
             struct awaitable : awaitable_base {
                 using awaitable_base::awaitable_base;
 
@@ -360,14 +359,14 @@ namespace cppcoro {
             return task<void>{cppcoro::coroutine_handle<task_promise>::from_promise(*this)};
         }
 
-        template <typename T> task<T &> task_promise<T &>::get_return_object() noexcept {
-            return task<T &>{cppcoro::coroutine_handle<task_promise>::from_promise(*this)};
+        template <typename T> task<T&> task_promise<T&>::get_return_object() noexcept {
+            return task<T&>{cppcoro::coroutine_handle<task_promise>::from_promise(*this)};
         }
     }  // namespace detail
 
     template <typename AWAITABLE> auto make_task(AWAITABLE awaitable) -> task<
         detail::remove_rvalue_reference_t<typename awaitable_traits<AWAITABLE>::await_result_t>> {
-        co_return co_await static_cast<AWAITABLE &&>(awaitable);
+        co_return co_await static_cast<AWAITABLE&&>(awaitable);
     }
 }  // namespace cppcoro
 

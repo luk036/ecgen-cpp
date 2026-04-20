@@ -22,7 +22,7 @@ namespace cppcoro {
     namespace detail {
         struct shared_task_waiter {
             cppcoro::coroutine_handle<> m_continuation;
-            shared_task_waiter *m_next;
+            shared_task_waiter* m_next;
         };
 
         class shared_task_promise_base {
@@ -33,21 +33,21 @@ namespace cppcoro {
 
                 template <typename PROMISE>
                 void await_suspend(cppcoro::coroutine_handle<PROMISE> h) noexcept {
-                    shared_task_promise_base &promise = h.promise();
+                    shared_task_promise_base& promise = h.promise();
 
                     // Exchange operation needs to be 'release' so that subsequent
                     // awaiters have visibility of the result. Also needs to be
                     // 'acquire' so we have visibility of writes to the waiters list.
-                    void *const valueReadyValue = &promise;
-                    void *waiters
+                    void* const valueReadyValue = &promise;
+                    void* waiters
                         = promise.m_waiters.exchange(valueReadyValue, std::memory_order_acq_rel);
                     if (waiters != nullptr) {
-                        shared_task_waiter *waiter = static_cast<shared_task_waiter *>(waiters);
+                        shared_task_waiter* waiter = static_cast<shared_task_waiter*>(waiters);
                         while (waiter->m_next != nullptr) {
                             // Read the m_next pointer before resuming the coroutine
                             // since resuming the coroutine may destroy the
                             // shared_task_waiter value.
-                            auto *next = waiter->m_next;
+                            auto* next = waiter->m_next;
                             waiter->m_continuation.resume();
                             waiter = next;
                         }
@@ -71,7 +71,7 @@ namespace cppcoro {
             void unhandled_exception() noexcept { m_exception = std::current_exception(); }
 
             bool is_ready() const noexcept {
-                const void *const valueReadyValue = this;
+                const void* const valueReadyValue = this;
                 return m_waiters.load(std::memory_order_acquire) == valueReadyValue;
             }
 
@@ -102,10 +102,10 @@ namespace cppcoro {
             /// waiter->m_coroutine will be resumed when the task completes.
             /// false if the coroutine was already completed and the awaiting
             /// coroutine can continue without suspending.
-            bool try_await(shared_task_waiter *waiter, cppcoro::coroutine_handle<> coroutine) {
-                void *const valueReadyValue = this;
-                void *const notStartedValue = &this->m_waiters;
-                constexpr void *startedNoWaitersValue = static_cast<shared_task_waiter *>(nullptr);
+            bool try_await(shared_task_waiter* waiter, cppcoro::coroutine_handle<> coroutine) {
+                void* const valueReadyValue = this;
+                void* const notStartedValue = &this->m_waiters;
+                constexpr void* startedNoWaitersValue = static_cast<shared_task_waiter*>(nullptr);
 
                 // NOTE: If the coroutine is not yet started then the first waiter
                 // will start the coroutine before enqueuing itself up to the list
@@ -118,7 +118,7 @@ namespace cppcoro {
                 // tasks in a row.
 
                 // Start the coroutine if not already started.
-                void *oldWaiters = m_waiters.load(std::memory_order_acquire);
+                void* oldWaiters = m_waiters.load(std::memory_order_acquire);
                 if (oldWaiters == notStartedValue
                     && m_waiters.compare_exchange_strong(oldWaiters, startedNoWaitersValue,
                                                          std::memory_order_relaxed)) {
@@ -134,8 +134,8 @@ namespace cppcoro {
                         return false;
                     }
 
-                    waiter->m_next = static_cast<shared_task_waiter *>(oldWaiters);
-                } while (!m_waiters.compare_exchange_weak(oldWaiters, static_cast<void *>(waiter),
+                    waiter->m_next = static_cast<shared_task_waiter*>(oldWaiters);
+                } while (!m_waiters.compare_exchange_weak(oldWaiters, static_cast<void*>(waiter),
                                                           std::memory_order_release,
                                                           std::memory_order_acquire));
 
@@ -161,7 +161,7 @@ namespace cppcoro {
             // - other            - pointer to head item in linked-list of waiters.
             //                      values are of type 'cppcoro::shared_task_waiter'.
             //                      indicates that the coroutine has been started.
-            std::atomic<void *> m_waiters;
+            std::atomic<void*> m_waiters;
 
             std::exception_ptr m_exception;
         };
@@ -172,22 +172,21 @@ namespace cppcoro {
 
             ~shared_task_promise() {
                 if (this->is_ready() && !this->completed_with_unhandled_exception()) {
-                    reinterpret_cast<T *>(&m_valueStorage)->~T();
+                    reinterpret_cast<T*>(&m_valueStorage)->~T();
                 }
             }
 
             shared_task<T> get_return_object() noexcept;
 
             template <typename VALUE,
-                      typename = std::enable_if_t<std::is_convertible_v<VALUE &&, T>>>
-            void return_value(VALUE &&value) noexcept(
-                std::is_nothrow_constructible_v<T, VALUE &&>) {
+                      typename = std::enable_if_t<std::is_convertible_v<VALUE&&, T>>>
+            void return_value(VALUE&& value) noexcept(std::is_nothrow_constructible_v<T, VALUE&&>) {
                 new (&m_valueStorage) T(std::forward<VALUE>(value));
             }
 
-            T &result() {
+            T& result() {
                 this->rethrow_if_unhandled_exception();
-                return *reinterpret_cast<T *>(&m_valueStorage);
+                return *reinterpret_cast<T*>(&m_valueStorage);
             }
 
           private:
@@ -208,21 +207,21 @@ namespace cppcoro {
             void result() { this->rethrow_if_unhandled_exception(); }
         };
 
-        template <typename T> class shared_task_promise<T &> : public shared_task_promise_base {
+        template <typename T> class shared_task_promise<T&> : public shared_task_promise_base {
           public:
             shared_task_promise() noexcept = default;
 
-            shared_task<T &> get_return_object() noexcept;
+            shared_task<T&> get_return_object() noexcept;
 
-            void return_value(T &value) noexcept { m_value = std::addressof(value); }
+            void return_value(T& value) noexcept { m_value = std::addressof(value); }
 
-            T &result() {
+            T& result() {
                 this->rethrow_if_unhandled_exception();
                 return *m_value;
             }
 
           private:
-            T *m_value;
+            T* m_value;
         };
     }  // namespace detail
 
@@ -260,11 +259,11 @@ namespace cppcoro {
             // in the shared_task_promise constructor.
         }
 
-        shared_task(shared_task &&other) noexcept : m_coroutine(other.m_coroutine) {
+        shared_task(shared_task&& other) noexcept : m_coroutine(other.m_coroutine) {
             other.m_coroutine = nullptr;
         }
 
-        shared_task(const shared_task &other) noexcept : m_coroutine(other.m_coroutine) {
+        shared_task(const shared_task& other) noexcept : m_coroutine(other.m_coroutine) {
             if (m_coroutine) {
                 m_coroutine.promise().add_ref();
             }
@@ -272,7 +271,7 @@ namespace cppcoro {
 
         ~shared_task() { destroy(); }
 
-        shared_task &operator=(shared_task &&other) noexcept {
+        shared_task& operator=(shared_task&& other) noexcept {
             if (&other != this) {
                 destroy();
 
@@ -283,7 +282,7 @@ namespace cppcoro {
             return *this;
         }
 
-        shared_task &operator=(const shared_task &other) noexcept {
+        shared_task& operator=(const shared_task& other) noexcept {
             if (m_coroutine != other.m_coroutine) {
                 destroy();
 
@@ -297,7 +296,7 @@ namespace cppcoro {
             return *this;
         }
 
-        void swap(shared_task &other) noexcept { std::swap(m_coroutine, other.m_coroutine); }
+        void swap(shared_task& other) noexcept { std::swap(m_coroutine, other.m_coroutine); }
 
         /// \brief
         /// Query if the task result is complete.
@@ -336,7 +335,7 @@ namespace cppcoro {
 
       private:
         template <typename U>
-        friend bool operator==(const shared_task<U> &, const shared_task<U> &) noexcept;
+        friend bool operator==(const shared_task<U>&, const shared_task<U>&) noexcept;
 
         void destroy() noexcept {
             if (m_coroutine) {
@@ -350,16 +349,16 @@ namespace cppcoro {
     };
 
     template <typename T>
-    bool operator==(const shared_task<T> &lhs, const shared_task<T> &rhs) noexcept {
+    bool operator==(const shared_task<T>& lhs, const shared_task<T>& rhs) noexcept {
         return lhs.m_coroutine == rhs.m_coroutine;
     }
 
     template <typename T>
-    bool operator!=(const shared_task<T> &lhs, const shared_task<T> &rhs) noexcept {
+    bool operator!=(const shared_task<T>& lhs, const shared_task<T>& rhs) noexcept {
         return !(lhs == rhs);
     }
 
-    template <typename T> void swap(shared_task<T> &a, shared_task<T> &b) noexcept { a.swap(b); }
+    template <typename T> void swap(shared_task<T>& a, shared_task<T>& b) noexcept { a.swap(b); }
 
     namespace detail {
         template <typename T> shared_task<T> shared_task_promise<T>::get_return_object() noexcept {
@@ -368,8 +367,8 @@ namespace cppcoro {
         }
 
         template <typename T>
-        shared_task<T &> shared_task_promise<T &>::get_return_object() noexcept {
-            return shared_task<T &>{
+        shared_task<T&> shared_task_promise<T&>::get_return_object() noexcept {
+            return shared_task<T&>{
                 cppcoro::coroutine_handle<shared_task_promise>::from_promise(*this)};
         }
 
@@ -381,7 +380,7 @@ namespace cppcoro {
 
     template <typename AWAITABLE> auto make_shared_task(AWAITABLE awaitable) -> shared_task<
         detail::remove_rvalue_reference_t<typename awaitable_traits<AWAITABLE>::await_result_t>> {
-        co_return co_await static_cast<AWAITABLE &&>(awaitable);
+        co_return co_await static_cast<AWAITABLE&&>(awaitable);
     }
 }  // namespace cppcoro
 

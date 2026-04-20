@@ -37,15 +37,15 @@ namespace cppcoro {
         ///
         /// \throw std::system_error
         /// If the file could not be opened for read.
-        [[nodiscard]] static read_only_file open(io_service &ioService,
-                                                 const cppcoro::filesystem::path &path,
+        [[nodiscard]] static read_only_file open(io_service& ioService,
+                                                 const cppcoro::filesystem::path& path,
                                                  file_share_mode shareMode = file_share_mode::read,
                                                  file_buffering_mode bufferingMode
                                                  = file_buffering_mode::default_);
 
       protected:
 #if CPPCORO_OS_WINNT
-        read_only_file(detail::win32::safe_handle &&fileHandle) noexcept;
+        read_only_file(detail::win32::safe_handle&& fileHandle) noexcept;
 #endif
     };
 }  // namespace cppcoro

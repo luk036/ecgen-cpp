@@ -66,7 +66,7 @@ namespace cppcoro {
         auto operator co_await() noexcept {
             class awaiter {
               public:
-                awaiter(single_consumer_event &event) : m_event(event) {}
+                awaiter(single_consumer_event& event) : m_event(event) {}
 
                 bool await_ready() const noexcept { return m_event.is_set(); }
 
@@ -82,7 +82,7 @@ namespace cppcoro {
                 void await_resume() noexcept {}
 
               private:
-                single_consumer_event &m_event;
+                single_consumer_event& m_event;
             };
 
             return awaiter{*this};

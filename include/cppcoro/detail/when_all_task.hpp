@@ -55,8 +55,8 @@ namespace cppcoro {
 #if CPPCORO_COMPILER_MSVC && CPPCORO_COMPILER_MSVC < 19'20'00000
             // HACK: This is needed to work around a bug in MSVC 2017.7/2017.8.
             // See comment in make_when_all_task below.
-            template <typename Awaitable> Awaitable &&await_transform(Awaitable &&awaitable) {
-                return static_cast<Awaitable &&>(awaitable);
+            template <typename Awaitable> Awaitable&& await_transform(Awaitable&& awaitable) {
+                return static_cast<Awaitable&&>(awaitable);
             }
 
             struct get_promise_t {};
@@ -65,34 +65,34 @@ namespace cppcoro {
             auto await_transform(get_promise_t) {
                 class awaiter {
                   public:
-                    awaiter(when_all_task_promise *promise) noexcept : m_promise(promise) {}
+                    awaiter(when_all_task_promise* promise) noexcept : m_promise(promise) {}
                     bool await_ready() noexcept { return true; }
                     void await_suspend(cppcoro::coroutine_handle<>) noexcept {}
-                    when_all_task_promise &await_resume() noexcept { return *m_promise; }
+                    when_all_task_promise& await_resume() noexcept { return *m_promise; }
 
                   private:
-                    when_all_task_promise *m_promise;
+                    when_all_task_promise* m_promise;
                 };
                 return awaiter{this};
             }
 #endif
 
-            auto yield_value(RESULT &&result) noexcept {
+            auto yield_value(RESULT&& result) noexcept {
                 m_result = std::addressof(result);
                 return final_suspend();
             }
 
-            void start(when_all_counter &counter) noexcept {
+            void start(when_all_counter& counter) noexcept {
                 m_counter = &counter;
                 coroutine_handle_t::from_promise(*this).resume();
             }
 
-            RESULT &result() & {
+            RESULT& result() & {
                 rethrow_if_exception();
                 return *m_result;
             }
 
-            RESULT &&result() && {
+            RESULT&& result() && {
                 rethrow_if_exception();
                 return std::forward<RESULT>(*m_result);
             }
@@ -104,7 +104,7 @@ namespace cppcoro {
                 }
             }
 
-            when_all_counter *m_counter;
+            when_all_counter* m_counter;
             std::exception_ptr m_exception;
             std::add_pointer_t<RESULT> m_result;
         };
@@ -138,7 +138,7 @@ namespace cppcoro {
 
             void return_void() noexcept {}
 
-            void start(when_all_counter &counter) noexcept {
+            void start(when_all_counter& counter) noexcept {
                 m_counter = &counter;
                 coroutine_handle_t::from_promise(*this).resume();
             }
@@ -150,7 +150,7 @@ namespace cppcoro {
             }
 
           private:
-            when_all_counter *m_counter;
+            when_all_counter* m_counter;
             std::exception_ptr m_exception;
         };
 
@@ -162,15 +162,15 @@ namespace cppcoro {
 
             when_all_task(coroutine_handle_t coroutine) noexcept : m_coroutine(coroutine) {}
 
-            when_all_task(when_all_task &&other) noexcept
+            when_all_task(when_all_task&& other) noexcept
                 : m_coroutine(std::exchange(other.m_coroutine, coroutine_handle_t{})) {}
 
             ~when_all_task() {
                 if (m_coroutine) m_coroutine.destroy();
             }
 
-            when_all_task(const when_all_task &) = delete;
-            when_all_task &operator=(const when_all_task &) = delete;
+            when_all_task(const when_all_task&) = delete;
+            when_all_task& operator=(const when_all_task&) = delete;
 
             decltype(auto) result() & { return m_coroutine.promise().result(); }
 
@@ -197,14 +197,13 @@ namespace cppcoro {
           private:
             template <typename TASK_CONTAINER> friend class when_all_ready_awaitable;
 
-            void start(when_all_counter &counter) noexcept { m_coroutine.promise().start(counter); }
+            void start(when_all_counter& counter) noexcept { m_coroutine.promise().start(counter); }
 
             coroutine_handle_t m_coroutine;
         };
 
         template <typename AWAITABLE,
-                  typename RESULT
-                  = typename cppcoro::awaitable_traits<AWAITABLE &&>::await_result_t,
+                  typename RESULT = typename cppcoro::awaitable_traits<AWAITABLE&&>::await_result_t,
                   std::enable_if_t<!std::is_void_v<RESULT>, int> = 0>
         when_all_task<RESULT> make_when_all_task(AWAITABLE awaitable) {
 #if CPPCORO_COMPILER_MSVC && CPPCORO_COMPILER_MSVC < 19'20'00000
@@ -213,23 +212,22 @@ namespace cppcoro {
             // promise.yield_value(). The coroutine seems to be resuming the 'co_await'
             // after the 'co_yield' rather than before the 'co_yield'. This bug is
             // present in VS 2017.7 and VS 2017.8.
-            auto &promise = co_await when_all_task_promise<RESULT>::get_promise;
+            auto& promise = co_await when_all_task_promise<RESULT>::get_promise;
             co_await promise.yield_value(co_await std::forward<AWAITABLE>(awaitable));
 #else
-            co_yield co_await static_cast<AWAITABLE &&>(awaitable);
+            co_yield co_await static_cast<AWAITABLE&&>(awaitable);
 #endif
         }
 
         template <typename AWAITABLE,
-                  typename RESULT
-                  = typename cppcoro::awaitable_traits<AWAITABLE &&>::await_result_t,
+                  typename RESULT = typename cppcoro::awaitable_traits<AWAITABLE&&>::await_result_t,
                   std::enable_if_t<std::is_void_v<RESULT>, int> = 0>
         when_all_task<void> make_when_all_task(AWAITABLE awaitable) {
-            co_await static_cast<AWAITABLE &&>(awaitable);
+            co_await static_cast<AWAITABLE&&>(awaitable);
         }
 
         template <typename AWAITABLE,
-                  typename RESULT = typename cppcoro::awaitable_traits<AWAITABLE &>::await_result_t,
+                  typename RESULT = typename cppcoro::awaitable_traits<AWAITABLE&>::await_result_t,
                   std::enable_if_t<!std::is_void_v<RESULT>, int> = 0>
         when_all_task<RESULT> make_when_all_task(std::reference_wrapper<AWAITABLE> awaitable) {
 #if CPPCORO_COMPILER_MSVC && CPPCORO_COMPILER_MSVC < 19'20'00000
@@ -238,7 +236,7 @@ namespace cppcoro {
             // promise.yield_value(). The coroutine seems to be resuming the 'co_await'
             // after the 'co_yield' rather than before the 'co_yield'. This bug is
             // present in VS 2017.7 and VS 2017.8.
-            auto &promise = co_await when_all_task_promise<RESULT>::get_promise;
+            auto& promise = co_await when_all_task_promise<RESULT>::get_promise;
             co_await promise.yield_value(co_await awaitable.get());
 #else
             co_yield co_await awaitable.get();
@@ -246,7 +244,7 @@ namespace cppcoro {
         }
 
         template <typename AWAITABLE,
-                  typename RESULT = typename cppcoro::awaitable_traits<AWAITABLE &>::await_result_t,
+                  typename RESULT = typename cppcoro::awaitable_traits<AWAITABLE&>::await_result_t,
                   std::enable_if_t<std::is_void_v<RESULT>, int> = 0>
         when_all_task<void> make_when_all_task(std::reference_wrapper<AWAITABLE> awaitable) {
             co_await awaitable.get();

@@ -1,12 +1,13 @@
-#include <iostream>
 #include <ecgen/combin.hpp>
+#include <iostream>
 
 int main() {
     std::cout << "Testing emk_comb_gen(4, 2)..." << std::endl;
     size_t cnt = 0;
     try {
         for (auto idx : ecgen::emk_comb_gen(4, 2)) {
-            std::cout << "Swap " << cnt << ": (" << idx.first << ", " << idx.second << ")" << std::endl;
+            std::cout << "Swap " << cnt << ": (" << idx.first << ", " << idx.second << ")"
+                      << std::endl;
             ++cnt;
         }
         std::cout << "Total swaps: " << cnt << std::endl;

@@ -21,7 +21,7 @@ namespace cppcoro {
 
     class file {
       public:
-        file(file &&other) noexcept = default;
+        file(file&& other) noexcept = default;
 
         virtual ~file();
 
@@ -30,11 +30,11 @@ namespace cppcoro {
 
       protected:
 #if CPPCORO_OS_WINNT
-        file(detail::win32::safe_handle &&fileHandle) noexcept;
+        file(detail::win32::safe_handle&& fileHandle) noexcept;
 
         static detail::win32::safe_handle open(detail::win32::dword_t fileAccess,
-                                               io_service &ioService,
-                                               const cppcoro::filesystem::path &path,
+                                               io_service& ioService,
+                                               const cppcoro::filesystem::path& path,
                                                file_open_mode openMode, file_share_mode shareMode,
                                                file_buffering_mode bufferingMode);
 

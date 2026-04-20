@@ -36,7 +36,7 @@ struct DiffCover {
     int n_minus_d;
     int n1;
     int n2;
-    const int *begin_a;
+    const int* begin_a;
     size_t size_n;
 
     DiffCover(int n, int d, int threshold)
@@ -93,7 +93,7 @@ struct DiffCover {
         }
         if (t >= this->threshold) {
             int8_t count = 0;
-            const int8_t *begin = &differences[1];
+            const int8_t* begin = &differences[1];
             for (auto p = begin; p != begin + this->n2; ++p) {
                 count += *p;
             }
@@ -159,7 +159,7 @@ struct DiffCover {
 //------------------------------------------------------
 void usage() { printf("Usage: necklace [n] [density] [threshold]\n"); }
 //--------------------------------------------------------------------------------
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     if (argc < 4) {
         usage();
         return 1;

@@ -80,13 +80,14 @@ namespace ecgen {
      * @param[in] perm
      * @return cppcoro::generator<Container&>
      */
-    template <typename Container> inline auto sjt(Container &perm)
-        -> cppcoro::generator<Container &> {
+    template <typename Container> inline auto sjt(Container& perm)
+        -> cppcoro::generator<Container&> {
         const auto n = int(perm.size());
         for (const int idx : ecgen::sjt_gen(n)) {
             co_yield perm;
             auto temp = perm[static_cast<typename Container::size_type>(idx)];  // swap
-            perm[static_cast<typename Container::size_type>(idx)] = perm[static_cast<typename Container::size_type>(idx + 1)];
+            perm[static_cast<typename Container::size_type>(idx)]
+                = perm[static_cast<typename Container::size_type>(idx + 1)];
             perm[static_cast<typename Container::size_type>(idx + 1)] = temp;
         }
     }

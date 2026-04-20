@@ -12,8 +12,8 @@
 #include <cstdint>
 
 namespace cppcoro {
-    template <typename AWAITABLE> auto sync_wait(AWAITABLE &&awaitable) ->
-        typename cppcoro::awaitable_traits<AWAITABLE &&>::await_result_t {
+    template <typename AWAITABLE> auto sync_wait(AWAITABLE&& awaitable) ->
+        typename cppcoro::awaitable_traits<AWAITABLE&&>::await_result_t {
 #if CPPCORO_COMPILER_MSVC && CPPCORO_COMPILER_MSVC < 19'20'00000
         // HACK: Need to explicitly specify template argument to make_sync_wait_task
         // here to work around a bug in MSVC when passing parameters by universal

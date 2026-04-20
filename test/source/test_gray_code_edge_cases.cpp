@@ -19,9 +19,7 @@ TEST_CASE("Test brgc: n=1") {
     for (const auto& v : g) {
         actual_sequence.push_back(v);
     }
-    std::vector<std::vector<int>> expected_sequence = {
-        {0}, {1}
-    };
+    std::vector<std::vector<int>> expected_sequence = {{0}, {1}};
     CHECK(actual_sequence == expected_sequence);
 }
 
@@ -32,10 +30,8 @@ TEST_CASE("Test brgc: n=3, check sequence") {
         actual_sequence.push_back(v);
     }
 
-    std::vector<std::vector<int>> expected_sequence = {
-        {0, 0, 0}, {1, 0, 0}, {1, 1, 0}, {0, 1, 0},
-        {0, 1, 1}, {1, 1, 1}, {1, 0, 1}, {0, 0, 1}
-    };
+    std::vector<std::vector<int>> expected_sequence
+        = {{0, 0, 0}, {1, 0, 0}, {1, 1, 0}, {0, 1, 0}, {0, 1, 1}, {1, 1, 1}, {1, 0, 1}, {0, 0, 1}};
 
     INFO("Actual sequence: ", fmt::format("{}", fmt::join(actual_sequence, ", ")));
     INFO("Expected sequence: ", fmt::format("{}", fmt::join(expected_sequence, ", ")));

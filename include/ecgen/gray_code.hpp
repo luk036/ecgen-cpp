@@ -50,11 +50,12 @@ namespace ecgen {
      * @param[in] n - The length of the Gray code sequence to generate.
      * @return A generator that yields each value in the Gray code sequence.
      */
-    template <typename Container> auto brgc(int n) -> cppcoro::generator<Container &> {
+    template <typename Container> auto brgc(int n) -> cppcoro::generator<Container&> {
         auto lst = Container(static_cast<typename Container::size_type>(n), 0);
         co_yield lst;
         for (const int idx : brgc_gen(n)) {
-            lst[static_cast<typename Container::size_type>(idx)] = 1 - lst[static_cast<typename Container::size_type>(idx)];  // flip
+            lst[static_cast<typename Container::size_type>(idx)]
+                = 1 - lst[static_cast<typename Container::size_type>(idx)];  // flip
             co_yield lst;
         }
     }

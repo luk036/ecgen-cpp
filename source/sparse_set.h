@@ -26,9 +26,9 @@
  * This allows O(1) operations for add, remove, and contains checks.
  */
 typedef struct {
-    uint8_t domain[MAX_N];    ///< Maps dense index to element value
-    uint8_t inverse[MAX_N];   ///< Maps element value to dense index (inverse mapping)
-    uint8_t size;              ///< Current number of elements in the set
+    uint8_t domain[MAX_N];   ///< Maps dense index to element value
+    uint8_t inverse[MAX_N];  ///< Maps element value to dense index (inverse mapping)
+    uint8_t size;            ///< Current number of elements in the set
 } SparseSet;
 
 /**
@@ -40,7 +40,7 @@ typedef struct {
  * @param[out] set Pointer to the SparseSet to initialize
  * @param[in] size Maximum size for the set (not used in current implementation)
  */
-inline void init(SparseSet *set, int size) {
+inline void init(SparseSet* set, int size) {
     set->size = size;
     for (int i = 0; i < MAX_N; i++) {
         set->domain[i] = i;
@@ -57,7 +57,7 @@ inline void init(SparseSet *set, int size) {
  * @param[in] src Pointer to the source SparseSet to copy
  * @param[in] n Number of elements to copy
  */
-inline void copy(SparseSet *des, SparseSet *src, size_t n) {
+inline void copy(SparseSet* des, SparseSet* src, size_t n) {
     des->size = src->size;
     memcpy(des->domain, src->domain, n);
     memcpy(des->inverse, src->inverse, n);
@@ -72,7 +72,7 @@ inline void copy(SparseSet *des, SparseSet *src, size_t n) {
  * @param[in,out] set Pointer to the SparseSet to add the element to
  * @param[in] element The element value to add (must be < MAX_N)
  */
-inline void add(SparseSet *set, uint8_t element) {
+inline void add(SparseSet* set, uint8_t element) {
     if (set->inverse[element] < set->size) return;
     set->domain[set->size] = element;
     set->inverse[element] = set->size;

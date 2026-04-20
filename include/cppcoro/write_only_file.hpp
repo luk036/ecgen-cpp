@@ -42,8 +42,8 @@ namespace cppcoro {
         ///
         /// \throw std::system_error
         /// If the file could not be opened for write.
-        [[nodiscard]] static write_only_file open(io_service &ioService,
-                                                  const cppcoro::filesystem::path &path,
+        [[nodiscard]] static write_only_file open(io_service& ioService,
+                                                  const cppcoro::filesystem::path& path,
                                                   file_open_mode openMode
                                                   = file_open_mode::create_or_open,
                                                   file_share_mode shareMode = file_share_mode::none,
@@ -52,7 +52,7 @@ namespace cppcoro {
 
       protected:
 #if CPPCORO_OS_WINNT
-        write_only_file(detail::win32::safe_handle &&fileHandle) noexcept;
+        write_only_file(detail::win32::safe_handle&& fileHandle) noexcept;
 #endif
     };
 }  // namespace cppcoro

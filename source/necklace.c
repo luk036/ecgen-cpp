@@ -795,7 +795,7 @@ void usage() {
         "content] (1<=type<=12 or 21<=type<=27, n>=1, k>=2)\n");
 }
 //--------------------------------------------------------------------------------
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     int i, j, n_digit, sum;
 
     if (argc < 5) {

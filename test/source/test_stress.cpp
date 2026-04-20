@@ -1,11 +1,11 @@
 #include <doctest/doctest.h>
 
 #include <ecgen/combin.hpp>
-#include <ecgen/perm.hpp>
 #include <ecgen/gray_code.hpp>
+#include <ecgen/perm.hpp>
 #include <ecgen/set_partition.hpp>
-#include <vector>
 #include <numeric>
+#include <vector>
 
 TEST_SUITE("stress tests") {
     TEST_CASE("combinations stress") {

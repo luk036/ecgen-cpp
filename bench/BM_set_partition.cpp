@@ -9,7 +9,7 @@
  *
  * @param[in,out] state
  */
-static void set_partition_new(benchmark::State &state) {
+static void set_partition_new(benchmark::State& state) {
     constexpr int N = 14;
     constexpr int K = 3;
     while (state.KeepRunning()) {
@@ -31,7 +31,7 @@ BENCHMARK(set_partition_new);
  *
  * @param[in,out] state
  */
-static void set_partition_old(benchmark::State &state) {
+static void set_partition_old(benchmark::State& state) {
     constexpr size_t N = 14;
     constexpr size_t K = 3;
     while (state.KeepRunning()) {

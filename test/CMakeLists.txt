@@ -56,7 +56,9 @@ endif()
 # enable compiler warnings
 if(NOT TEST_INSTALLED_VERSION)
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_compile_options(EcGen PUBLIC -Wall -Wpedantic -Wextra -Werror -Wno-deprecated-literal-operator)
+    target_compile_options(
+      EcGen PUBLIC -Wall -Wpedantic -Wextra -Werror -Wno-deprecated-literal-operator
+    )
   elseif(MSVC)
     target_compile_options(EcGen PUBLIC /W4 /WX /wd4996)
     target_compile_definitions(${PROJECT_NAME} PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
@@ -71,9 +73,8 @@ enable_testing()
 # testing frameworks add the tests target instead: add_test(NAME ${PROJECT_NAME} COMMAND
 # ${PROJECT_NAME})
 
-# Disable doctest automatic test discovery to avoid conflicts with RapidCheck
-# When mixing doctest with other testing frameworks, a single test that runs all tests
-# is the most reliable approach
+# Disable doctest automatic test discovery to avoid conflicts with RapidCheck When mixing doctest
+# with other testing frameworks, a single test that runs all tests is the most reliable approach
 add_test(NAME EcGenAllTests COMMAND ${PROJECT_NAME})
 
 # ---- code coverage ----

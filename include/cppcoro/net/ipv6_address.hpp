@@ -30,7 +30,7 @@ namespace cppcoro::net {
 
         explicit constexpr ipv6_address(const std::uint8_t (&bytes)[16]);
 
-        constexpr const bytes_t &bytes() const { return m_bytes; }
+        constexpr const bytes_t& bytes() const { return m_bytes; }
 
         constexpr std::uint64_t subnet_prefix() const;
 
@@ -69,12 +69,12 @@ namespace cppcoro::net {
         ///   "102:304::3f:c447:ab99:1011"
         std::string to_string() const;
 
-        constexpr bool operator==(const ipv6_address &other) const;
-        constexpr bool operator!=(const ipv6_address &other) const;
-        constexpr bool operator<(const ipv6_address &other) const;
-        constexpr bool operator>(const ipv6_address &other) const;
-        constexpr bool operator<=(const ipv6_address &other) const;
-        constexpr bool operator>=(const ipv6_address &other) const;
+        constexpr bool operator==(const ipv6_address& other) const;
+        constexpr bool operator!=(const ipv6_address& other) const;
+        constexpr bool operator<(const ipv6_address& other) const;
+        constexpr bool operator>(const ipv6_address& other) const;
+        constexpr bool operator<=(const ipv6_address& other) const;
+        constexpr bool operator>=(const ipv6_address& other) const;
 
       private:
         alignas(std::uint64_t) std::uint8_t m_bytes[16];
@@ -150,18 +150,18 @@ namespace cppcoro::net {
 
     constexpr ipv6_address ipv6_address::loopback() { return ipv6_address{0, 0, 0, 0, 0, 0, 0, 1}; }
 
-    constexpr bool ipv6_address::operator==(const ipv6_address &other) const {
+    constexpr bool ipv6_address::operator==(const ipv6_address& other) const {
         for (int i = 0; i < 16; ++i) {
             if (m_bytes[i] != other.m_bytes[i]) return false;
         }
         return true;
     }
 
-    constexpr bool ipv6_address::operator!=(const ipv6_address &other) const {
+    constexpr bool ipv6_address::operator!=(const ipv6_address& other) const {
         return !(*this == other);
     }
 
-    constexpr bool ipv6_address::operator<(const ipv6_address &other) const {
+    constexpr bool ipv6_address::operator<(const ipv6_address& other) const {
         for (int i = 0; i < 16; ++i) {
             if (m_bytes[i] != other.m_bytes[i]) return m_bytes[i] < other.m_bytes[i];
         }
@@ -169,15 +169,15 @@ namespace cppcoro::net {
         return false;
     }
 
-    constexpr bool ipv6_address::operator>(const ipv6_address &other) const {
+    constexpr bool ipv6_address::operator>(const ipv6_address& other) const {
         return (other < *this);
     }
 
-    constexpr bool ipv6_address::operator<=(const ipv6_address &other) const {
+    constexpr bool ipv6_address::operator<=(const ipv6_address& other) const {
         return !(other < *this);
     }
 
-    constexpr bool ipv6_address::operator>=(const ipv6_address &other) const {
+    constexpr bool ipv6_address::operator>=(const ipv6_address& other) const {
         return !(*this < other);
     }
 }  // namespace cppcoro::net

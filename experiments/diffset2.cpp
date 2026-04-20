@@ -86,14 +86,14 @@ struct DiffCover {
         }
         if (t >= this->threshold) {
             auto count = 0;
-            int *begin = &this->differences[1];
+            int* begin = &this->differences[1];
             for (auto p = begin; p != begin + this->n2; ++p) {
                 if (*p != 0) {
                     count++;
                 }
             }
             if (count < this->n1 + tt) {
-                int *begin = &diff_t[0];
+                int* begin = &diff_t[0];
                 for (auto p = begin; p != begin + t; ++p) {
                     this->differences[*p] -= 1;
                 }
@@ -124,8 +124,8 @@ struct DiffCover {
                 this->GenD(t1, t1, tt1);
             }
         }
-        int *begin = &diff_t[0];
-        for (int *p = begin; p != begin + t; p++) {
+        int* begin = &diff_t[0];
+        for (int* p = begin; p != begin + t; p++) {
             this->differences[*p] -= 1;
         }
     }
@@ -153,7 +153,7 @@ struct DiffCover {
 //------------------------------------------------------
 void usage() { printf("Usage: necklace [n] [density] [threshold]\n"); }
 //--------------------------------------------------------------------------------
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     if (argc < 4) {
         usage();
         return 1;

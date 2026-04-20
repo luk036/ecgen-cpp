@@ -18,16 +18,16 @@
 namespace cppcoro {
     class file_write_operation_impl {
       public:
-        file_write_operation_impl(detail::win32::handle_t fileHandle, const void *buffer,
+        file_write_operation_impl(detail::win32::handle_t fileHandle, const void* buffer,
                                   std::size_t byteCount) noexcept
             : m_fileHandle(fileHandle), m_buffer(buffer), m_byteCount(byteCount) {}
 
-        bool try_start(cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
-        void cancel(cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
+        bool try_start(cppcoro::detail::win32_overlapped_operation_base& operation) noexcept;
+        void cancel(cppcoro::detail::win32_overlapped_operation_base& operation) noexcept;
 
       private:
         detail::win32::handle_t m_fileHandle;
-        const void *m_buffer;
+        const void* m_buffer;
         std::size_t m_byteCount;
     };
 
@@ -35,7 +35,7 @@ namespace cppcoro {
         : public cppcoro::detail::win32_overlapped_operation<file_write_operation> {
       public:
         file_write_operation(detail::win32::handle_t fileHandle, std::uint64_t fileOffset,
-                             const void *buffer, std::size_t byteCount) noexcept
+                             const void* buffer, std::size_t byteCount) noexcept
             : cppcoro::detail::win32_overlapped_operation<file_write_operation>(fileOffset),
               m_impl(fileHandle, buffer, byteCount) {}
 
@@ -52,10 +52,10 @@ namespace cppcoro {
               file_write_operation_cancellable> {
       public:
         file_write_operation_cancellable(detail::win32::handle_t fileHandle,
-                                         std::uint64_t fileOffset, const void *buffer,
-                                         std::size_t byteCount, cancellation_token &&ct) noexcept
+                                         std::uint64_t fileOffset, const void* buffer,
+                                         std::size_t byteCount, cancellation_token&& ct) noexcept
             : cppcoro::detail::win32_overlapped_operation_cancellable<
-                file_write_operation_cancellable>(fileOffset, std::move(ct)),
+                  file_write_operation_cancellable>(fileOffset, std::move(ct)),
               m_impl(fileHandle, buffer, byteCount) {}
 
       private:

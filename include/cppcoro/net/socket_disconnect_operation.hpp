@@ -18,20 +18,20 @@ namespace cppcoro {
 
         class socket_disconnect_operation_impl {
           public:
-            socket_disconnect_operation_impl(socket &socket) noexcept : m_socket(socket) {}
+            socket_disconnect_operation_impl(socket& socket) noexcept : m_socket(socket) {}
 
-            bool try_start(cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
-            void cancel(cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
-            void get_result(cppcoro::detail::win32_overlapped_operation_base &operation);
+            bool try_start(cppcoro::detail::win32_overlapped_operation_base& operation) noexcept;
+            void cancel(cppcoro::detail::win32_overlapped_operation_base& operation) noexcept;
+            void get_result(cppcoro::detail::win32_overlapped_operation_base& operation);
 
           private:
-            socket &m_socket;
+            socket& m_socket;
         };
 
         class socket_disconnect_operation
             : public cppcoro::detail::win32_overlapped_operation<socket_disconnect_operation> {
           public:
-            socket_disconnect_operation(socket &socket) noexcept : m_impl(socket) {}
+            socket_disconnect_operation(socket& socket) noexcept : m_impl(socket) {}
 
           private:
             friend class cppcoro::detail::win32_overlapped_operation<socket_disconnect_operation>;
@@ -46,10 +46,10 @@ namespace cppcoro {
             : public cppcoro::detail::win32_overlapped_operation_cancellable<
                   socket_disconnect_operation_cancellable> {
           public:
-            socket_disconnect_operation_cancellable(socket &socket,
-                                                    cancellation_token &&ct) noexcept
+            socket_disconnect_operation_cancellable(socket& socket,
+                                                    cancellation_token&& ct) noexcept
                 : cppcoro::detail::win32_overlapped_operation_cancellable<
-                    socket_disconnect_operation_cancellable>(std::move(ct)),
+                      socket_disconnect_operation_cancellable>(std::move(ct)),
                   m_impl(socket) {}
 
           private:

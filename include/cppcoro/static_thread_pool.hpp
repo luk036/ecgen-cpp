@@ -30,7 +30,7 @@ namespace cppcoro {
 
         class schedule_operation {
           public:
-            schedule_operation(static_thread_pool *tp) noexcept : m_threadPool(tp) {}
+            schedule_operation(static_thread_pool* tp) noexcept : m_threadPool(tp) {}
 
             bool await_ready() noexcept { return false; }
             void await_suspend(cppcoro::coroutine_handle<> awaitingCoroutine) noexcept;
@@ -39,9 +39,9 @@ namespace cppcoro {
           private:
             friend class static_thread_pool;
 
-            static_thread_pool *m_threadPool;
+            static_thread_pool* m_threadPool;
             cppcoro::coroutine_handle<> m_awaitingCoroutine;
-            schedule_operation *m_next;
+            schedule_operation* m_next;
         };
 
         std::uint32_t thread_count() const noexcept { return m_threadCount; }
@@ -55,9 +55,9 @@ namespace cppcoro {
 
         void shutdown();
 
-        void schedule_impl(schedule_operation *operation) noexcept;
+        void schedule_impl(schedule_operation* operation) noexcept;
 
-        void remote_enqueue(schedule_operation *operation) noexcept;
+        void remote_enqueue(schedule_operation* operation) noexcept;
 
         bool has_any_queued_work_for(std::uint32_t threadIndex) noexcept;
 
@@ -68,7 +68,7 @@ namespace cppcoro {
         void notify_intent_to_sleep(std::uint32_t threadIndex) noexcept;
         void try_clear_intent_to_sleep(std::uint32_t threadIndex) noexcept;
 
-        schedule_operation *try_global_dequeue() noexcept;
+        schedule_operation* try_global_dequeue() noexcept;
 
         /// Try to steal a task from another thread.
         ///
@@ -76,14 +76,14 @@ namespace cppcoro {
         /// A pointer to the operation that was stolen if one could be stolen
         /// from another thread. Otherwise returns nullptr if none of the other
         /// threads had any tasks that could be stolen.
-        schedule_operation *try_steal_from_other_thread(std::uint32_t thisThreadIndex) noexcept;
+        schedule_operation* try_steal_from_other_thread(std::uint32_t thisThreadIndex) noexcept;
 
         void wake_one_thread() noexcept;
 
         class thread_state;
 
-        static thread_local thread_state *s_currentState;
-        static thread_local static_thread_pool *s_currentThreadPool;
+        static thread_local thread_state* s_currentState;
+        static thread_local static_thread_pool* s_currentThreadPool;
 
         const std::uint32_t m_threadCount;
         const std::unique_ptr<thread_state[]> m_threadStates;
@@ -93,10 +93,10 @@ namespace cppcoro {
         std::atomic<bool> m_stopRequested;
 
         std::mutex m_globalQueueMutex;
-        std::atomic<schedule_operation *> m_globalQueueHead;
+        std::atomic<schedule_operation*> m_globalQueueHead;
 
         // alignas(std::hardware_destructive_interference_size)
-        std::atomic<schedule_operation *> m_globalQueueTail;
+        std::atomic<schedule_operation*> m_globalQueueTail;
 
         // alignas(std::hardware_destructive_interference_size)
         std::atomic<std::uint32_t> m_sleepingThreadCount;

@@ -46,10 +46,10 @@ namespace cppcoro {
         /// \return
         /// An object that represents the write operation.
         /// This object must be co_await'ed to start the write operation.
-        [[nodiscard]] file_write_operation write(std::uint64_t offset, const void *buffer,
+        [[nodiscard]] file_write_operation write(std::uint64_t offset, const void* buffer,
                                                  std::size_t byteCount) noexcept;
         [[nodiscard]] file_write_operation_cancellable write(std::uint64_t offset,
-                                                             const void *buffer,
+                                                             const void* buffer,
                                                              std::size_t byteCount,
                                                              cancellation_token ct) noexcept;
 

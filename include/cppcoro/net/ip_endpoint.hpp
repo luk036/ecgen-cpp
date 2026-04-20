@@ -25,8 +25,8 @@ namespace cppcoro {
             bool is_ipv4() const noexcept { return m_family == family::ipv4; }
             bool is_ipv6() const noexcept { return m_family == family::ipv6; }
 
-            const ipv4_endpoint &to_ipv4() const;
-            const ipv6_endpoint &to_ipv6() const;
+            const ipv4_endpoint& to_ipv4() const;
+            const ipv6_endpoint& to_ipv6() const;
 
             ip_address address() const noexcept;
             std::uint16_t port() const noexcept;
@@ -35,14 +35,14 @@ namespace cppcoro {
 
             static std::optional<ip_endpoint> from_string(std::string_view string) noexcept;
 
-            bool operator==(const ip_endpoint &rhs) const noexcept;
-            bool operator!=(const ip_endpoint &rhs) const noexcept;
+            bool operator==(const ip_endpoint& rhs) const noexcept;
+            bool operator!=(const ip_endpoint& rhs) const noexcept;
 
             //  ipv4_endpoint sorts less than ipv6_endpoint
-            bool operator<(const ip_endpoint &rhs) const noexcept;
-            bool operator>(const ip_endpoint &rhs) const noexcept;
-            bool operator<=(const ip_endpoint &rhs) const noexcept;
-            bool operator>=(const ip_endpoint &rhs) const noexcept;
+            bool operator<(const ip_endpoint& rhs) const noexcept;
+            bool operator>(const ip_endpoint& rhs) const noexcept;
+            bool operator<=(const ip_endpoint& rhs) const noexcept;
+            bool operator>=(const ip_endpoint& rhs) const noexcept;
 
           private:
             enum class family { ipv4, ipv6 };
@@ -63,12 +63,12 @@ namespace cppcoro {
         inline ip_endpoint::ip_endpoint(ipv6_endpoint endpoint) noexcept
             : m_family(family::ipv6), m_ipv6(endpoint) {}
 
-        inline const ipv4_endpoint &ip_endpoint::to_ipv4() const {
+        inline const ipv4_endpoint& ip_endpoint::to_ipv4() const {
             assert(is_ipv4());
             return m_ipv4;
         }
 
-        inline const ipv6_endpoint &ip_endpoint::to_ipv6() const {
+        inline const ipv6_endpoint& ip_endpoint::to_ipv6() const {
             assert(is_ipv6());
             return m_ipv6;
         }
@@ -85,7 +85,7 @@ namespace cppcoro {
             return is_ipv4() ? m_ipv4.port() : m_ipv6.port();
         }
 
-        inline bool ip_endpoint::operator==(const ip_endpoint &rhs) const noexcept {
+        inline bool ip_endpoint::operator==(const ip_endpoint& rhs) const noexcept {
             if (is_ipv4()) {
                 return rhs.is_ipv4() && m_ipv4 == rhs.m_ipv4;
             } else {
@@ -93,11 +93,11 @@ namespace cppcoro {
             }
         }
 
-        inline bool ip_endpoint::operator!=(const ip_endpoint &rhs) const noexcept {
+        inline bool ip_endpoint::operator!=(const ip_endpoint& rhs) const noexcept {
             return !(*this == rhs);
         }
 
-        inline bool ip_endpoint::operator<(const ip_endpoint &rhs) const noexcept {
+        inline bool ip_endpoint::operator<(const ip_endpoint& rhs) const noexcept {
             if (is_ipv4()) {
                 return !rhs.is_ipv4() || m_ipv4 < rhs.m_ipv4;
             } else {
@@ -105,15 +105,15 @@ namespace cppcoro {
             }
         }
 
-        inline bool ip_endpoint::operator>(const ip_endpoint &rhs) const noexcept {
+        inline bool ip_endpoint::operator>(const ip_endpoint& rhs) const noexcept {
             return rhs < *this;
         }
 
-        inline bool ip_endpoint::operator<=(const ip_endpoint &rhs) const noexcept {
+        inline bool ip_endpoint::operator<=(const ip_endpoint& rhs) const noexcept {
             return !(rhs < *this);
         }
 
-        inline bool ip_endpoint::operator>=(const ip_endpoint &rhs) const noexcept {
+        inline bool ip_endpoint::operator>=(const ip_endpoint& rhs) const noexcept {
             return !(*this < rhs);
         }
     }  // namespace net

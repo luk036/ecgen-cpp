@@ -53,7 +53,7 @@ namespace cppcoro {
     template <typename SEQUENCE = std::size_t, typename TRAITS = sequence_traits<SEQUENCE>>
     class multi_producer_sequencer {
       public:
-        multi_producer_sequencer(const sequence_barrier<SEQUENCE, TRAITS> &consumerBarrier,
+        multi_producer_sequencer(const sequence_barrier<SEQUENCE, TRAITS>& consumerBarrier,
                                  std::size_t bufferSize,
                                  SEQUENCE initialSequence = TRAITS::initial_sequence);
 
@@ -72,7 +72,7 @@ namespace cppcoro {
         template <typename SCHEDULER>
         multi_producer_sequencer_wait_operation<SEQUENCE, TRAITS, SCHEDULER> wait_until_published(
             SEQUENCE targetSequence, SEQUENCE lastKnownPublished,
-            SCHEDULER &scheduler) const noexcept;
+            SCHEDULER& scheduler) const noexcept;
 
         /// Query if there are currently any slots available for claiming.
         ///
@@ -93,7 +93,7 @@ namespace cppcoro {
         /// sequence number.
         template <typename SCHEDULER>
         multi_producer_sequencer_claim_one_operation<SEQUENCE, TRAITS, SCHEDULER> claim_one(
-            SCHEDULER &scheduler) noexcept;
+            SCHEDULER& scheduler) noexcept;
 
         /// Claim a contiguous range of sequence numbers corresponding to slots
         /// within a ring-buffer.
@@ -109,7 +109,7 @@ namespace cppcoro {
         /// of the returned sequence range by calling .publish().
         template <typename SCHEDULER>
         multi_producer_sequencer_claim_operation<SEQUENCE, TRAITS, SCHEDULER> claim_up_to(
-            std::size_t count, SCHEDULER &scheduler) noexcept;
+            std::size_t count, SCHEDULER& scheduler) noexcept;
 
         /// Publish the element with the specified sequence number, making it
         /// available to consumers.
@@ -131,7 +131,7 @@ namespace cppcoro {
         /// This is equivalent to calling publish(seq) for each sequence number,
         /// seq, in the specified range, but is more efficient since it only checks
         /// to see if there are coroutines that need to be woken up once.
-        void publish(const sequence_range<SEQUENCE, TRAITS> &range) noexcept;
+        void publish(const sequence_range<SEQUENCE, TRAITS>& range) noexcept;
 
       private:
         template <typename SEQUENCE2, typename TRAITS2>
@@ -145,21 +145,21 @@ namespace cppcoro {
 
         void resume_ready_awaiters() noexcept;
         void add_awaiter(
-            multi_producer_sequencer_wait_operation_base<SEQUENCE, TRAITS> *awaiter) const noexcept;
+            multi_producer_sequencer_wait_operation_base<SEQUENCE, TRAITS>* awaiter) const noexcept;
 
 #if CPPCORO_COMPILER_MSVC
 #    pragma warning(push)
 #    pragma warning(disable : 4324)  // C4324: structure was padded due to alignment specifier
 #endif
 
-        const sequence_barrier<SEQUENCE, TRAITS> &m_consumerBarrier;
+        const sequence_barrier<SEQUENCE, TRAITS>& m_consumerBarrier;
         const std::size_t m_sequenceMask;
         const std::unique_ptr<std::atomic<SEQUENCE>[]> m_published;
 
         alignas(CPPCORO_CPU_CACHE_LINE) std::atomic<SEQUENCE> m_nextToClaim;
 
         alignas(CPPCORO_CPU_CACHE_LINE) mutable std::atomic<
-            multi_producer_sequencer_wait_operation_base<SEQUENCE, TRAITS> *> m_awaiters;
+            multi_producer_sequencer_wait_operation_base<SEQUENCE, TRAITS>*> m_awaiters;
 
 #if CPPCORO_COMPILER_MSVC
 #    pragma warning(pop)
@@ -170,8 +170,8 @@ namespace cppcoro {
     class multi_producer_sequencer_claim_awaiter {
       public:
         multi_producer_sequencer_claim_awaiter(
-            const sequence_barrier<SEQUENCE, TRAITS> &consumerBarrier, std::size_t bufferSize,
-            const sequence_range<SEQUENCE, TRAITS> &claimedRange, SCHEDULER &scheduler) noexcept
+            const sequence_barrier<SEQUENCE, TRAITS>& consumerBarrier, std::size_t bufferSize,
+            const sequence_range<SEQUENCE, TRAITS>& claimedRange, SCHEDULER& scheduler) noexcept
             : m_barrierWait(consumerBarrier, claimedRange.back() - bufferSize, scheduler),
               m_claimedRange(claimedRange) {}
 
@@ -192,8 +192,8 @@ namespace cppcoro {
     class multi_producer_sequencer_claim_operation {
       public:
         multi_producer_sequencer_claim_operation(
-            multi_producer_sequencer<SEQUENCE, TRAITS> &sequencer, std::size_t count,
-            SCHEDULER &scheduler) noexcept
+            multi_producer_sequencer<SEQUENCE, TRAITS>& sequencer, std::size_t count,
+            SCHEDULER& scheduler) noexcept
             : m_sequencer(sequencer),
               m_count(count < sequencer.buffer_size() ? count : sequencer.buffer_size()),
               m_scheduler(scheduler) {}
@@ -218,17 +218,17 @@ namespace cppcoro {
         }
 
       private:
-        multi_producer_sequencer<SEQUENCE, TRAITS> &m_sequencer;
+        multi_producer_sequencer<SEQUENCE, TRAITS>& m_sequencer;
         std::size_t m_count;
-        SCHEDULER &m_scheduler;
+        SCHEDULER& m_scheduler;
     };
 
     template <typename SEQUENCE, typename TRAITS, typename SCHEDULER>
     class multi_producer_sequencer_claim_one_awaiter {
       public:
         multi_producer_sequencer_claim_one_awaiter(
-            const sequence_barrier<SEQUENCE, TRAITS> &consumerBarrier, std::size_t bufferSize,
-            SEQUENCE claimedSequence, SCHEDULER &scheduler) noexcept
+            const sequence_barrier<SEQUENCE, TRAITS>& consumerBarrier, std::size_t bufferSize,
+            SEQUENCE claimedSequence, SCHEDULER& scheduler) noexcept
             : m_waitOp(consumerBarrier, claimedSequence - bufferSize, scheduler),
               m_claimedSequence(claimedSequence) {}
 
@@ -249,7 +249,7 @@ namespace cppcoro {
     class multi_producer_sequencer_claim_one_operation {
       public:
         multi_producer_sequencer_claim_one_operation(
-            multi_producer_sequencer<SEQUENCE, TRAITS> &sequencer, SCHEDULER &scheduler) noexcept
+            multi_producer_sequencer<SEQUENCE, TRAITS>& sequencer, SCHEDULER& scheduler) noexcept
             : m_sequencer(sequencer), m_scheduler(scheduler) {}
 
         multi_producer_sequencer_claim_one_awaiter<SEQUENCE, TRAITS, SCHEDULER>
@@ -260,15 +260,15 @@ namespace cppcoro {
         }
 
       private:
-        multi_producer_sequencer<SEQUENCE, TRAITS> &m_sequencer;
-        SCHEDULER &m_scheduler;
+        multi_producer_sequencer<SEQUENCE, TRAITS>& m_sequencer;
+        SCHEDULER& m_scheduler;
     };
 
     template <typename SEQUENCE, typename TRAITS>
     class multi_producer_sequencer_wait_operation_base {
       public:
         multi_producer_sequencer_wait_operation_base(
-            const multi_producer_sequencer<SEQUENCE, TRAITS> &sequencer, SEQUENCE targetSequence,
+            const multi_producer_sequencer<SEQUENCE, TRAITS>& sequencer, SEQUENCE targetSequence,
             SEQUENCE lastKnownPublished) noexcept
             : m_sequencer(sequencer),
               m_targetSequence(targetSequence),
@@ -276,7 +276,7 @@ namespace cppcoro {
               m_readyToResume(false) {}
 
         multi_producer_sequencer_wait_operation_base(
-            const multi_producer_sequencer_wait_operation_base &other) noexcept
+            const multi_producer_sequencer_wait_operation_base& other) noexcept
             : m_sequencer(other.m_sequencer),
               m_targetSequence(other.m_targetSequence),
               m_lastKnownPublished(other.m_lastKnownPublished),
@@ -313,10 +313,10 @@ namespace cppcoro {
 
         virtual void resume_impl() noexcept = 0;
 
-        const multi_producer_sequencer<SEQUENCE, TRAITS> &m_sequencer;
+        const multi_producer_sequencer<SEQUENCE, TRAITS>& m_sequencer;
         SEQUENCE m_targetSequence;
         SEQUENCE m_lastKnownPublished;
-        multi_producer_sequencer_wait_operation_base *m_next;
+        multi_producer_sequencer_wait_operation_base* m_next;
         cppcoro::coroutine_handle<> m_awaitingCoroutine;
         std::atomic<bool> m_readyToResume;
     };
@@ -324,18 +324,18 @@ namespace cppcoro {
     template <typename SEQUENCE, typename TRAITS, typename SCHEDULER>
     class multi_producer_sequencer_wait_operation
         : public multi_producer_sequencer_wait_operation_base<SEQUENCE, TRAITS> {
-        using schedule_operation = decltype(std::declval<SCHEDULER &>().schedule());
+        using schedule_operation = decltype(std::declval<SCHEDULER&>().schedule());
 
       public:
         multi_producer_sequencer_wait_operation(
-            const multi_producer_sequencer<SEQUENCE, TRAITS> &sequencer, SEQUENCE targetSequence,
-            SEQUENCE lastKnownPublished, SCHEDULER &scheduler) noexcept
+            const multi_producer_sequencer<SEQUENCE, TRAITS>& sequencer, SEQUENCE targetSequence,
+            SEQUENCE lastKnownPublished, SCHEDULER& scheduler) noexcept
             : multi_producer_sequencer_wait_operation_base<SEQUENCE, TRAITS>(
-                sequencer, targetSequence, lastKnownPublished),
+                  sequencer, targetSequence, lastKnownPublished),
               m_scheduler(scheduler) {}
 
         multi_producer_sequencer_wait_operation(
-            const multi_producer_sequencer_wait_operation &other) noexcept
+            const multi_producer_sequencer_wait_operation& other) noexcept
             : multi_producer_sequencer_wait_operation_base<SEQUENCE, TRAITS>(other),
               m_scheduler(other.m_scheduler) {}
 
@@ -364,7 +364,7 @@ namespace cppcoro {
                 m_isScheduleOperationCreated = true;
 
                 m_scheduleAwaiter.construct(
-                    detail::get_awaiter(static_cast<schedule_operation &&>(*m_scheduleOperation)));
+                    detail::get_awaiter(static_cast<schedule_operation&&>(*m_scheduleOperation)));
                 m_isScheduleAwaiterCreated = true;
 
                 if (!m_scheduleAwaiter->await_ready()) {
@@ -394,7 +394,7 @@ namespace cppcoro {
             this->m_awaitingCoroutine.resume();
         }
 
-        SCHEDULER &m_scheduler;
+        SCHEDULER& m_scheduler;
         // Can't use std::optional<T> here since T could be a reference.
         detail::manual_lifetime<schedule_operation> m_scheduleOperation;
         detail::manual_lifetime<typename awaitable_traits<schedule_operation>::awaiter_t>
@@ -405,7 +405,7 @@ namespace cppcoro {
 
     template <typename SEQUENCE, typename TRAITS>
     multi_producer_sequencer<SEQUENCE, TRAITS>::multi_producer_sequencer(
-        const sequence_barrier<SEQUENCE, TRAITS> &consumerBarrier, std::size_t bufferSize,
+        const sequence_barrier<SEQUENCE, TRAITS>& consumerBarrier, std::size_t bufferSize,
         SEQUENCE initialSequence)
         : m_consumerBarrier(consumerBarrier),
           m_sequenceMask(bufferSize - 1),
@@ -446,7 +446,7 @@ namespace cppcoro {
     template <typename SEQUENCE, typename TRAITS> template <typename SCHEDULER>
     multi_producer_sequencer_wait_operation<SEQUENCE, TRAITS, SCHEDULER>
     multi_producer_sequencer<SEQUENCE, TRAITS>::wait_until_published(
-        SEQUENCE targetSequence, SEQUENCE lastKnownPublished, SCHEDULER &scheduler) const noexcept {
+        SEQUENCE targetSequence, SEQUENCE lastKnownPublished, SCHEDULER& scheduler) const noexcept {
         return multi_producer_sequencer_wait_operation<SEQUENCE, TRAITS, SCHEDULER>{
             *this, targetSequence, lastKnownPublished, scheduler};
     }
@@ -459,7 +459,7 @@ namespace cppcoro {
 
     template <typename SEQUENCE, typename TRAITS> template <typename SCHEDULER>
     multi_producer_sequencer_claim_one_operation<SEQUENCE, TRAITS, SCHEDULER>
-    multi_producer_sequencer<SEQUENCE, TRAITS>::claim_one(SCHEDULER &scheduler) noexcept {
+    multi_producer_sequencer<SEQUENCE, TRAITS>::claim_one(SCHEDULER& scheduler) noexcept {
         return multi_producer_sequencer_claim_one_operation<SEQUENCE, TRAITS, SCHEDULER>{*this,
                                                                                          scheduler};
     }
@@ -467,7 +467,7 @@ namespace cppcoro {
     template <typename SEQUENCE, typename TRAITS> template <typename SCHEDULER>
     multi_producer_sequencer_claim_operation<SEQUENCE, TRAITS, SCHEDULER>
     multi_producer_sequencer<SEQUENCE, TRAITS>::claim_up_to(std::size_t count,
-                                                            SCHEDULER &scheduler) noexcept {
+                                                            SCHEDULER& scheduler) noexcept {
         return multi_producer_sequencer_claim_operation<SEQUENCE, TRAITS, SCHEDULER>{*this, count,
                                                                                      scheduler};
     }
@@ -483,7 +483,7 @@ namespace cppcoro {
 
     template <typename SEQUENCE, typename TRAITS>
     void multi_producer_sequencer<SEQUENCE, TRAITS>::publish(
-        const sequence_range<SEQUENCE, TRAITS> &range) noexcept {
+        const sequence_range<SEQUENCE, TRAITS>& range) noexcept {
         if (range.empty()) {
             return;
         }
@@ -507,7 +507,7 @@ namespace cppcoro {
     void multi_producer_sequencer<SEQUENCE, TRAITS>::resume_ready_awaiters() noexcept {
         using awaiter_t = multi_producer_sequencer_wait_operation_base<SEQUENCE, TRAITS>;
 
-        awaiter_t *awaiters = m_awaiters.load(std::memory_order_seq_cst);
+        awaiter_t* awaiters = m_awaiters.load(std::memory_order_seq_cst);
         if (awaiters == nullptr) {
             // No awaiters
             return;
@@ -525,11 +525,11 @@ namespace cppcoro {
 
         SEQUENCE lastKnownPublished;
 
-        awaiter_t *awaitersToResume;
-        awaiter_t **awaitersToResumeTail = &awaitersToResume;
+        awaiter_t* awaitersToResume;
+        awaiter_t** awaitersToResumeTail = &awaitersToResume;
 
-        awaiter_t *awaitersToRequeue;
-        awaiter_t **awaitersToRequeueTail = &awaitersToRequeue;
+        awaiter_t* awaitersToRequeue;
+        awaiter_t** awaitersToRequeueTail = &awaitersToRequeue;
 
         do {
             using diff_t = typename TRAITS::difference_type;
@@ -559,7 +559,7 @@ namespace cppcoro {
 
             if (awaitersToRequeue != nullptr) {
                 // Requeue the waiters that are not ready yet.
-                awaiter_t *oldHead = nullptr;
+                awaiter_t* oldHead = nullptr;
                 while (!m_awaiters.compare_exchange_weak(oldHead, awaitersToRequeue,
                                                          std::memory_order_seq_cst,
                                                          std::memory_order_relaxed)) {
@@ -608,7 +608,7 @@ namespace cppcoro {
         *awaitersToResumeTail = nullptr;
 
         while (awaitersToResume != nullptr) {
-            awaiter_t *next = awaitersToResume->m_next;
+            awaiter_t* next = awaitersToResume->m_next;
             awaitersToResume->resume(lastKnownPublished);
             awaitersToResume = next;
         }
@@ -616,24 +616,24 @@ namespace cppcoro {
 
     template <typename SEQUENCE, typename TRAITS>
     void multi_producer_sequencer<SEQUENCE, TRAITS>::add_awaiter(
-        multi_producer_sequencer_wait_operation_base<SEQUENCE, TRAITS> *awaiter) const noexcept {
+        multi_producer_sequencer_wait_operation_base<SEQUENCE, TRAITS>* awaiter) const noexcept {
         using awaiter_t = multi_producer_sequencer_wait_operation_base<SEQUENCE, TRAITS>;
 
         SEQUENCE targetSequence = awaiter->m_targetSequence;
         SEQUENCE lastKnownPublished = awaiter->m_lastKnownPublished;
 
-        awaiter_t *awaitersToEnqueue = awaiter;
-        awaiter_t **awaitersToEnqueueTail = &awaiter->m_next;
+        awaiter_t* awaitersToEnqueue = awaiter;
+        awaiter_t** awaitersToEnqueueTail = &awaiter->m_next;
 
-        awaiter_t *awaitersToResume;
-        awaiter_t **awaitersToResumeTail = &awaitersToResume;
+        awaiter_t* awaitersToResume;
+        awaiter_t** awaitersToResumeTail = &awaitersToResume;
 
         const SEQUENCE sequenceMask = m_sequenceMask;
 
         do {
             // Enqueue the awaiters.
             {
-                awaiter_t *oldHead = m_awaiters.load(std::memory_order_relaxed);
+                awaiter_t* oldHead = m_awaiters.load(std::memory_order_relaxed);
                 do {
                     *awaitersToEnqueueTail = oldHead;
                 } while (!m_awaiters.compare_exchange_weak(oldHead, awaitersToEnqueue,
@@ -671,7 +671,7 @@ namespace cppcoro {
                 // At least one awaiter we just enqueued has now been satisified.
                 // To ensure it is woken up we need to reacquire the list of
                 // awaiters and resume
-                awaiter_t *awaiters = m_awaiters.exchange(nullptr, std::memory_order_acquire);
+                awaiter_t* awaiters = m_awaiters.exchange(nullptr, std::memory_order_acquire);
 
                 using diff_t = typename TRAITS::difference_type;
 
@@ -711,7 +711,7 @@ namespace cppcoro {
         while (awaitersToResume != nullptr) {
             // Read m_next before calling .resume() as resuming could destroy the
             // awaiter.
-            awaiter_t *next = awaitersToResume->m_next;
+            awaiter_t* next = awaitersToResume->m_next;
             awaitersToResume->resume(lastKnownPublished);
             awaitersToResume = next;
         }

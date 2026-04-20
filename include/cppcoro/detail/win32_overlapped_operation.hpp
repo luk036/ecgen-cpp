@@ -19,26 +19,26 @@ namespace cppcoro {
         class win32_overlapped_operation_base : protected detail::win32::io_state {
           public:
             win32_overlapped_operation_base(
-                detail::win32::io_state::callback_type *callback) noexcept
+                detail::win32::io_state::callback_type* callback) noexcept
                 : detail::win32::io_state(callback),
                   m_errorCode(0),
                   m_numberOfBytesTransferred(0) {}
 
             win32_overlapped_operation_base(
-                void *pointer, detail::win32::io_state::callback_type *callback) noexcept
+                void* pointer, detail::win32::io_state::callback_type* callback) noexcept
                 : detail::win32::io_state(pointer, callback),
                   m_errorCode(0),
                   m_numberOfBytesTransferred(0) {}
 
             win32_overlapped_operation_base(
-                std::uint64_t offset, detail::win32::io_state::callback_type *callback) noexcept
+                std::uint64_t offset, detail::win32::io_state::callback_type* callback) noexcept
                 : detail::win32::io_state(offset, callback),
                   m_errorCode(0),
                   m_numberOfBytesTransferred(0) {}
 
-            _OVERLAPPED *get_overlapped() noexcept {
-                return reinterpret_cast<_OVERLAPPED *>(
-                    static_cast<detail::win32::overlapped *>(this));
+            _OVERLAPPED* get_overlapped() noexcept {
+                return reinterpret_cast<_OVERLAPPED*>(
+                    static_cast<detail::win32::overlapped*>(this));
             }
 
             std::size_t get_result() {
@@ -58,15 +58,15 @@ namespace cppcoro {
           protected:
             win32_overlapped_operation() noexcept
                 : win32_overlapped_operation_base(
-                    &win32_overlapped_operation::on_operation_completed) {}
+                      &win32_overlapped_operation::on_operation_completed) {}
 
-            win32_overlapped_operation(void *pointer) noexcept
+            win32_overlapped_operation(void* pointer) noexcept
                 : win32_overlapped_operation_base(
-                    pointer, &win32_overlapped_operation::on_operation_completed) {}
+                      pointer, &win32_overlapped_operation::on_operation_completed) {}
 
             win32_overlapped_operation(std::uint64_t offset) noexcept
                 : win32_overlapped_operation_base(
-                    offset, &win32_overlapped_operation::on_operation_completed) {}
+                      offset, &win32_overlapped_operation::on_operation_completed) {}
 
           public:
             bool await_ready() const noexcept { return false; }
@@ -76,17 +76,17 @@ namespace cppcoro {
                 static_assert(std::is_base_of_v<win32_overlapped_operation, OPERATION>);
 
                 m_awaitingCoroutine = awaitingCoroutine;
-                return static_cast<OPERATION *>(this)->try_start();
+                return static_cast<OPERATION*>(this)->try_start();
             }
 
-            decltype(auto) await_resume() { return static_cast<OPERATION *>(this)->get_result(); }
+            decltype(auto) await_resume() { return static_cast<OPERATION*>(this)->get_result(); }
 
           private:
             static void on_operation_completed(
-                detail::win32::io_state *ioState, detail::win32::dword_t errorCode,
+                detail::win32::io_state* ioState, detail::win32::dword_t errorCode,
                 detail::win32::dword_t numberOfBytesTransferred,
                 [[maybe_unused]] detail::win32::ulongptr_t completionKey) noexcept {
-                auto *operation = static_cast<win32_overlapped_operation *>(ioState);
+                auto* operation = static_cast<win32_overlapped_operation*>(ioState);
                 operation->m_errorCode = errorCode;
                 operation->m_numberOfBytesTransferred = numberOfBytesTransferred;
                 operation->m_awaitingCoroutine.resume();
@@ -101,33 +101,33 @@ namespace cppcoro {
             static constexpr detail::win32::dword_t error_operation_aborted = 995L;
 
           protected:
-            win32_overlapped_operation_cancellable(cancellation_token &&ct) noexcept
+            win32_overlapped_operation_cancellable(cancellation_token&& ct) noexcept
                 : win32_overlapped_operation_base(
-                    &win32_overlapped_operation_cancellable::on_operation_completed),
+                      &win32_overlapped_operation_cancellable::on_operation_completed),
                   m_state(ct.is_cancellation_requested() ? state::completed : state::not_started),
                   m_cancellationToken(std::move(ct)) {
                 m_errorCode = error_operation_aborted;
             }
 
-            win32_overlapped_operation_cancellable(void *pointer, cancellation_token &&ct) noexcept
+            win32_overlapped_operation_cancellable(void* pointer, cancellation_token&& ct) noexcept
                 : win32_overlapped_operation_base(
-                    pointer, &win32_overlapped_operation_cancellable::on_operation_completed),
+                      pointer, &win32_overlapped_operation_cancellable::on_operation_completed),
                   m_state(ct.is_cancellation_requested() ? state::completed : state::not_started),
                   m_cancellationToken(std::move(ct)) {
                 m_errorCode = error_operation_aborted;
             }
 
             win32_overlapped_operation_cancellable(std::uint64_t offset,
-                                                   cancellation_token &&ct) noexcept
+                                                   cancellation_token&& ct) noexcept
                 : win32_overlapped_operation_base(
-                    offset, &win32_overlapped_operation_cancellable::on_operation_completed),
+                      offset, &win32_overlapped_operation_cancellable::on_operation_completed),
                   m_state(ct.is_cancellation_requested() ? state::completed : state::not_started),
                   m_cancellationToken(std::move(ct)) {
                 m_errorCode = error_operation_aborted;
             }
 
             win32_overlapped_operation_cancellable(
-                win32_overlapped_operation_cancellable &&other) noexcept
+                win32_overlapped_operation_cancellable&& other) noexcept
                 : win32_overlapped_operation_base(std::move(other)),
                   m_state(other.m_state.load(std::memory_order_relaxed)),
                   m_cancellationToken(std::move(other.m_cancellationToken)) {
@@ -168,7 +168,7 @@ namespace cppcoro {
                 }
 
                 // Now start the operation.
-                const bool willCompleteAsynchronously = static_cast<OPERATION *>(this)->try_start();
+                const bool willCompleteAsynchronously = static_cast<OPERATION*>(this)->try_start();
                 if (!willCompleteAsynchronously) {
                     // Operation completed synchronously, resume awaiting coroutine
                     // immediately.
@@ -193,7 +193,7 @@ namespace cppcoro {
                             // Note that it may have already completed on a background
                             // thread by now so this request for cancellation may end up
                             // being ignored.
-                            static_cast<OPERATION *>(this)->cancel();
+                            static_cast<OPERATION*>(this)->cancel();
 
                             if (!m_state.compare_exchange_strong(oldState, state::started,
                                                                  std::memory_order_release,
@@ -223,7 +223,7 @@ namespace cppcoro {
                     throw operation_cancelled{};
                 }
 
-                return static_cast<OPERATION *>(this)->get_result();
+                return static_cast<OPERATION*>(this)->get_result();
             }
 
           private:
@@ -250,15 +250,15 @@ namespace cppcoro {
                 // No point requesting cancellation if the operation has already
                 // completed.
                 if (oldState != state::completed) {
-                    static_cast<OPERATION *>(this)->cancel();
+                    static_cast<OPERATION*>(this)->cancel();
                 }
             }
 
             static void on_operation_completed(
-                detail::win32::io_state *ioState, detail::win32::dword_t errorCode,
+                detail::win32::io_state* ioState, detail::win32::dword_t errorCode,
                 detail::win32::dword_t numberOfBytesTransferred,
                 [[maybe_unused]] detail::win32::ulongptr_t completionKey) noexcept {
-                auto *operation = static_cast<win32_overlapped_operation_cancellable *>(ioState);
+                auto* operation = static_cast<win32_overlapped_operation_cancellable*>(ioState);
 
                 operation->m_errorCode = errorCode;
                 operation->m_numberOfBytesTransferred = numberOfBytesTransferred;

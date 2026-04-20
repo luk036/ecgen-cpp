@@ -15,7 +15,7 @@ TEST_CASE("Generate all combinations by emk_comb_gen") {
 TEST_CASE("Generate all combinations by emk") {
     size_t cnt = 0;
     auto S = std::string("ABCDE");
-    for ([[maybe_unused]] auto &s : ecgen::emk(5, 3, S)) {
+    for ([[maybe_unused]] auto& s : ecgen::emk(5, 3, S)) {
         ++cnt;
     }
     CHECK_EQ(cnt, ecgen::Combination<5, 3>());

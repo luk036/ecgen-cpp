@@ -84,7 +84,7 @@ namespace cppcoro {
         /// more elements have been published than you were waiting for.
         template <typename SCHEDULER>
         [[nodiscard]] sequence_barrier_wait_operation<SEQUENCE, TRAITS, SCHEDULER>
-        wait_until_published(SEQUENCE targetSequence, SCHEDULER &scheduler) const noexcept;
+        wait_until_published(SEQUENCE targetSequence, SCHEDULER& scheduler) const noexcept;
 
         /// Publish the specified sequence number to consumers.
         ///
@@ -101,7 +101,7 @@ namespace cppcoro {
       private:
         friend class sequence_barrier_wait_operation_base<SEQUENCE, TRAITS>;
 
-        void add_awaiter(awaiter_t *awaiter) const noexcept;
+        void add_awaiter(awaiter_t* awaiter) const noexcept;
 
 #if CPPCORO_COMPILER_MSVC
 #    pragma warning(push)
@@ -112,7 +112,7 @@ namespace cppcoro {
         alignas(CPPCORO_CPU_CACHE_LINE) std::atomic<SEQUENCE> m_lastPublished;
 
         // Second cache-line is written to by both the producer and consumers
-        alignas(CPPCORO_CPU_CACHE_LINE) mutable std::atomic<awaiter_t *> m_awaiters;
+        alignas(CPPCORO_CPU_CACHE_LINE) mutable std::atomic<awaiter_t*> m_awaiters;
 
 #if CPPCORO_COMPILER_MSVC
 #    pragma warning(pop)
@@ -122,14 +122,14 @@ namespace cppcoro {
     template <typename SEQUENCE, typename TRAITS> class sequence_barrier_wait_operation_base {
       public:
         explicit sequence_barrier_wait_operation_base(
-            const sequence_barrier<SEQUENCE, TRAITS> &barrier, SEQUENCE targetSequence) noexcept
+            const sequence_barrier<SEQUENCE, TRAITS>& barrier, SEQUENCE targetSequence) noexcept
             : m_barrier(barrier),
               m_targetSequence(targetSequence),
               m_lastKnownPublished(barrier.last_published()),
               m_readyToResume(false) {}
 
         sequence_barrier_wait_operation_base(
-            const sequence_barrier_wait_operation_base &other) noexcept
+            const sequence_barrier_wait_operation_base& other) noexcept
             : m_barrier(other.m_barrier),
               m_targetSequence(other.m_targetSequence),
               m_lastKnownPublished(other.m_lastKnownPublished),
@@ -160,10 +160,10 @@ namespace cppcoro {
 
         virtual void resume_impl() noexcept = 0;
 
-        const sequence_barrier<SEQUENCE, TRAITS> &m_barrier;
+        const sequence_barrier<SEQUENCE, TRAITS>& m_barrier;
         const SEQUENCE m_targetSequence;
         SEQUENCE m_lastKnownPublished;
-        sequence_barrier_wait_operation_base *m_next;
+        sequence_barrier_wait_operation_base* m_next;
         cppcoro::coroutine_handle<> m_awaitingCoroutine;
         std::atomic<bool> m_readyToResume;
     };
@@ -171,15 +171,15 @@ namespace cppcoro {
     template <typename SEQUENCE, typename TRAITS, typename SCHEDULER>
     class sequence_barrier_wait_operation
         : public sequence_barrier_wait_operation_base<SEQUENCE, TRAITS> {
-        using schedule_operation = decltype(std::declval<SCHEDULER &>().schedule());
+        using schedule_operation = decltype(std::declval<SCHEDULER&>().schedule());
 
       public:
-        sequence_barrier_wait_operation(const sequence_barrier<SEQUENCE, TRAITS> &barrier,
-                                        SEQUENCE targetSequence, SCHEDULER &scheduler) noexcept
+        sequence_barrier_wait_operation(const sequence_barrier<SEQUENCE, TRAITS>& barrier,
+                                        SEQUENCE targetSequence, SCHEDULER& scheduler) noexcept
             : sequence_barrier_wait_operation_base<SEQUENCE, TRAITS>(barrier, targetSequence),
               m_scheduler(scheduler) {}
 
-        sequence_barrier_wait_operation(const sequence_barrier_wait_operation &other) noexcept
+        sequence_barrier_wait_operation(const sequence_barrier_wait_operation& other) noexcept
             : sequence_barrier_wait_operation_base<SEQUENCE, TRAITS>(other),
               m_scheduler(other.m_scheduler) {}
 
@@ -207,7 +207,7 @@ namespace cppcoro {
                 m_isScheduleOperationCreated = true;
 
                 m_scheduleAwaiter.construct(
-                    detail::get_awaiter(static_cast<schedule_operation &&>(*m_scheduleOperation)));
+                    detail::get_awaiter(static_cast<schedule_operation&&>(*m_scheduleOperation)));
                 m_isScheduleAwaiterCreated = true;
 
                 if (!m_scheduleAwaiter->await_ready()) {
@@ -237,7 +237,7 @@ namespace cppcoro {
             this->m_awaitingCoroutine.resume();
         }
 
-        SCHEDULER &m_scheduler;
+        SCHEDULER& m_scheduler;
         // Can't use std::optional<T> here since T could be a reference.
         detail::manual_lifetime<schedule_operation> m_scheduleOperation;
         detail::manual_lifetime<typename awaitable_traits<schedule_operation>::awaiter_t>
@@ -249,7 +249,7 @@ namespace cppcoro {
     template <typename SEQUENCE, typename TRAITS> template <typename SCHEDULER>
     [[nodiscard]] sequence_barrier_wait_operation<SEQUENCE, TRAITS, SCHEDULER>
     sequence_barrier<SEQUENCE, TRAITS>::wait_until_published(SEQUENCE targetSequence,
-                                                             SCHEDULER &scheduler) const noexcept {
+                                                             SCHEDULER& scheduler) const noexcept {
         return sequence_barrier_wait_operation<SEQUENCE, TRAITS, SCHEDULER>(*this, targetSequence,
                                                                             scheduler);
     }
@@ -259,7 +259,7 @@ namespace cppcoro {
         m_lastPublished.store(sequence, std::memory_order_seq_cst);
 
         // Cheaper check to see if there are any awaiting coroutines.
-        auto *awaiters = m_awaiters.load(std::memory_order_seq_cst);
+        auto* awaiters = m_awaiters.load(std::memory_order_seq_cst);
         if (awaiters == nullptr) {
             return;
         }
@@ -276,11 +276,11 @@ namespace cppcoro {
         // Check the list of awaiters for ones that are now satisfied by the
         // sequence number we just published. Awaiters are added to either the
         // 'awaitersToResume' list or to the 'awaitersToRequeue' list.
-        awaiter_t *awaitersToResume;
-        awaiter_t **awaitersToResumeTail = &awaitersToResume;
+        awaiter_t* awaitersToResume;
+        awaiter_t** awaitersToResumeTail = &awaitersToResume;
 
-        awaiter_t *awaitersToRequeue;
-        awaiter_t **awaitersToRequeueTail = &awaitersToRequeue;
+        awaiter_t* awaitersToRequeue;
+        awaiter_t** awaitersToRequeueTail = &awaitersToRequeue;
 
         do {
             if (TRAITS::precedes(sequence, awaiters->m_targetSequence)) {
@@ -300,7 +300,7 @@ namespace cppcoro {
         *awaitersToResumeTail = nullptr;
 
         if (awaitersToRequeue != nullptr) {
-            awaiter_t *oldHead = nullptr;
+            awaiter_t* oldHead = nullptr;
             while (!m_awaiters.compare_exchange_weak(
                 oldHead, awaitersToRequeue, std::memory_order_release, std::memory_order_relaxed)) {
                 *awaitersToRequeueTail = oldHead;
@@ -308,7 +308,7 @@ namespace cppcoro {
         }
 
         while (awaitersToResume != nullptr) {
-            auto *next = awaitersToResume->m_next;
+            auto* next = awaitersToResume->m_next;
             awaitersToResume->m_lastKnownPublished = sequence;
             awaitersToResume->resume();
             awaitersToResume = next;
@@ -316,19 +316,19 @@ namespace cppcoro {
     }
 
     template <typename SEQUENCE, typename TRAITS>
-    void sequence_barrier<SEQUENCE, TRAITS>::add_awaiter(awaiter_t *awaiter) const noexcept {
+    void sequence_barrier<SEQUENCE, TRAITS>::add_awaiter(awaiter_t* awaiter) const noexcept {
         SEQUENCE targetSequence = awaiter->m_targetSequence;
-        awaiter_t *awaitersToRequeue = awaiter;
-        awaiter_t **awaitersToRequeueTail = &awaiter->m_next;
+        awaiter_t* awaitersToRequeue = awaiter;
+        awaiter_t** awaitersToRequeueTail = &awaiter->m_next;
 
         SEQUENCE lastKnownPublished;
-        awaiter_t *awaitersToResume;
-        awaiter_t **awaitersToResumeTail = &awaitersToResume;
+        awaiter_t* awaitersToResume;
+        awaiter_t** awaitersToResumeTail = &awaitersToResume;
 
         do {
             // Enqueue the awaiter(s)
             {
-                auto *oldHead = m_awaiters.load(std::memory_order_relaxed);
+                auto* oldHead = m_awaiters.load(std::memory_order_relaxed);
                 do {
                     *awaitersToRequeueTail = oldHead;
                 } while (!m_awaiters.compare_exchange_weak(oldHead, awaitersToRequeue,
@@ -357,7 +357,7 @@ namespace cppcoro {
             // have seen our write to m_awaiters so we need to try to re-acquire the
             // list of awaiters to ensure that the waiters that are now satisfied
             // are woken up.
-            auto *awaiters = m_awaiters.exchange(nullptr, std::memory_order_acquire);
+            auto* awaiters = m_awaiters.exchange(nullptr, std::memory_order_acquire);
 
             auto minDiff = std::numeric_limits<typename TRAITS::difference_type>::max();
 
@@ -390,7 +390,7 @@ namespace cppcoro {
 
         // Resume the awaiters that are ready
         while (awaitersToResume != nullptr) {
-            auto *next = awaitersToResume->m_next;
+            auto* next = awaitersToResume->m_next;
             awaitersToResume->m_lastKnownPublished = lastKnownPublished;
             awaitersToResume->resume();
             awaitersToResume = next;

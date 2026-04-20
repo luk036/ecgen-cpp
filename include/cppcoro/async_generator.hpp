@@ -33,8 +33,8 @@ namespace cppcoro {
                 // have been initialised.
             }
 
-            async_generator_promise_base(const async_generator_promise_base &other) = delete;
-            async_generator_promise_base &operator=(const async_generator_promise_base &other)
+            async_generator_promise_base(const async_generator_promise_base& other) = delete;
+            async_generator_promise_base& operator=(const async_generator_promise_base& other)
                 = delete;
 
             cppcoro::suspend_always initial_suspend() const noexcept { return {}; }
@@ -69,7 +69,7 @@ namespace cppcoro {
             cppcoro::coroutine_handle<> m_consumerCoroutine;
 
           protected:
-            void *m_currentValue;
+            void* m_currentValue;
         };
 
         class async_generator_yield_operation final {
@@ -107,7 +107,7 @@ namespace cppcoro {
                 : m_promise(nullptr), m_producerCoroutine(nullptr) {}
 
             async_generator_advance_operation(
-                async_generator_promise_base &promise,
+                async_generator_promise_base& promise,
                 cppcoro::coroutine_handle<> producerCoroutine) noexcept
                 : m_promise(std::addressof(promise)), m_producerCoroutine(producerCoroutine) {}
 
@@ -121,7 +121,7 @@ namespace cppcoro {
             }
 
           protected:
-            async_generator_promise_base *m_promise;
+            async_generator_promise_base* m_promise;
             cppcoro::coroutine_handle<> m_producerCoroutine;
         };
 
@@ -134,45 +134,45 @@ namespace cppcoro {
 
             async_generator<T> get_return_object() noexcept;
 
-            async_generator_yield_operation yield_value(value_type &value) noexcept {
+            async_generator_yield_operation yield_value(value_type& value) noexcept {
                 m_currentValue = std::addressof(value);
                 return internal_yield_value();
             }
 
-            async_generator_yield_operation yield_value(value_type &&value) noexcept {
+            async_generator_yield_operation yield_value(value_type&& value) noexcept {
                 return yield_value(value);
             }
 
-            T &value() const noexcept { return *static_cast<T *>(m_currentValue); }
+            T& value() const noexcept { return *static_cast<T*>(m_currentValue); }
         };
 
-        template <typename T> class async_generator_promise<T &&> final
+        template <typename T> class async_generator_promise<T&&> final
             : public async_generator_promise_base {
           public:
             async_generator_promise() noexcept = default;
 
             async_generator<T> get_return_object() noexcept;
 
-            async_generator_yield_operation yield_value(T &&value) noexcept {
+            async_generator_yield_operation yield_value(T&& value) noexcept {
                 m_currentValue = std::addressof(value);
                 return internal_yield_value();
             }
 
-            T &&value() const noexcept { return std::move(*static_cast<T *>(m_currentValue)); }
+            T&& value() const noexcept { return std::move(*static_cast<T*>(m_currentValue)); }
         };
 
         template <typename T> class async_generator_increment_operation final
             : public async_generator_advance_operation {
           public:
-            async_generator_increment_operation(async_generator_iterator<T> &iterator) noexcept
+            async_generator_increment_operation(async_generator_iterator<T>& iterator) noexcept
                 : async_generator_advance_operation(iterator.m_coroutine.promise(),
                                                     iterator.m_coroutine),
                   m_iterator(iterator) {}
 
-            async_generator_iterator<T> &await_resume();
+            async_generator_iterator<T>& await_resume();
 
           private:
-            async_generator_iterator<T> &m_iterator;
+            async_generator_iterator<T>& m_iterator;
         };
 
         template <typename T> class async_generator_iterator final {
@@ -198,11 +198,11 @@ namespace cppcoro {
 
             reference operator*() const noexcept { return m_coroutine.promise().value(); }
 
-            bool operator==(const async_generator_iterator &other) const noexcept {
+            bool operator==(const async_generator_iterator& other) const noexcept {
                 return m_coroutine == other.m_coroutine;
             }
 
-            bool operator!=(const async_generator_iterator &other) const noexcept {
+            bool operator!=(const async_generator_iterator& other) const noexcept {
                 return !(*this == other);
             }
 
@@ -213,7 +213,7 @@ namespace cppcoro {
         };
 
         template <typename T>
-        async_generator_iterator<T> &async_generator_increment_operation<T>::await_resume() {
+        async_generator_iterator<T>& async_generator_increment_operation<T>::await_resume() {
             if (m_promise->finished()) {
                 // Update iterator to end()
                 m_iterator = async_generator_iterator<T>{nullptr};
@@ -251,7 +251,7 @@ namespace cppcoro {
                 }
 
                 return async_generator_iterator<T>{
-                    handle_type::from_promise(*static_cast<promise_type *>(m_promise))};
+                    handle_type::from_promise(*static_cast<promise_type*>(m_promise))};
             }
         };
     }  // namespace detail
@@ -263,10 +263,10 @@ namespace cppcoro {
 
         async_generator() noexcept : m_coroutine(nullptr) {}
 
-        explicit async_generator(promise_type &promise) noexcept
+        explicit async_generator(promise_type& promise) noexcept
             : m_coroutine(cppcoro::coroutine_handle<promise_type>::from_promise(promise)) {}
 
-        async_generator(async_generator &&other) noexcept : m_coroutine(other.m_coroutine) {
+        async_generator(async_generator&& other) noexcept : m_coroutine(other.m_coroutine) {
             other.m_coroutine = nullptr;
         }
 
@@ -276,14 +276,14 @@ namespace cppcoro {
             }
         }
 
-        async_generator &operator=(async_generator &&other) noexcept {
+        async_generator& operator=(async_generator&& other) noexcept {
             async_generator temp(std::move(other));
             swap(temp);
             return *this;
         }
 
-        async_generator(const async_generator &) = delete;
-        async_generator &operator=(const async_generator &) = delete;
+        async_generator(const async_generator&) = delete;
+        async_generator& operator=(const async_generator&) = delete;
 
         auto begin() noexcept {
             if (!m_coroutine) {
@@ -295,7 +295,7 @@ namespace cppcoro {
 
         auto end() noexcept { return iterator{nullptr}; }
 
-        void swap(async_generator &other) noexcept {
+        void swap(async_generator& other) noexcept {
             using std::swap;
             swap(m_coroutine, other.m_coroutine);
         }
@@ -304,7 +304,7 @@ namespace cppcoro {
         cppcoro::coroutine_handle<promise_type> m_coroutine;
     };
 
-    template <typename T> void swap(async_generator<T> &a, async_generator<T> &b) noexcept {
+    template <typename T> void swap(async_generator<T>& a, async_generator<T>& b) noexcept {
         a.swap(b);
     }
 
@@ -313,7 +313,7 @@ namespace cppcoro {
         async_generator<T> async_generator_promise<T>::get_return_object() noexcept {
             return async_generator<T>{*this};
         }
-    }   // namespace detail
+    }  // namespace detail
 #else   // !CPPCORO_COMPILER_SUPPORTS_SYMMETRIC_TRANSFER
 
     namespace detail {
@@ -330,8 +330,8 @@ namespace cppcoro {
                 // have been initialised.
             }
 
-            async_generator_promise_base(const async_generator_promise_base &other) = delete;
-            async_generator_promise_base &operator=(const async_generator_promise_base &other)
+            async_generator_promise_base(const async_generator_promise_base& other) = delete;
+            async_generator_promise_base& operator=(const async_generator_promise_base& other)
                 = delete;
 
             cppcoro::suspend_always initial_suspend() const noexcept { return {}; }
@@ -427,14 +427,14 @@ namespace cppcoro {
             cppcoro::coroutine_handle<> m_consumerCoroutine;
 
           protected:
-            void *m_currentValue;
+            void* m_currentValue;
         };
 
         class async_generator_yield_operation final {
             using state = async_generator_promise_base::state;
 
           public:
-            async_generator_yield_operation(async_generator_promise_base &promise,
+            async_generator_yield_operation(async_generator_promise_base& promise,
                                             state initialState) noexcept
                 : m_promise(promise), m_initialState(initialState) {}
 
@@ -447,7 +447,7 @@ namespace cppcoro {
             void await_resume() noexcept {}
 
           private:
-            async_generator_promise_base &m_promise;
+            async_generator_promise_base& m_promise;
             state m_initialState;
         };
 
@@ -563,7 +563,7 @@ namespace cppcoro {
                 : m_promise(nullptr), m_producerCoroutine(nullptr) {}
 
             async_generator_advance_operation(
-                async_generator_promise_base &promise,
+                async_generator_promise_base& promise,
                 cppcoro::coroutine_handle<> producerCoroutine) noexcept
                 : m_promise(std::addressof(promise)), m_producerCoroutine(producerCoroutine) {
                 state initialState = promise.m_state.load(std::memory_order_acquire);
@@ -633,7 +633,7 @@ namespace cppcoro {
             }
 
           protected:
-            async_generator_promise_base *m_promise;
+            async_generator_promise_base* m_promise;
             cppcoro::coroutine_handle<> m_producerCoroutine;
 
           private:
@@ -649,45 +649,45 @@ namespace cppcoro {
 
             async_generator<T> get_return_object() noexcept;
 
-            async_generator_yield_operation yield_value(value_type &value) noexcept {
+            async_generator_yield_operation yield_value(value_type& value) noexcept {
                 m_currentValue = std::addressof(value);
                 return internal_yield_value();
             }
 
-            async_generator_yield_operation yield_value(value_type &&value) noexcept {
+            async_generator_yield_operation yield_value(value_type&& value) noexcept {
                 return yield_value(value);
             }
 
-            T &value() const noexcept { return *static_cast<T *>(m_currentValue); }
+            T& value() const noexcept { return *static_cast<T*>(m_currentValue); }
         };
 
-        template <typename T> class async_generator_promise<T &&> final
+        template <typename T> class async_generator_promise<T&&> final
             : public async_generator_promise_base {
           public:
             async_generator_promise() noexcept = default;
 
             async_generator<T> get_return_object() noexcept;
 
-            async_generator_yield_operation yield_value(T &&value) noexcept {
+            async_generator_yield_operation yield_value(T&& value) noexcept {
                 m_currentValue = std::addressof(value);
                 return internal_yield_value();
             }
 
-            T &&value() const noexcept { return std::move(*static_cast<T *>(m_currentValue)); }
+            T&& value() const noexcept { return std::move(*static_cast<T*>(m_currentValue)); }
         };
 
         template <typename T> class async_generator_increment_operation final
             : public async_generator_advance_operation {
           public:
-            async_generator_increment_operation(async_generator_iterator<T> &iterator) noexcept
+            async_generator_increment_operation(async_generator_iterator<T>& iterator) noexcept
                 : async_generator_advance_operation(iterator.m_coroutine.promise(),
                                                     iterator.m_coroutine),
                   m_iterator(iterator) {}
 
-            async_generator_iterator<T> &await_resume();
+            async_generator_iterator<T>& await_resume();
 
           private:
-            async_generator_iterator<T> &m_iterator;
+            async_generator_iterator<T>& m_iterator;
         };
 
         template <typename T> class async_generator_iterator final {
@@ -713,11 +713,11 @@ namespace cppcoro {
 
             reference operator*() const noexcept { return m_coroutine.promise().value(); }
 
-            bool operator==(const async_generator_iterator &other) const noexcept {
+            bool operator==(const async_generator_iterator& other) const noexcept {
                 return m_coroutine == other.m_coroutine;
             }
 
-            bool operator!=(const async_generator_iterator &other) const noexcept {
+            bool operator!=(const async_generator_iterator& other) const noexcept {
                 return !(*this == other);
             }
 
@@ -728,7 +728,7 @@ namespace cppcoro {
         };
 
         template <typename T>
-        async_generator_iterator<T> &async_generator_increment_operation<T>::await_resume() {
+        async_generator_iterator<T>& async_generator_increment_operation<T>::await_resume() {
             if (m_promise->finished()) {
                 // Update iterator to end()
                 m_iterator = async_generator_iterator<T>{nullptr};
@@ -766,7 +766,7 @@ namespace cppcoro {
                 }
 
                 return async_generator_iterator<T>{
-                    handle_type::from_promise(*static_cast<promise_type *>(m_promise))};
+                    handle_type::from_promise(*static_cast<promise_type*>(m_promise))};
             }
         };
     }  // namespace detail
@@ -778,10 +778,10 @@ namespace cppcoro {
 
         async_generator() noexcept : m_coroutine(nullptr) {}
 
-        explicit async_generator(promise_type &promise) noexcept
+        explicit async_generator(promise_type& promise) noexcept
             : m_coroutine(cppcoro::coroutine_handle<promise_type>::from_promise(promise)) {}
 
-        async_generator(async_generator &&other) noexcept : m_coroutine(other.m_coroutine) {
+        async_generator(async_generator&& other) noexcept : m_coroutine(other.m_coroutine) {
             other.m_coroutine = nullptr;
         }
 
@@ -793,14 +793,14 @@ namespace cppcoro {
             }
         }
 
-        async_generator &operator=(async_generator &&other) noexcept {
+        async_generator& operator=(async_generator&& other) noexcept {
             async_generator temp(std::move(other));
             swap(temp);
             return *this;
         }
 
-        async_generator(const async_generator &) = delete;
-        async_generator &operator=(const async_generator &) = delete;
+        async_generator(const async_generator&) = delete;
+        async_generator& operator=(const async_generator&) = delete;
 
         auto begin() noexcept {
             if (!m_coroutine) {
@@ -812,7 +812,7 @@ namespace cppcoro {
 
         auto end() noexcept { return iterator{nullptr}; }
 
-        void swap(async_generator &other) noexcept {
+        void swap(async_generator& other) noexcept {
             using std::swap;
             swap(m_coroutine, other.m_coroutine);
         }
@@ -821,7 +821,7 @@ namespace cppcoro {
         cppcoro::coroutine_handle<promise_type> m_coroutine;
     };
 
-    template <typename T> void swap(async_generator<T> &a, async_generator<T> &b) noexcept {
+    template <typename T> void swap(async_generator<T>& a, async_generator<T>& b) noexcept {
         a.swap(b);
     }
 
@@ -834,7 +834,7 @@ namespace cppcoro {
 #endif  // !CPPCORO_COMPILER_SUPPORTS_SYMMETRIC_TRANSFER
 
     template <typename FUNC, typename T> async_generator<std::invoke_result_t<
-        FUNC &, decltype(*std::declval<typename async_generator<T>::iterator &>())>>
+        FUNC&, decltype(*std::declval<typename async_generator<T>::iterator&>())>>
     fmap(FUNC func, async_generator<T> source) {
         static_assert(!std::is_reference_v<FUNC>,
                       "Passing by reference to async_generator<T> coroutine is unsafe. "

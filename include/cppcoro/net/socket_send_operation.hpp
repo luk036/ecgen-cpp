@@ -18,21 +18,21 @@ namespace cppcoro::net {
 
     class socket_send_operation_impl {
       public:
-        socket_send_operation_impl(socket &s, const void *buffer, std::size_t byteCount) noexcept
-            : m_socket(s), m_buffer(const_cast<void *>(buffer), byteCount) {}
+        socket_send_operation_impl(socket& s, const void* buffer, std::size_t byteCount) noexcept
+            : m_socket(s), m_buffer(const_cast<void*>(buffer), byteCount) {}
 
-        bool try_start(cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
-        void cancel(cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
+        bool try_start(cppcoro::detail::win32_overlapped_operation_base& operation) noexcept;
+        void cancel(cppcoro::detail::win32_overlapped_operation_base& operation) noexcept;
 
       private:
-        socket &m_socket;
+        socket& m_socket;
         cppcoro::detail::win32::wsabuf m_buffer;
     };
 
     class socket_send_operation
         : public cppcoro::detail::win32_overlapped_operation<socket_send_operation> {
       public:
-        socket_send_operation(socket &s, const void *buffer, std::size_t byteCount) noexcept
+        socket_send_operation(socket& s, const void* buffer, std::size_t byteCount) noexcept
             : m_impl(s, buffer, byteCount) {}
 
       private:
@@ -47,10 +47,10 @@ namespace cppcoro::net {
         : public cppcoro::detail::win32_overlapped_operation_cancellable<
               socket_send_operation_cancellable> {
       public:
-        socket_send_operation_cancellable(socket &s, const void *buffer, std::size_t byteCount,
-                                          cancellation_token &&ct) noexcept
+        socket_send_operation_cancellable(socket& s, const void* buffer, std::size_t byteCount,
+                                          cancellation_token&& ct) noexcept
             : cppcoro::detail::win32_overlapped_operation_cancellable<
-                socket_send_operation_cancellable>(std::move(ct)),
+                  socket_send_operation_cancellable>(std::move(ct)),
               m_impl(s, buffer, byteCount) {}
 
       private:

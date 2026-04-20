@@ -12,7 +12,7 @@
  * provide information about the benchmark state, such as the number of
  * iterations to run, the elapsed time, and other benchmark-related data.
  */
-static void emk_new(benchmark::State &state) {
+static void emk_new(benchmark::State& state) {
     constexpr int N = 16;
     constexpr int K = 5;
     while (state.KeepRunning()) {
@@ -38,7 +38,7 @@ BENCHMARK(emk_new);
  * provide information about the benchmark state, such as the number of
  * iterations to run, the elapsed time, and other benchmark-related data.
  */
-static void emk_old(benchmark::State &state) {
+static void emk_old(benchmark::State& state) {
     constexpr int N = 16;
     constexpr int K = 5;
     while (state.KeepRunning()) {

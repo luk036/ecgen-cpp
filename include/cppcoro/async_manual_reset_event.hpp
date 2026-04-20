@@ -72,12 +72,12 @@ namespace cppcoro {
         // - other   - The state is 'not set'.
         //             Points to an 'async_manual_reset_event_operation' that is
         //             the head of a linked-list of waiters.
-        mutable std::atomic<void *> m_state;
+        mutable std::atomic<void*> m_state;
     };
 
     class async_manual_reset_event_operation {
       public:
-        explicit async_manual_reset_event_operation(const async_manual_reset_event &event) noexcept;
+        explicit async_manual_reset_event_operation(const async_manual_reset_event& event) noexcept;
 
         bool await_ready() const noexcept;
         bool await_suspend(cppcoro::coroutine_handle<> awaiter) noexcept;
@@ -86,8 +86,8 @@ namespace cppcoro {
       private:
         friend class async_manual_reset_event;
 
-        const async_manual_reset_event &m_event;
-        async_manual_reset_event_operation *m_next;
+        const async_manual_reset_event& m_event;
+        async_manual_reset_event_operation* m_next;
         cppcoro::coroutine_handle<> m_awaiter;
     };
 }  // namespace cppcoro

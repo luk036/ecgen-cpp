@@ -32,7 +32,7 @@ namespace cppcoro {
 
         class schedule_operation {
           public:
-            explicit schedule_operation(round_robin_scheduler &s) noexcept : m_scheduler(s) {}
+            explicit schedule_operation(round_robin_scheduler& s) noexcept : m_scheduler(s) {}
 
             bool await_ready() noexcept { return false; }
 
@@ -44,7 +44,7 @@ namespace cppcoro {
             void await_resume() noexcept {}
 
           private:
-            round_robin_scheduler &m_scheduler;
+            round_robin_scheduler& m_scheduler;
         };
 
         friend class schedule_operation;

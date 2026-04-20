@@ -37,7 +37,7 @@ namespace cppcoro {
             ///
             /// \throws std::system_error
             /// If the socket could not be created for some reason.
-            static socket create_tcpv4(io_service &ioSvc);
+            static socket create_tcpv4(io_service& ioSvc);
 
             /// Create a socket that can be used to communicate using TCP/IPv6 protocol.
             ///
@@ -50,7 +50,7 @@ namespace cppcoro {
             ///
             /// \throws std::system_error
             /// If the socket could not be created for some reason.
-            static socket create_tcpv6(io_service &ioSvc);
+            static socket create_tcpv6(io_service& ioSvc);
 
             /// Create a socket that can be used to communicate using UDP/IPv4 protocol.
             ///
@@ -63,7 +63,7 @@ namespace cppcoro {
             ///
             /// \throws std::system_error
             /// If the socket could not be created for some reason.
-            static socket create_udpv4(io_service &ioSvc);
+            static socket create_udpv4(io_service& ioSvc);
 
             /// Create a socket that can be used to communicate using UDP/IPv6 protocol.
             ///
@@ -76,9 +76,9 @@ namespace cppcoro {
             ///
             /// \throws std::system_error
             /// If the socket could not be created for some reason.
-            static socket create_udpv6(io_service &ioSvc);
+            static socket create_udpv6(io_service& ioSvc);
 
-            socket(socket &&other) noexcept;
+            socket(socket&& other) noexcept;
 
             /// Closes the socket, releasing any associated resources.
             ///
@@ -88,7 +88,7 @@ namespace cppcoro {
             /// call disconnect() and wait until the disconnect operation completes.
             ~socket();
 
-            socket &operator=(socket &&other) noexcept;
+            socket& operator=(socket&& other) noexcept;
 
 #if CPPCORO_OS_WINNT
             /// Get the Win32 socket handle assocaited with this socket.
@@ -109,13 +109,13 @@ namespace cppcoro {
             ///
             /// If the socket is not bound then this will be the unspecified end-point
             /// of the socket's associated address-family.
-            const ip_endpoint &local_endpoint() const noexcept { return m_localEndPoint; }
+            const ip_endpoint& local_endpoint() const noexcept { return m_localEndPoint; }
 
             /// Get the address and port of the remote end-point.
             ///
             /// If the socket is not in the connected state then this will be the
             /// unspecified end-point of the socket's associated address-family.
-            const ip_endpoint &remote_endpoint() const noexcept { return m_remoteEndPoint; }
+            const ip_endpoint& remote_endpoint() const noexcept { return m_remoteEndPoint; }
 
             /// Bind the local end of this socket to the specified local end-point.
             ///
@@ -127,7 +127,7 @@ namespace cppcoro {
             ///
             /// \throws std::system_error
             /// If the socket could not be bound for some reason.
-            void bind(const ip_endpoint &localEndPoint);
+            void bind(const ip_endpoint& localEndPoint);
 
             /// Put the socket into a passive listening state that will start
             /// acknowledging and queueing up new connections ready to be accepted by a
@@ -165,7 +165,7 @@ namespace cppcoro {
             /// An awaitable object that must be co_await'ed to perform the async
             /// connect operation. The result of the co_await expression is type void.
             [[nodiscard]] socket_connect_operation connect(
-                const ip_endpoint &remoteEndPoint) noexcept;
+                const ip_endpoint& remoteEndPoint) noexcept;
 
             /// Connect to the specified remote end-point.
             ///
@@ -184,35 +184,35 @@ namespace cppcoro {
             /// operation completes. The result of the co_await expression has type
             /// 'void'.
             [[nodiscard]] socket_connect_operation_cancellable connect(
-                const ip_endpoint &remoteEndPoint, cancellation_token ct) noexcept;
+                const ip_endpoint& remoteEndPoint, cancellation_token ct) noexcept;
 
-            [[nodiscard]] socket_accept_operation accept(socket &acceptingSocket) noexcept;
+            [[nodiscard]] socket_accept_operation accept(socket& acceptingSocket) noexcept;
             [[nodiscard]] socket_accept_operation_cancellable accept(
-                socket &acceptingSocket, cancellation_token ct) noexcept;
+                socket& acceptingSocket, cancellation_token ct) noexcept;
 
             [[nodiscard]] socket_disconnect_operation disconnect() noexcept;
             [[nodiscard]] socket_disconnect_operation_cancellable disconnect(
                 cancellation_token ct) noexcept;
 
-            [[nodiscard]] socket_send_operation send(const void *buffer, std::size_t size) noexcept;
-            [[nodiscard]] socket_send_operation_cancellable send(const void *buffer,
+            [[nodiscard]] socket_send_operation send(const void* buffer, std::size_t size) noexcept;
+            [[nodiscard]] socket_send_operation_cancellable send(const void* buffer,
                                                                  std::size_t size,
                                                                  cancellation_token ct) noexcept;
 
-            [[nodiscard]] socket_recv_operation recv(void *buffer, std::size_t size) noexcept;
-            [[nodiscard]] socket_recv_operation_cancellable recv(void *buffer, std::size_t size,
+            [[nodiscard]] socket_recv_operation recv(void* buffer, std::size_t size) noexcept;
+            [[nodiscard]] socket_recv_operation_cancellable recv(void* buffer, std::size_t size,
                                                                  cancellation_token ct) noexcept;
 
-            [[nodiscard]] socket_recv_from_operation recv_from(void *buffer,
+            [[nodiscard]] socket_recv_from_operation recv_from(void* buffer,
                                                                std::size_t size) noexcept;
             [[nodiscard]] socket_recv_from_operation_cancellable recv_from(
-                void *buffer, std::size_t size, cancellation_token ct) noexcept;
+                void* buffer, std::size_t size, cancellation_token ct) noexcept;
 
-            [[nodiscard]] socket_send_to_operation send_to(const ip_endpoint &destination,
-                                                           const void *buffer,
+            [[nodiscard]] socket_send_to_operation send_to(const ip_endpoint& destination,
+                                                           const void* buffer,
                                                            std::size_t size) noexcept;
             [[nodiscard]] socket_send_to_operation_cancellable send_to(
-                const ip_endpoint &destination, const void *buffer, std::size_t size,
+                const ip_endpoint& destination, const void* buffer, std::size_t size,
                 cancellation_token ct) noexcept;
 
             void close_send();

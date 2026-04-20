@@ -20,17 +20,17 @@ namespace cppcoro::net {
 
     class socket_recv_from_operation_impl {
       public:
-        socket_recv_from_operation_impl(socket &socket, void *buffer,
+        socket_recv_from_operation_impl(socket& socket, void* buffer,
                                         std::size_t byteCount) noexcept
             : m_socket(socket), m_buffer(buffer, byteCount) {}
 
-        bool try_start(cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
-        void cancel(cppcoro::detail::win32_overlapped_operation_base &operation) noexcept;
+        bool try_start(cppcoro::detail::win32_overlapped_operation_base& operation) noexcept;
+        void cancel(cppcoro::detail::win32_overlapped_operation_base& operation) noexcept;
         std::tuple<std::size_t, ip_endpoint> get_result(
-            cppcoro::detail::win32_overlapped_operation_base &operation);
+            cppcoro::detail::win32_overlapped_operation_base& operation);
 
       private:
-        socket &m_socket;
+        socket& m_socket;
         cppcoro::detail::win32::wsabuf m_buffer;
 
         static constexpr std::size_t sockaddrStorageAlignment = 4;
@@ -43,7 +43,7 @@ namespace cppcoro::net {
     class socket_recv_from_operation
         : public cppcoro::detail::win32_overlapped_operation<socket_recv_from_operation> {
       public:
-        socket_recv_from_operation(socket &socket, void *buffer, std::size_t byteCount) noexcept
+        socket_recv_from_operation(socket& socket, void* buffer, std::size_t byteCount) noexcept
             : m_impl(socket, buffer, byteCount) {}
 
       private:
@@ -59,10 +59,10 @@ namespace cppcoro::net {
         : public cppcoro::detail::win32_overlapped_operation_cancellable<
               socket_recv_from_operation_cancellable> {
       public:
-        socket_recv_from_operation_cancellable(socket &socket, void *buffer, std::size_t byteCount,
-                                               cancellation_token &&ct) noexcept
+        socket_recv_from_operation_cancellable(socket& socket, void* buffer, std::size_t byteCount,
+                                               cancellation_token&& ct) noexcept
             : cppcoro::detail::win32_overlapped_operation_cancellable<
-                socket_recv_from_operation_cancellable>(std::move(ct)),
+                  socket_recv_from_operation_cancellable>(std::move(ct)),
               m_impl(socket, buffer, byteCount) {}
 
       private:

@@ -13,10 +13,8 @@ TEST_CASE("Test sjt: n=3, check sequence") {
         actual_sequence.push_back(v);
     }
 
-    std::vector<std::vector<int>> expected_sequence = {
-        {1, 2, 3}, {1, 3, 2}, {3, 1, 2},
-        {3, 2, 1}, {2, 3, 1}, {2, 1, 3}
-    };
+    std::vector<std::vector<int>> expected_sequence
+        = {{1, 2, 3}, {1, 3, 2}, {3, 1, 2}, {3, 2, 1}, {2, 3, 1}, {2, 1, 3}};
 
     INFO("Actual sequence: ", fmt::format("{}", fmt::join(actual_sequence, ", ")));
     INFO("Expected sequence: ", fmt::format("{}", fmt::join(expected_sequence, ", ")));
