@@ -7,10 +7,11 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME spdlog
-  GIT_TAG v1.14.1
+  GIT_TAG v1.12.0
   GITHUB_REPOSITORY gabime/spdlog
   OPTIONS "SPDLOG_INSTALL YES" # create an installable target
 )
+
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   # using GCC
   add_compile_options(-fcoroutines)
