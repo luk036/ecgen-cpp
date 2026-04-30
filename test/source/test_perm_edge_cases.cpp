@@ -10,7 +10,7 @@ TEST_CASE("Test sjt: n=3, check sequence") {
     auto g = ecgen::sjt(p);
     std::vector<std::vector<int>> actual_sequence;
     for (const auto& v : g) {
-        actual_sequence.push_back(v);
+        actual_sequence.emplace_back(v);
     }
 
     std::vector<std::vector<int>> expected_sequence

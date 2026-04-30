@@ -2,20 +2,20 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Testing emk_comb_gen(4, 2)..." << std::endl;
+    std::cout << "Testing emk_comb_gen(4, 2)...\n";
     size_t cnt = 0;
     try {
         for (auto idx : ecgen::emk_comb_gen(4, 2)) {
             std::cout << "Swap " << cnt << ": (" << idx.first << ", " << idx.second << ")"
-                      << std::endl;
+                      << '\n';
             ++cnt;
         }
-        std::cout << "Total swaps: " << cnt << std::endl;
+        std::cout << "Total swaps: " << cnt << '\n';
     } catch (const std::exception& e) {
-        std::cout << "Exception: " << e.what() << std::endl;
+        std::cout << "Exception: " << e.what() << '\n';
         return 1;
     } catch (...) {
-        std::cout << "Unknown exception" << std::endl;
+        std::cout << "Unknown exception\n";
         return 1;
     }
     return 0;

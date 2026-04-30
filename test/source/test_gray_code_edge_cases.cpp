@@ -17,7 +17,7 @@ TEST_CASE("Test brgc: n=1") {
     auto g = ecgen::brgc<std::vector<int>>(1);
     std::vector<std::vector<int>> actual_sequence;
     for (const auto& v : g) {
-        actual_sequence.push_back(v);
+        actual_sequence.emplace_back(v);
     }
     std::vector<std::vector<int>> expected_sequence = {{0}, {1}};
     CHECK(actual_sequence == expected_sequence);
@@ -27,7 +27,7 @@ TEST_CASE("Test brgc: n=3, check sequence") {
     auto g = ecgen::brgc<std::vector<int>>(3);
     std::vector<std::vector<int>> actual_sequence;
     for (const auto& v : g) {
-        actual_sequence.push_back(v);
+        actual_sequence.emplace_back(v);
     }
 
     std::vector<std::vector<int>> expected_sequence
