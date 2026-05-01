@@ -6,8 +6,7 @@ int main() {
     size_t cnt = 0;
     try {
         for (auto idx : ecgen::emk_comb_gen(4, 2)) {
-            std::cout << "Swap " << cnt << ": (" << idx.first << ", " << idx.second << ")"
-                      << '\n';
+            std::cout << "Swap " << cnt << ": (" << idx.first << ", " << idx.second << ")" << '\n';
             ++cnt;
         }
         std::cout << "Total swaps: " << cnt << '\n';
