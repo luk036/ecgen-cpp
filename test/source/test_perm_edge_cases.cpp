@@ -18,5 +18,5 @@ TEST_CASE("Test sjt: n=3, check sequence") {
 
     INFO("Actual sequence: ", fmt::format("{}", fmt::join(actual_sequence, ", ")));
     INFO("Expected sequence: ", fmt::format("{}", fmt::join(expected_sequence, ", ")));
-    CHECK(actual_sequence == expected_sequence);
+    CHECK_EQ(actual_sequence, expected_sequence);
 }

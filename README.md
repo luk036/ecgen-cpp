@@ -44,7 +44,7 @@ for (int i : ecgen::sjt_gen(N)) {
     ++cnt;
     std::swap(lst[i], lst[i + 1]);
 }
-CHECK(cnt == ecgen::Factorial<N>());
+CHECK_EQ(cnt, ecgen::Factorial<N>());
 ```
 
 ### Adjust the template to your needs

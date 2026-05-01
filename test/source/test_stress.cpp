@@ -15,7 +15,7 @@ TEST_SUITE("stress tests") {
             (void)c;
             count++;
         }
-        CHECK(count == 184756);
+        CHECK_EQ(count, 184756);
     }
 
     TEST_CASE("permutations stress") {
@@ -26,7 +26,7 @@ TEST_SUITE("stress tests") {
             (void)c;
             count++;
         }
-        CHECK(count == 3628800);
+        CHECK_EQ(count, 3628800);
     }
 
     TEST_CASE("gray code stress") {
@@ -35,7 +35,7 @@ TEST_SUITE("stress tests") {
             (void)c;
             count++;
         }
-        CHECK(count == 1024);
+        CHECK_EQ(count, 1024);
     }
 
     TEST_CASE("set partition stress") {
@@ -48,6 +48,6 @@ TEST_SUITE("stress tests") {
             }
             count += k_count + 1;
         }
-        CHECK(count == 877);
+        CHECK_EQ(count, 877);
     }
 }

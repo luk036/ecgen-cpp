@@ -10,7 +10,7 @@ TEST_CASE("Test brgc: n=0") {
     auto it = g.begin();
     CHECK(it->empty());
     ++it;
-    CHECK(it == g.end());
+    CHECK_EQ(it, g.end());
 }
 
 TEST_CASE("Test brgc: n=1") {
@@ -20,7 +20,7 @@ TEST_CASE("Test brgc: n=1") {
         actual_sequence.emplace_back(v);
     }
     std::vector<std::vector<int>> expected_sequence = {{0}, {1}};
-    CHECK(actual_sequence == expected_sequence);
+    CHECK_EQ(actual_sequence, expected_sequence);
 }
 
 TEST_CASE("Test brgc: n=3, check sequence") {
@@ -35,5 +35,5 @@ TEST_CASE("Test brgc: n=3, check sequence") {
 
     INFO("Actual sequence: ", fmt::format("{}", fmt::join(actual_sequence, ", ")));
     INFO("Expected sequence: ", fmt::format("{}", fmt::join(expected_sequence, ", ")));
-    CHECK(actual_sequence == expected_sequence);
+    CHECK_EQ(actual_sequence, expected_sequence);
 }
