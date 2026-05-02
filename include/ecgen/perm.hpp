@@ -9,14 +9,14 @@ namespace ecgen {
      * permutations of length n using the Steinhaus-Johnson-Trotter algorithm.
      *
      * Example visualization for n=3 (generating all permutations):
-     * ```svgbob
+     * @verbatim
      *    Start: 0 1 2
      *    Step 1: 0 2 1 (swap 1,2)
      *    Step 2: 2 0 1 (swap 0,2)
      *    Step 3: 2 1 0 (swap 0,1)
      *    Step 4: 1 2 0 (swap 1,2)
      *    Step 5: 1 0 2 (swap 0,2)
-     * ```
+     * @endverbatim
      *
      * @param[in] n The permutation length
      * @return A cppcoro::generator that yields the permutation indices
@@ -28,14 +28,14 @@ namespace ecgen {
      * permutations of length n using the Eades-Hickey-Read (EHR) algorithm.
      *
      * Example visualization for n=3:
-     * ```svgbob
+     * @verbatim
      *    Start: 0 1 2
      *    Step 1: 1 0 2 (swap 0,1)
      *    Step 2: 2 0 1 (swap 1,2)
      *    Step 3: 0 2 1 (swap 0,1)
      *    Step 4: 1 2 0 (swap 0,1)
      *    Step 5: 2 1 0 (swap 1,2)
-     * ```
+     * @endverbatim
      *
      * @param[in] n The permutation length
      * @return A cppcoro::generator that yields the permutation indices
@@ -49,10 +49,10 @@ namespace ecgen {
      * which is N!. It is implemented as a constexpr function template.
      *
      * Example calculation for N=4:
-     * ```svgbob
+     * @verbatim
      *    4! = 4 * 3 * 2 * 1 = 24
      *    So there are 24 permutations of 4 elements
-     * ```
+     * @endverbatim
      *
      * @tparam N - The number to calculate the factorial of.
      * @return constexpr auto - The factorial of N as a std::integral_constant.
@@ -70,11 +70,11 @@ namespace ecgen {
      * permutation container. This uses the Steinhaus-Johnson-Trotter algorithm.
      *
      * Example visualization for adjacent transpositions:
-     * ```svgbob
+     * @verbatim
      *    [a, b, c] -> [b, a, c] (swap positions 0,1)
      *    [b, a, c] -> [b, c, a] (swap positions 1,2)
      *    [b, c, a] -> [c, b, a] (swap positions 0,1)
-     * ```
+     * @endverbatim
      *
      * @tparam Container
      * @param[in] perm

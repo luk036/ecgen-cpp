@@ -13,7 +13,7 @@ namespace ecgen {
      * representing the combinations using the revolving door algorithm.
      *
      * Example visualization of combinations (4 choose 2):
-     * ```svgbob
+     * @verbatim
      *    0 1 2 3
      *    x x . .  -> indices 0,1
      *    x . x .  -> indices 0,2
@@ -21,7 +21,7 @@ namespace ecgen {
      *    . x x .  -> indices 1,2
      *    . x . x  -> indices 1,3
      *    . . x x  -> indices 2,3
-     * ```
+     * @endverbatim
      *
      * @param[in] n - The number of elements in the full set.
      * @param[in] k - The number of elements to select in each combination.
@@ -35,7 +35,7 @@ namespace ecgen {
      * order using the revolving door algorithm.
      *
      * Example visualization of combinations (4 choose 2):
-     * ```svgbob
+     * @verbatim
      *    0 1 2 3
      *    x x . .  -> indices 0,1
      *    x . x .  -> indices 0,2
@@ -43,7 +43,7 @@ namespace ecgen {
      *    . x x .  -> indices 1,2
      *    . x . x  -> indices 1,3
      *    . . x x  -> indices 2,3
-     * ```
+     * @endverbatim
      *
      * @param[in] n - The number of elements in the set.
      * @param[in] k - The size of the combinations to generate.
@@ -70,9 +70,9 @@ namespace ecgen {
      * This is a constexpr function that computes the result at compile-time.
      *
      * Example calculation for C(4,2) = 6:
-     * ```svgbob
+     * @verbatim
      *    C(4,2) = 4! / (2! * (4-2)!) = 24 / (2 * 2) = 6
-     * ```
+     * @endverbatim
      *
      * @tparam N - The size of the set
      * @tparam K - The number of elements to select

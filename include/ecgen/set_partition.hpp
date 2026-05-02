@@ -47,11 +47,11 @@ namespace ecgen {
      * implemented recursively using the recurrence relation for Stirling numbers.
      *
      * Example visualization for S(4,2) - partitions of 4 elements into 2 blocks:
-     * ```svgbob
+     * @verbatim
      *    {1,2}{3,4}  {1,3}{2,4}  {1,4}{2,3}  {1}{2,3,4}  {1,2,3}{4}  {1,3,4}{2}
 
      * *      1 1 0 0     1 0 1 0     1 0 0 1     0 1 1 1     0 0 0 1     0 1 1 0
-     * ```
+     * @endverbatim
      *
      * @tparam N
      * @tparam K
@@ -71,12 +71,12 @@ namespace ecgen {
      * nonempty blocks.
      *
      * Example visualization for n=4, k=2 (partitions into 2 blocks):
-     * ```svgbob
+     * @verbatim
      *    Set {1,2,3,4} -> {{1,2},{3,4}}  {{1,3},{2,4}}  {{1,4},{2,3}}
      * {{1},{2,3,4}}  {{1,2,3},{4}}
      *                    Block 0  Block 1  Block 0  Block 1
      * Block 0  Block 1  Block 0  Block 1   Block 0   Block 1
-     * ```
+     * @endverbatim
      *
      * @param[in] n - The size of the set to partition.
      * @param[in] k - The number of blocks in the partition.
