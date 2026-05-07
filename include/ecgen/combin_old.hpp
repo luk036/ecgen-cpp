@@ -2,7 +2,7 @@
 
 #include <cppcoro/recursive_generator.hpp>  // for recursive_generator
 // #include <type_traits>                      // for integral_constant
-#include <utility>                          // for pair
+#include <utility>  // for pair
 
 namespace ecgen {
 
