@@ -1,8 +1,5 @@
 #include <cassert>
-#include <cctype>
-#include <cstdio>
 #include <ecgen/set_partition_old.hpp>
-#include <functional>
 #include <utility>
 
 namespace ecgen {
