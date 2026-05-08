@@ -14,7 +14,7 @@
 namespace cppcoro {
     class async_scope {
       public:
-        async_scope() noexcept : m_count(1u) {}
+        async_scope() noexcept : m_count(1U) {}
 
         ~async_scope() {
             // scope must be co_awaited before it destructs.
@@ -42,7 +42,7 @@ namespace cppcoro {
 
                 bool await_suspend(cppcoro::coroutine_handle<> continuation) noexcept {
                     m_scope->m_continuation = continuation;
-                    return m_scope->m_count.fetch_sub(1u, std::memory_order_acq_rel) > 1u;
+                    return m_scope->m_count.fetch_sub(1U, std::memory_order_acq_rel) > 1U;
                 }
 
                 void await_resume() noexcept {}
@@ -53,7 +53,7 @@ namespace cppcoro {
 
       private:
         void on_work_finished() noexcept {
-            if (m_count.fetch_sub(1u, std::memory_order_acq_rel) == 1) {
+            if (m_count.fetch_sub(1U, std::memory_order_acq_rel) == 1) {
                 m_continuation.resume();
             }
         }
