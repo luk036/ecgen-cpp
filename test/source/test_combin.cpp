@@ -2,7 +2,6 @@
 
 #include <ecgen/combin.hpp>
 #include <string>
-#include <vector>
 
 TEST_CASE("Generate all combinations by emk_comb_gen") {
     size_t cnt = 0;
