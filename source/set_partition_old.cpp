@@ -5,7 +5,9 @@
 namespace ecgen {
     using ret_t = std::pair<int, int>;
 
-    inline auto Move(int x, int y) -> py::RecursiveGenerator<ret_t> { co_yield std::make_pair(x, y); }
+    inline auto Move(int x, int y) -> py::RecursiveGenerator<ret_t> {
+        co_yield std::make_pair(x, y);
+    }
 
     // The lists S(n,k,0) and S(n,k,1) satisfy the following properties.
     // 1. Successive RG sequences differ in exactly one position.

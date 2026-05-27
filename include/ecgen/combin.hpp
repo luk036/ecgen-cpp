@@ -2,8 +2,8 @@
 
 #include <py2cpp/gen.hpp>
 #include <py2cpp/recursive_gen.hpp>
-#include <type_traits>                      // for integral_constant
-#include <utility>                          // for pair
+#include <type_traits>  // for integral_constant
+#include <utility>      // for pair
 
 namespace ecgen {
 

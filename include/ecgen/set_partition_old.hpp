@@ -48,7 +48,6 @@ namespace ecgen {
      * @param[in] k
      * @return py::RecursiveGenerator<std::pair<int, int>>
      */
-    extern auto set_partition_gen_old(int n, int k)
-        -> py::RecursiveGenerator<std::pair<int, int>>;
+    extern auto set_partition_gen_old(int n, int k) -> py::RecursiveGenerator<std::pair<int, int>>;
 
 }  // namespace ecgen

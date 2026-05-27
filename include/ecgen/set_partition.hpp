@@ -83,7 +83,6 @@ namespace ecgen {
      * @return A recursive generator that yields std::pair representing each
      * partition.
      */
-    extern auto set_partition_gen(int n, int k)
-        -> py::RecursiveGenerator<std::pair<int, int>>;
+    extern auto set_partition_gen(int n, int k) -> py::RecursiveGenerator<std::pair<int, int>>;
 
 }  // namespace ecgen

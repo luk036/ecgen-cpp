@@ -80,8 +80,7 @@ namespace ecgen {
      * @param[in] perm
      * @return py::Generator<Container&>
      */
-    template <typename Container> inline auto sjt(Container& perm)
-        -> py::Generator<Container&> {
+    template <typename Container> inline auto sjt(Container& perm) -> py::Generator<Container&> {
         const auto n = int(perm.size());
         for (const int idx : ecgen::sjt_gen(n)) {
             co_yield perm;
