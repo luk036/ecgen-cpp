@@ -9,14 +9,14 @@ namespace ecgen {
      *
      * The `sjt_gen` function is generating all permutations of size `n` using the
      * Steinhaus-Johnson-Trotter algorithm. It returns a
-     * `cppcoro::generator<int>`, which is a coroutine-based generator that
+     * `py::Generator<int>`, which is a coroutine-based generator that
      * yields values of type `int`.
      *
      * @param[in] n The parameter `n` represents the size of the permutations to be
      * generated. It determines the number of elements in each permutation.
-     * @return cppcoro::generator<int>
+     * @return py::Generator<int>
      */
-    auto sjt_gen(int n) -> cppcoro::generator<int> {
+    auto sjt_gen(int n) -> py::Generator<int> {
         /** Generate the swaps for the Steinhaus-Johnson-Trotter algorithm.*/
         if (n == 2) {
             co_yield 0;
@@ -41,14 +41,14 @@ namespace ecgen {
      * @brief Generate all permutations by star transposition
      *
      * The `ehr_gen` function is generating all permutations of size `n` using the
-     * ehrlich-Straus algorithm. It returns a `cppcoro::generator<int>`, which is
+     * ehrlich-Straus algorithm. It returns a `py::Generator<int>`, which is
      * a coroutine-based generator that yields values of type `int`.
      *
      * @param[in] n The parameter `n` represents the size of the permutations to be
      * generated. It determines the number of elements in each permutation.
-     * @return cppcoro::generator<int>
+     * @return py::Generator<int>
      */
-    auto ehr_gen(int n) -> cppcoro::generator<int> {
+    auto ehr_gen(int n) -> py::Generator<int> {
         auto counters
             = std::vector<size_t>(static_cast<size_t>(n + 1), 0);  // counters[0] is never used
         auto buffer = std::vector<int>(static_cast<size_t>(n));

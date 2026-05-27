@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cppcoro/recursive_generator.hpp>  // for recursive_generator
+#include <py2cpp/recursive_gen.hpp>
 // #include <type_traits>                      // for integral_constant
 #include <utility>  // for pair
 
@@ -17,7 +17,7 @@ namespace ecgen {
      * @returns A recursive generator yielding all k-combinations as pairs of
      * indices.
      */
-    extern auto emk_gen(int n, int k) -> cppcoro::recursive_generator<std::pair<int, int>>;
+    extern auto emk_gen(int n, int k) -> py::RecursiveGenerator<std::pair<int, int>>;
 
     /**
      * Generates all k-combinations from a set of n elements, without repetition.
@@ -31,6 +31,6 @@ namespace ecgen {
      * @returns A recursive generator yielding all k-combinations as pairs of
      * indices.
      */
-    extern auto emk_neg(int n, int k) -> cppcoro::recursive_generator<std::pair<int, int>>;
+    extern auto emk_neg(int n, int k) -> py::RecursiveGenerator<std::pair<int, int>>;
 
 }  // namespace ecgen

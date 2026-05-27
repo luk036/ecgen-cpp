@@ -1,16 +1,13 @@
-#include <cppcoro/coroutine.hpp>  // for cppcoro, suspend_always, coroutine_handle
 #include <ecgen/combin.hpp>
 
 namespace ecgen {
-
-    using namespace cppcoro;
     using ret_t = std::pair<int, int>;
 
     // Forward declare
-    static auto emk_gen_even(int n, int k) -> recursive_generator<ret_t>;
-    static auto emk_gen_odd(int n, int k) -> recursive_generator<ret_t>;
-    static auto emk_neg_even(int n, int k) -> recursive_generator<ret_t>;
-    static auto emk_neg_odd(int n, int k) -> recursive_generator<ret_t>;
+    static auto emk_gen_even(int n, int k) -> py::RecursiveGenerator<ret_t>;
+    static auto emk_gen_odd(int n, int k) -> py::RecursiveGenerator<ret_t>;
+    static auto emk_neg_even(int n, int k) -> py::RecursiveGenerator<ret_t>;
+    static auto emk_neg_odd(int n, int k) -> py::RecursiveGenerator<ret_t>;
 
     /**
      * Generates all k-combinations from a set of n elements using the
@@ -28,9 +25,9 @@ namespace ecgen {
      * @param[in] k The parameter `k` represents the size of each combination. It
      * determines how many elements are selected from the total number of elements
      * `n` to form a combination.
-     * @return recursive_generator<ret_t>
+     * @return py::RecursiveGenerator<ret_t>
      */
-    static auto emk_gen_even(int n, int k) -> recursive_generator<ret_t> {
+    static auto emk_gen_even(int n, int k) -> py::RecursiveGenerator<ret_t> {
         if (k >= n - 1) {
             co_yield std::make_pair(n - 2, n - 1);
         } else {
@@ -63,9 +60,9 @@ namespace ecgen {
      * @param[in] k The parameter `k` represents the size of each combination. It
      * determines how many elements are selected from the total number of elements
      * `n` to form a combination.
-     * @return recursive_generator<ret_t>
+     * @return py::RecursiveGenerator<ret_t>
      */
-    static auto emk_gen_odd(int n, int k) -> recursive_generator<ret_t> {
+    static auto emk_gen_odd(int n, int k) -> py::RecursiveGenerator<ret_t> {
         if (k < n - 1) {
             co_yield emk_gen_odd(n - 1, k);
             co_yield std::make_pair(n - 2, n - 1);
@@ -92,9 +89,9 @@ namespace ecgen {
      * @param[in] k The parameter `k` represents the size of each combination. It
      * determines how many elements are selected from the total number of elements
      * `n` to form a combination.
-     * @return recursive_generator<ret_t>
+     * @return py::RecursiveGenerator<ret_t>
      */
-    static auto emk_neg_even(int n, int k) -> recursive_generator<ret_t> {
+    static auto emk_neg_even(int n, int k) -> py::RecursiveGenerator<ret_t> {
         if (k != 2) {
             co_yield emk_neg_even(n - 2, k - 2);
         }
@@ -123,9 +120,9 @@ namespace ecgen {
      * @param[in] k The parameter `k` represents the size of each combination. It
      * determines how many elements are selected from the total number of elements
      * `n` to form a combination.
-     * @return recursive_generator<ret_t>
+     * @return py::RecursiveGenerator<ret_t>
      */
-    static auto emk_neg_odd(int n, int k) -> recursive_generator<ret_t> {
+    static auto emk_neg_odd(int n, int k) -> py::RecursiveGenerator<ret_t> {
         if (k == 3) {
             for (int idx = n - 3; idx != 0; --idx) {
                 co_yield std::make_pair(idx, idx - 1);
@@ -156,9 +153,9 @@ namespace ecgen {
      * @param[in] k The parameter `k` represents the size of each combination. It
      * determines how many elements are selected from the total number of elements
      * `n` to form a combination.
-     * @return recursive_generator<ret_t>
+     * @return py::RecursiveGenerator<ret_t>
      */
-    auto emk_comb_gen(int n, int k) -> recursive_generator<ret_t> {
+    auto emk_comb_gen(int n, int k) -> py::RecursiveGenerator<ret_t> {
         if (n <= k || k == 0) {
             co_return;
         }

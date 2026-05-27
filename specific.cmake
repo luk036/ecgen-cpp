@@ -12,6 +12,13 @@ CPMAddPackage(
   OPTIONS "SPDLOG_INSTALL YES" # create an installable target
 )
 
+CPMAddPackage(
+  NAME Py2Cpp
+  GIT_TAG 1.6.1
+  GITHUB_REPOSITORY luk036/py2cpp
+  OPTIONS "INSTALL_ONLY YES" # create an installable target
+)
+
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   # using GCC
   add_compile_options(-fcoroutines)
@@ -23,5 +30,5 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   add_compile_options(/std:c++latest /await:strict)
 endif()
 
-set(SPECIFIC_LIBS fmt::fmt spdlog::spdlog)
+set(SPECIFIC_LIBS Py2Cpp::Py2Cpp fmt::fmt spdlog::spdlog)
 # remember to turn off the warnings

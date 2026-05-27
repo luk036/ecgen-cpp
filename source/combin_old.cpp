@@ -1,8 +1,6 @@
-#include <cppcoro/coroutine.hpp>  // for cppcoro, suspend_always, coroutine_handle
 #include <ecgen/combin_old.hpp>
 
 namespace ecgen {
-    using namespace cppcoro;
     using ret_t = std::pair<int, int>;
 
     /**
@@ -18,9 +16,9 @@ namespace ecgen {
      * @param[in] k The parameter `k` represents the size of each combination. It
      * determines how many elements are selected from the total number of elements
      * `n` to form a combination.
-     * @return recursive_generator<ret_t>
+     * @return py::RecursiveGenerator<ret_t>
      */
-    auto emk_gen(int n, int k) -> recursive_generator<ret_t> {
+    auto emk_gen(int n, int k) -> py::RecursiveGenerator<ret_t> {
         if (n <= k || k == 0) {
             co_return;
         }
@@ -46,9 +44,9 @@ namespace ecgen {
      * @param[in] k The parameter `k` represents the size of each combination. It
      * determines how many elements are selected from the total number of elements
      * `n` to form a combination.
-     * @return recursive_generator<ret_t>
+     * @return py::RecursiveGenerator<ret_t>
      */
-    auto emk_neg(int n, int k) -> recursive_generator<ret_t> {
+    auto emk_neg(int n, int k) -> py::RecursiveGenerator<ret_t> {
         if (n <= k || k == 0) {
             co_return;
         }

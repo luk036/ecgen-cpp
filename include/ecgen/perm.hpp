@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cppcoro/generator.hpp>
+#include <py2cpp/gen.hpp>
 #include <type_traits>  // for integral_constant
 
 namespace ecgen {
@@ -19,9 +19,9 @@ namespace ecgen {
      * @endverbatim
      *
      * @param[in] n The permutation length
-     * @return A cppcoro::generator that yields the permutation indices
+     * @return A py::Generator that yields the permutation indices
      */
-    extern auto sjt_gen(int n) -> cppcoro::generator<int>;
+    extern auto sjt_gen(int n) -> py::Generator<int>;
 
     /**
      * Generates integers from 0 to n-1 in an order that generates all
@@ -38,9 +38,9 @@ namespace ecgen {
      * @endverbatim
      *
      * @param[in] n The permutation length
-     * @return A cppcoro::generator that yields the permutation indices
+     * @return A py::Generator that yields the permutation indices
      */
-    extern auto ehr_gen(int n) -> cppcoro::generator<int>;
+    extern auto ehr_gen(int n) -> py::Generator<int>;
 
     /**
      * Computes the factorial of the input number N at compile time.
@@ -78,10 +78,10 @@ namespace ecgen {
      *
      * @tparam Container
      * @param[in] perm
-     * @return cppcoro::generator<Container&>
+     * @return py::Generator<Container&>
      */
     template <typename Container> inline auto sjt(Container& perm)
-        -> cppcoro::generator<Container&> {
+        -> py::Generator<Container&> {
         const auto n = int(perm.size());
         for (const int idx : ecgen::sjt_gen(n)) {
             co_yield perm;

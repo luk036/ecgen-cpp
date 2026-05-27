@@ -1,6 +1,7 @@
 #pragma once
 
-#include <cppcoro/recursive_generator.hpp>  // for recursive_generator
+#include <py2cpp/gen.hpp>
+#include <py2cpp/recursive_gen.hpp>
 #include <type_traits>                      // for integral_constant
 #include <utility>                          // for pair
 
@@ -28,7 +29,7 @@ namespace ecgen {
      * @returns A recursive generator yielding index pairs for the k-combinations of
      * n elements.
      */
-    extern auto emk_comb_gen(int n, int k) -> cppcoro::recursive_generator<std::pair<int, int>>;
+    extern auto emk_comb_gen(int n, int k) -> py::RecursiveGenerator<std::pair<int, int>>;
 
     /**
      * Generates all k-combinations of a set of n elements in reverse lexicographic
@@ -52,7 +53,7 @@ namespace ecgen {
      * lexicographic order.
      */
     template <typename Container> auto emk(int n, int k, Container lst)
-        -> cppcoro::generator<Container&> {
+        -> py::Generator<Container&> {
         co_yield lst;
         for (const auto& [pos_x, pos_y] : emk_comb_gen(n, k)) {
             auto temp = lst[static_cast<typename Container::size_type>(pos_x)];  // swap

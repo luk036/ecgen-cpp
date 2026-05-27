@@ -35,7 +35,7 @@
 
 **/
 
-#include <cppcoro/recursive_generator.hpp>
+#include <py2cpp/recursive_gen.hpp>
 #include <type_traits>  // for integral_constant
 // #include <utility>  // neccessary???
 
@@ -84,6 +84,6 @@ namespace ecgen {
      * partition.
      */
     extern auto set_partition_gen(int n, int k)
-        -> cppcoro::recursive_generator<std::pair<int, int>>;
+        -> py::RecursiveGenerator<std::pair<int, int>>;
 
 }  // namespace ecgen

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <cppcoro/recursive_generator.hpp>
+#include <py2cpp/gen.hpp>
+#include <py2cpp/recursive_gen.hpp>
 
 namespace ecgen {
     /**
@@ -23,7 +24,7 @@ namespace ecgen {
      * @returns A recursive generator that yields each value in the Gray code
      * sequence.
      */
-    extern auto brgc_gen(int n) -> cppcoro::recursive_generator<int>;
+    extern auto brgc_gen(int n) -> py::RecursiveGenerator<int>;
 
     /**
      * Generates a Binary Reflexed Gray Code sequence of length n.
@@ -50,7 +51,7 @@ namespace ecgen {
      * @param[in] n - The length of the Gray code sequence to generate.
      * @return A generator that yields each value in the Gray code sequence.
      */
-    template <typename Container> auto brgc(int n) -> cppcoro::generator<Container&> {
+    template <typename Container> auto brgc(int n) -> py::Generator<Container&> {
         auto lst = Container(static_cast<typename Container::size_type>(n), 0);
         co_yield lst;
         for (const int idx : brgc_gen(n)) {
