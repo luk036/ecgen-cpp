@@ -66,7 +66,7 @@ namespace ecgen {
                     break;
                 }
             }
-            if (std::cmp_equal(idx ,n)) {
+            if (std::cmp_equal(idx, n)) {
                 break;
             }
             counters[idx] += 1;
