@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <ecgen/perm.hpp>
 #include <numeric>  // for iota
+#include <utility>
 #include <vector>
 
 namespace ecgen {
@@ -65,7 +66,7 @@ namespace ecgen {
                     break;
                 }
             }
-            if (idx == static_cast<size_t>(n)) {
+            if (std::cmp_equal(idx ,n)) {
                 break;
             }
             counters[idx] += 1;
