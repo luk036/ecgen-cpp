@@ -42,7 +42,7 @@ namespace ecgen {
      * @brief Generate all permutations by star transposition
      *
      * The `ehr_gen` function is generating all permutations of size `n` using the
-     * ehrlich-Straus algorithm. It returns a `py::Generator<int>`, which is
+     * Eades-Hickey-Read (EHR) algorithm. It returns a `py::Generator<int>`, which is
      * a coroutine-based generator that yields values of type `int`.
      *
      * @param[in] n The parameter `n` represents the size of the permutations to be

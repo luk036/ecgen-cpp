@@ -42,10 +42,14 @@
 namespace ecgen {
 
     /**
-     * @brief Set the partition gen object
+     * @brief Generates all set partitions of {1,...,n} into k blocks (legacy).
      *
-     * @param[in] n
-     * @param[in] k
+     * This is the old implementation of the set partition generator.
+     * Unlike set_partition_gen, it does not check for boundary conditions
+     * (k=1, k=n, k>n) and yields directly into the recursive helpers.
+     *
+     * @param[in] n - The size of the set to partition.
+     * @param[in] k - The number of blocks in the partition.
      * @return py::RecursiveGenerator<std::pair<int, int>>
      */
     extern auto set_partition_gen_old(int n, int k) -> py::RecursiveGenerator<std::pair<int, int>>;

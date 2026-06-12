@@ -54,12 +54,9 @@ namespace ecgen {
      * to the other, following a Gray code ordering where each step moves a
      * single element.
      *
-     * Example visualization for n=4 (partitions of {1,2,3,4} into 2 blocks):
+     * Example for n=4 (bipartitions of {1,2,3,4} into 2 nonempty blocks):
      * @verbatim
-     *    Start: [1,2,3] [4]       (symbolic representation)
-     *    Move 3 from Block 0 to Block 1
-     *    Move 2 from Block 0 to Block 1
-     *    ...
+     *    {1,2,3}{4} → {1,2}{3,4} → {1,3}{2,4} → {1}{2,3,4} → ...
      * @endverbatim
      *
      * @param[in] n - The number of elements to bipartition (n >= 3).
