@@ -27,7 +27,7 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   add_compile_options(-stdlib=libc++)
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   # using Visual Studio C++
-  add_compile_options(/std:c++latest /await:strict)
+  add_compile_options(/std:c++latest)
 endif()
 
 set(SPECIFIC_LIBS Py2Cpp::Py2Cpp fmt::fmt spdlog::spdlog)
