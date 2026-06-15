@@ -40,7 +40,6 @@ elseif(MSVC)
     PUBLIC /W4
            /WX
            /wd5285
-           /wd4459
            /wd4146
            /wd4127
            /wd4996
