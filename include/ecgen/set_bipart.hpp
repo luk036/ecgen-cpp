@@ -1,22 +1,22 @@
-#pragma once
-
 /**
- Set Bipartition
+ * @file set_bipart.hpp
+ * @brief Set bipartition (2-block partition) generation
+ *
+ * A bipartition of the set [n] = {1,2,3,...,n} into two nonempty blocks.
+ * This is a specialized case of set partitions with exactly 2 blocks.
+ *
+ * The generator yields element indices that should be moved from one block
+ * to the other, following a Gray code ordering where successive partitions
+ * differ by moving only one element.
+ *
+ * Reference:
+ * Frank Ruskey. Simple combinatorial Gray codes constructed by
+ * reversing sublists. Lecture Notes in Computer Science, #762,
+ * 201-208. Also downloadable from
+ * http://webhome.cs.uvic.ca/~ruskey/Publications/SimpleGray/SimpleGray.html
+ */
 
- A bipartition of the set [n] = {1,2,3,...,n} into two nonempty blocks.
- This is a specialized case of set partitions with exactly 2 blocks.
-
- The generator yields element indices that should be moved from one block
- to the other, following a Gray code ordering where successive partitions
- differ by moving only one element.
-
- Reference:
- Frank Ruskey. Simple combinatorial Gray codes constructed by
- reversing sublists. Lecture Notes in Computer Science, #762,
- 201-208. Also downloadable from
- http://webhome.cs.uvic.ca/~ruskey/Publications/SimpleGray/SimpleGray.html
-
-**/
+#pragma once
 
 #include <py2cpp/recursive_gen.hpp>
 #include <type_traits>  // for integral_constant
@@ -24,8 +24,9 @@
 namespace ecgen {
 
     /**
-     * Computes the Stirling number of the second kind S(N,2), which counts the
-     * number of ways to partition a set of N elements into 2 nonempty subsets.
+     * @brief Compute Stirling numbers of the second kind S(N,2)
+     *
+     * Counts the number of ways to partition a set of N elements into 2 nonempty subsets.
      *
      * This is a specialized version for k=2, computed as 2^(N-1) - 1.
      *

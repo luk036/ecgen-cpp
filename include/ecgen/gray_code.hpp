@@ -1,3 +1,8 @@
+/**
+ * @file gray_code.hpp
+ * @brief Binary Reflected Gray Code generation
+ */
+
 #pragma once
 
 #include <py2cpp/gen.hpp>
@@ -5,7 +10,7 @@
 
 namespace ecgen {
     /**
-     * Generates a recursive Gray code sequence of length n.
+     * @brief Generate recursive Binary Reflected Gray Code sequence
      *
      * The recursive Gray code sequence is an ordering of all 2^n bitstrings of
      * length n, such that adjacent strings differ by only one bit flip.
@@ -27,7 +32,7 @@ namespace ecgen {
     extern auto brgc_gen(int n) -> py::RecursiveGenerator<int>;
 
     /**
-     * Generates a Binary Reflexed Gray Code sequence of length n.
+     * @brief Generate Binary Reflected Gray Code (BRGC) sequence using recursion
      *
      * The Binary Reflexed Gray Code is an ordering of all bitstrings of length n,
      * such that adjacent strings differ by only one bit flip.

@@ -1,3 +1,8 @@
+/**
+ * @file combin.hpp
+ * @brief Combination generation using the revolving door algorithm
+ */
+
 #pragma once
 
 #include <py2cpp/gen.hpp>
@@ -8,7 +13,7 @@
 namespace ecgen {
 
     /**
-     * Generates all combinations of selecting k elements from a set of n elements.
+     * @brief Generate all k-combinations of n elements (revolving door algorithm)
      *
      * This is implemented as a recursive generator function that yields index pairs
      * representing the combinations using the revolving door algorithm.
@@ -32,8 +37,7 @@ namespace ecgen {
     extern auto emk_comb_gen(int n, int k) -> py::RecursiveGenerator<std::pair<int, int>>;
 
     /**
-     * Generates all k-combinations of a set of n elements in reverse lexicographic
-     * order using the revolving door algorithm.
+     * @brief Generate all k-combinations in reverse lexicographic order (revolving door)
      *
      * Example visualization of combinations (4 choose 2):
      * @verbatim
@@ -65,8 +69,7 @@ namespace ecgen {
     }
 
     /**
-     * Calculates the number of combinations of selecting K elements from a set of N
-     * elements.
+     * @brief Calculate binomial coefficient C(N, K) at compile time
      *
      * This is a constexpr function that computes the result at compile-time.
      *

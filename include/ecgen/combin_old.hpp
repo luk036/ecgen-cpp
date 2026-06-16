@@ -1,3 +1,8 @@
+/**
+ * @file combin_old.hpp
+ * @brief Legacy combination generation (recursive, forward and reverse)
+ */
+
 #pragma once
 
 #include <py2cpp/recursive_gen.hpp>
@@ -7,7 +12,7 @@
 namespace ecgen {
 
     /**
-     * Generates all k-combinations from a set of n elements as pairs of indices.
+     * @brief Generate all k-combinations from n elements (recursive, forward order)
      *
      * This is a recursive generator function that yields all possible
      * k-combinations of integer indices ranging from 0 to n-1.
@@ -20,7 +25,7 @@ namespace ecgen {
     extern auto emk_gen(int n, int k) -> py::RecursiveGenerator<std::pair<int, int>>;
 
     /**
-     * Generates all k-combinations from a set of n elements in reverse order.
+     * @brief Generate all k-combinations from n elements (recursive, reverse order)
      *
      * This is the reverse variant of emk_gen, generating all possible
      * k-combinations of integer indices ranging from 0 to n-1 in

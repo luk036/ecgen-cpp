@@ -1,3 +1,8 @@
+/**
+ * @file perm.hpp
+ * @brief Permutation generation (SJT and EHR algorithms)
+ */
+
 #pragma once
 
 #include <py2cpp/gen.hpp>
@@ -5,8 +10,7 @@
 
 namespace ecgen {
     /**
-     * Generates integers from 0 to n-1 in an order that generates all
-     * permutations of length n using the Steinhaus-Johnson-Trotter algorithm.
+     * @brief Generate permutation indices using Steinhaus-Johnson-Trotter algorithm
      *
      * Example visualization for n=3 (generating all permutations):
      * @verbatim
@@ -24,8 +28,7 @@ namespace ecgen {
     extern auto sjt_gen(int n) -> py::Generator<int>;
 
     /**
-     * Generates integers from 0 to n-1 in an order that generates all
-     * permutations of length n using the Eades-Hickey-Read (EHR) algorithm.
+     * @brief Generate permutation indices using Eades-Hickey-Read (EHR) algorithm
      *
      * Example visualization for n=3:
      * @verbatim
@@ -43,7 +46,7 @@ namespace ecgen {
     extern auto ehr_gen(int n) -> py::Generator<int>;
 
     /**
-     * Computes the factorial of the input number N at compile time.
+     * @brief Compute factorial N! at compile time
      *
      * This is used to calculate the total number of permutations of length N,
      * which is N!. It is implemented as a constexpr function template.
@@ -66,8 +69,7 @@ namespace ecgen {
     }
 
     /**
-     * Generates a permutation by applying adjacent transpositions to the input
-     * permutation container. This uses the Steinhaus-Johnson-Trotter algorithm.
+     * @brief Generate all permutations via adjacent transpositions (SJT algorithm)
      *
      * Example visualization for adjacent transpositions:
      * @verbatim
