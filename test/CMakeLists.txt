@@ -60,7 +60,7 @@ if(NOT TEST_INSTALLED_VERSION)
       EcGen PUBLIC -Wall -Wpedantic -Wextra -Werror
     )
   elseif(MSVC)
-    target_compile_options(EcGen PUBLIC /utf-8 /W4 /WX)
+    target_compile_options(EcGen PUBLIC /W4 /WX)
     # target_compile_definitions(${PROJECT_NAME} PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
   endif()
 endif()
