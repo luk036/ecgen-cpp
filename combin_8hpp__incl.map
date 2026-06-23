@@ -1,0 +1,11 @@
+<map id="ecgen/combin.hpp" name="ecgen/combin.hpp">
+<area shape="rect" id="Node000001" title="Combination generation using the revolving door algorithm." alt="" coords="263,5,404,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,131,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="291,33,125,78,124,72,290,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="155,79,347,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="322,33,276,72,273,67,318,29"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="371,79,463,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="349,29,395,67,391,72,345,33"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="487,79,547,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="364,28,475,71,473,76,362,33"/>
+</map>

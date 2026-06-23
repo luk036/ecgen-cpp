@@ -1,0 +1,7 @@
+<map id="ecgen/set_bipart.hpp" name="ecgen/set_bipart.hpp">
+<area shape="rect" id="Node000001" title="Set bipartition (2&#45;block partition) generation." alt="" coords="105,5,263,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,197,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,33,127,72,124,67,169,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="222,79,314,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="199,29,245,67,242,72,196,33"/>
+</map>

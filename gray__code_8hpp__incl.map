@@ -1,0 +1,7 @@
+<map id="ecgen/gray_code.hpp" name="ecgen/gray_code.hpp">
+<area shape="rect" id="Node000001" title="Binary Reflected Gray Code generation." alt="" coords="79,5,239,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,131,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,33,95,72,92,68,142,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="155,79,347,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,29,227,68,223,72,172,33"/>
+</map>

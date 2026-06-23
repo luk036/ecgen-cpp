@@ -1,0 +1,7 @@
+<map id="ecgen/set_partition_old.hpp" name="ecgen/set_partition_old.hpp">
+<area shape="rect" id="Node000001" title="Legacy set partition generation (without boundary checks)" alt="" coords="103,5,249,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,197,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,47,124,85,120,81,156,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="222,93,282,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="196,44,233,81,229,85,192,47"/>
+</map>
