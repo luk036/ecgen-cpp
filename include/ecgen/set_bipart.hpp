@@ -28,7 +28,13 @@ namespace ecgen {
      *
      * Counts the number of ways to partition a set of N elements into 2 nonempty subsets.
      *
-     * This is a specialized version for k=2, computed as 2^(N-1) - 1.
+     * This is a specialized version for k=2, computed with the recurrence:
+     *
+     * @f[
+     *     S(N,2) = 1 + 2 \cdot S(N-1,2)
+     * @f]
+     *
+     * or equivalently \f$S(N,2) = 2^{N-1} - 1\f$.
      *
      * Example:
      * @verbatim

@@ -51,6 +51,10 @@ namespace ecgen {
      * This is used to calculate the total number of permutations of length N,
      * which is N!. It is implemented as a constexpr function template.
      *
+     * @f[
+     *     N! = N \times (N-1) \times \cdots \times 2 \times 1
+     * @f]
+     *
      * Example calculation for N=4:
      * @verbatim
      *    4! = 4 * 3 * 2 * 1 = 24
