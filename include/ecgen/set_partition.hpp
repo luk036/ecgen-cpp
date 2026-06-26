@@ -46,8 +46,10 @@ namespace ecgen {
      *
      * Counts the number of ways to partition a set of N elements into K nonempty subsets.
      * Implemented recursively using the recurrence relation for Stirling numbers.
-     * ways to partition a set of N elements into K nonempty subsets. This is
-     * implemented recursively using the recurrence relation for Stirling numbers.
+     *
+     * @f[
+     *     S(N,K) = S(N-1,K-1) + K \cdot S(N-1,K)
+     * @f]
      *
      * Example: S(4,2) = 7 partitions of 4 elements into 2 blocks:
      * @verbatim

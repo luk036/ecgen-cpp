@@ -71,7 +71,12 @@ namespace ecgen {
     /**
      * @brief Calculate binomial coefficient C(N, K) at compile time
      *
-     * This is a constexpr function that computes the result at compile-time.
+     * This is a constexpr function that computes the result at compile-time
+     * using Pascal's rule:
+     *
+     * @f[
+     *     \binom{N}{K} = \binom{N-1}{K-1} + \binom{N-1}{K}
+     * @f]
      *
      * Example calculation for C(4,2) = 6:
      * @verbatim
