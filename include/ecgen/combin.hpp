@@ -29,6 +29,22 @@ namespace ecgen {
      *    . . x x  -> indices 2,3
      * @endverbatim
      *
+     * @dot
+     *   digraph comb_gen {
+     *     rankdir=LR; bgcolor="transparent";
+     *     node [shape=box, style=filled, fillcolor="#d4e6f1"];
+     *     start [label="C(n,k)\nstart", fillcolor="#a9cce3"];
+     *     pick [label="Pick smallest\nunused element"];
+     *     recurse [label="Recurse:\nC(n-1, k-1)"];
+     *     skip [label="Skip element:\nC(n-1, k)", shape=diamond, fillcolor="#f9e79f"];
+     *     swap [label="Swap indices\n(revolving door)"];
+     *     done [label="All combinations\ngenerated", fillcolor="#7fb3d8"];
+     *     start -> pick -> recurse -> skip;
+     *     skip -> pick [label="more", style=dashed, color="#e74c3c"];
+     *     skip -> swap -> done [label="done", color="#27ae60"];
+     *   }
+     * @enddot
+     *
      * @param[in] n - The number of elements in the full set.
      * @param[in] k - The number of elements to select in each combination.
      * @returns A recursive generator yielding index pairs for the k-combinations of
