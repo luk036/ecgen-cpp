@@ -34,9 +34,9 @@ namespace ecgen {
      *     base [label="G(0) = [0]\nG(1) = [0,1]", fillcolor="#a9cce3"];
      *     reflect [label="Reflect previous\nsequence"];
      *     prefix [label="Prefix 0 to originals\nPrefix 1 to reflected"];
-     *     concat [label="Concatenate:\nG(n) = G(n-1) + reverse(G(n-1))\nwith MSB toggle", fillcolor="#f9e79f"];
-     *     output [label="Full Gray code\nsequence", fillcolor="#7fb3d8"];
-     *     base -> reflect -> prefix -> concat -> output;
+     *     concat [label="Concatenate:\nG(n) = G(n-1) + reverse(G(n-1))\nwith MSB toggle",
+     * fillcolor="#f9e79f"]; output [label="Full Gray code\nsequence", fillcolor="#7fb3d8"]; base ->
+     * reflect -> prefix -> concat -> output;
      *   }
      * @enddot
      *
