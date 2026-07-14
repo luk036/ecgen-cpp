@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['once_0',['Build everything at once',['../index.html#build-everything-at-once',1,'']]]
+  ['moderncppstarter_20documentation_0',['ModernCppStarter Documentation',['../about.html#doc',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['needs_0',['Adjust the template to your needs',['../index.html#autotoc_md4',1,'']]]
+  ['logging_2ehpp_0',['logging.hpp',['../logging_8hpp.html',1,'']]]
 ];
