@@ -22,6 +22,22 @@ namespace ecgen {
      *    Step 5: 1 0 2 (swap 0,2)
      * @endverbatim
      *
+     * @dot
+     *   digraph sjt_flow {
+     *     rankdir=LR; bgcolor="transparent";
+     *     node [shape=box, style=filled, fillcolor="#d4e6f1"];
+     *     init [label="Initial\npermutation", fillcolor="#a9cce3"];
+     *     mobile [label="Find mobile\nelement (SJT)"];
+     *     swap [label="Swap with\nadjacent neighbor"];
+     *     reverse [label="Reverse\ndirection of larger\n elements"];
+     *     check [label="Mobile\nelement exists?", shape=diamond, fillcolor="#f9e79f"];
+     *     done [label="All permutations\ngenerated", fillcolor="#7fb3d8"];
+     *     init -> mobile -> swap -> reverse -> check;
+     *     check -> mobile [label="Yes", style=dashed, color="#e74c3c"];
+     *     check -> done [label="No", color="#27ae60"];
+     *   }
+     * @enddot
+     *
      * @param[in] n The permutation length
      * @return A py::Generator that yields the permutation indices
      */

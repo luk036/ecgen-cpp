@@ -9,7 +9,7 @@ option(INSTALL_ONLY "Enable for installation only" OFF)
 # Note: update this to your new project's name and version
 project(
   EcGen
-  VERSION 1.1.4
+  VERSION 1.1.5
   LANGUAGES CXX
 )
 
@@ -51,6 +51,14 @@ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20)
 # being a cross-platform target, we enforce standards conformance on MSVC
 target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wpedantic -Wextra -Werror)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wpedantic -Wextra -Werror)
+elseif(MSVC)
+  target_compile_options(${PROJECT_NAME} PRIVATE /utf-8 /W4 /WX)
+endif()
+
 # Link dependencies
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SPECIFIC_LIBS})
 
@@ -59,8 +67,12 @@ target_include_directories(
                          $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
 
-# ---- Add examples subdirectory ----
-# add_subdirectory(examples)
+# ---- SPDLOGGER example ----
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/spdlog_example.cpp")
+  add_executable(SPDLOGGER_EXAMPLE examples/spdlog_example.cpp)
+  target_link_libraries(SPDLOGGER_EXAMPLE ${PROJECT_NAME} ${SPECIFIC_LIBS})
+  set_target_properties(SPDLOGGER_EXAMPLE PROPERTIES CXX_STANDARD 20)
+endif()
 
 # ---- Create an installable target ----
 # this allows users to install and find the library via `find_package()`.
@@ -78,5 +90,5 @@ packageProject(
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   VERSION_HEADER "${VERSION_HEADER_LOCATION}"
   COMPATIBILITY SameMajorVersion
-  DEPENDENCIES "fmt 12.1.0" "spdlog 1.14.1"
+  DEPENDENCIES "fmt 12.1.0"
 )
