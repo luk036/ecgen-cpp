@@ -1,8 +1,8 @@
-#include <atomic>
-
-#include <ecgen/logging.hpp>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
+
+#include <atomic>
+#include <ecgen/logging.hpp>
 
 namespace ecgen {
 

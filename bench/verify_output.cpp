@@ -7,8 +7,7 @@
 #include <string>
 #include <vector>
 
-template <typename G>
-void dump(const char* name, G&& gen) {
+template <typename G> void dump(const char* name, G&& gen) {
     std::string sep;
     std::printf("%s: [", name);
     int cnt = 0;
