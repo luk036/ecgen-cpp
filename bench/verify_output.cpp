@@ -5,7 +5,6 @@
 #include <ecgen/set_bipart.hpp>
 #include <ecgen/set_partition.hpp>
 #include <string>
-#include <vector>
 
 template <typename G> void dump(const char* name, G&& gen) {
     std::string sep;
