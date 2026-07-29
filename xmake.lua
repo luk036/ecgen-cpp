@@ -1,15 +1,10 @@
 set_languages("c++20")
 
 add_rules("mode.debug", "mode.release", "mode.coverage")
-
-if is_mode("release") then
-	set_optimize("fast")
-end
-
 add_requires("doctest", { alias = "doctest" })
 add_requires("fmt", { alias = "fmt" })
+add_requires("nanobench", { alias = "nanobench" })
 add_requires("spdlog", { alias = "spdlog" })
-add_requires("benchmark", { alias = "benchmark" })
 
 if is_mode("coverage") then
 	add_cxflags("-ftest-coverage", "-fprofile-arcs", { force = true })
@@ -17,7 +12,6 @@ end
 
 if is_plat("linux") then
 	set_warnings("all", "error")
-	add_cxflags("-Wconversion", {force = true})
 	-- Check if we're on Termux/Android
 	local termux_prefix = os.getenv("PREFIX")
 	if termux_prefix then
@@ -25,8 +19,16 @@ if is_plat("linux") then
 		add_sysincludedirs(termux_prefix .. "/include/c++/v1", { public = true })
 		add_sysincludedirs(termux_prefix .. "/include", { public = true })
 	end
+	-- Enable host-native tuning in release mode for auto-vectorization
+	if is_mode("release") then
+		add_cxflags("-march=native", "-mtune=native", { force = true })
+	end
 elseif is_plat("windows") then
-	add_cxflags("/W4 /WX", { force = true })
+	add_cxflags("/EHsc /utf-8 /W4 /WX /wd4702", { force = true })
+	-- Enable AVX2 in release mode for auto-vectorization
+	if is_mode("release") then
+		add_cxflags("/arch:AVX2", { force = true })
+	end
 end
 
 target("Ecgen")
@@ -50,14 +52,14 @@ set_kind("binary")
 add_deps("Ecgen")
 add_includedirs("include", { public = true })
 add_files("bench/BM_EMK.cpp")
-add_packages("benchmark")
+add_packages("nanobench")
 
 target("test_set_partition")
 set_kind("binary")
 add_deps("Ecgen")
 add_includedirs("include", { public = true })
 add_files("bench/BM_set_partition.cpp")
-add_packages("benchmark")
+add_packages("nanobench")
 
 target("bench_compare")
 set_kind("binary")
