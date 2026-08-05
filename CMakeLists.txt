@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14...3.22)
 
 project(
   EcGen
-  VERSION 1.1.5
+  VERSION 1.1.6
   LANGUAGES CXX
 )
 
@@ -329,12 +329,12 @@ endif()
 # ---------------------------------------------------------------------------
 
 if(ECGEN_ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
-  foreach(COVERAGE_TARGET EcGen EcGenTests EcGenStandalone)
+  foreach(COVERAGE_TARGET EcGen EcGenTests EcGenStandalone SPDLOGGER_EXAMPLE)
     if(TARGET ${COVERAGE_TARGET})
       target_compile_options(${COVERAGE_TARGET} PRIVATE -O0 -g -fprofile-arcs -ftest-coverage)
     endif()
   endforeach()
-  foreach(COVERAGE_EXEC EcGenTests EcGenStandalone)
+  foreach(COVERAGE_EXEC EcGenTests EcGenStandalone SPDLOGGER_EXAMPLE)
     if(TARGET ${COVERAGE_EXEC})
       target_link_options(${COVERAGE_EXEC} PRIVATE -fprofile-arcs -ftest-coverage)
     endif()
