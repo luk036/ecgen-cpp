@@ -1,53 +1,33 @@
-// #include <ecgen/greeter.h>
+#include <ecgen/combin.hpp>
 #include <ecgen/version.h>
 
 #include <cxxopts.hpp>
 #include <iostream>
 #include <string>
-#include <unordered_map>
 
 auto main(int argc, char** argv) -> int {
-    // const std::unordered_map<std::string, ecgen::LanguageCode> languages{
-    //     {"en", ecgen::LanguageCode::EN},
-    //     {"de", ecgen::LanguageCode::DE},
-    //     {"es", ecgen::LanguageCode::ES},
-    //     {"fr", ecgen::LanguageCode::FR},
-    // };
+    cxxopts::Options options("EcGen", "Combinatorial object generator demo");
 
-    cxxopts::Options options(*argv, "A program to welcome the world!");
+    int n = 5;
+    int k = 3;
+    options.add_options()("h,help", "Print usage")("v,version", "Print version")(
+        "size", "Size of the set", cxxopts::value(n)
+    )("comb-size", "Size of each combination", cxxopts::value(k));
 
-    // std::string language;
-    std::string name;
-
-    // clang-format off
-  options.add_options()
-    ("h,help", "Show help")
-    ("v,version", "Print the current version number")
-    ("n,name", "Name to greet", cxxopts::value(name)->default_value("World"))
-    // ("l,lang", "Language code to use", cxxopts::value(language)->default_value("en"))
-  ;
-    // clang-format on
-
-    auto result = options.parse(argc, argv);
-
-    if (result["help"].as<bool>()) {
+    const auto result = options.parse(argc, argv);
+    if (result.count("help") > 0) {
         std::cout << options.help() << '\n';
         return 0;
     }
-
-    if (result["version"].as<bool>()) {
+    if (result.count("version") > 0) {
         std::cout << "EcGen, version " << ECGEN_VERSION << '\n';
         return 0;
     }
 
-    // auto langIt = languages.find(language);
-    // if (langIt == languages.end()) {
-    //     std::cerr << "unknown language code: " << language << '\n';
-    //     return 1;
-    // }
-    //
-    // ecgen::EcGen ecgen(name);
-    // std::cout << ecgen.greet(langIt->second) << '\n';
+    std::cout << "EcGen: " << k << "-combinations of " << n << " elements:\n";
+    for (const auto& c : ecgen::emk_comb_gen(n, k)) {
+        std::cout << "  (" << c.first << ", " << c.second << ")\n";
+    }
 
     return 0;
 }
