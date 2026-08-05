@@ -1,25 +1,18 @@
-cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14)
+project(EcGenInstalledTest LANGUAGES CXX)
 
-# ---- Include guards ----
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
-  message(
-    FATAL_ERROR
-      "In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there."
-  )
-endif()
+# Find dependencies first - the installed config references fmt and Py2Cpp.
+find_package(fmt REQUIRED)
+find_package(spdlog REQUIRED)
+find_package(Py2Cpp REQUIRED)
+find_package(EcGen REQUIRED)
 
-project(EcGen LANGUAGES CXX)
+add_executable(ecgen_installed_test main.cpp)
+target_link_libraries(ecgen_installed_test PRIVATE EcGen::EcGen)
 
-# --- Import tools ----
-
-include(../cmake/tools.cmake)
-
-# ---- Dependencies ----
-
-include(../cmake/CPM.cmake)
-include(../specific.cmake)
-
-find_package(${PROJECT_NAME} REQUIRED)
-
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../standalone ${CMAKE_BINARY_DIR}/test_installed)
+enable_testing()
+add_test(NAME ecgen_installed_test COMMAND ecgen_installed_test)
