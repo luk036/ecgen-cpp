@@ -6,8 +6,7 @@
 #include <ecgen/set_bipart.hpp>
 #include <ecgen/set_partition.hpp>
 
-template <typename F>
-void bench(const char* name, F&& f) {
+template <typename F> void bench(const char* name, F&& f) {
     auto start = std::chrono::steady_clock::now();
     auto result = f();
     auto end = std::chrono::steady_clock::now();

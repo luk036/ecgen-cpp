@@ -1,63 +1,38 @@
+#define ANKERL_NANOBENCH_IMPLEMENT
+#include <nanobench.h>
+
 #include <ecgen/combin.hpp>
 #include <ecgen/combin_old.hpp>
 
-#include "benchmark/benchmark.h"  // for BENCHMARK, State, BENCHMARK_...
-
-/**
- * The function `emk_new` generates combinations of size K from a set of size N
- * and measures its performance using Google Benchmark.
- *
- * @param state The `state` parameter in the `emk_new` function is of type
- * `benchmark::State &`. It is used to control the benchmark execution and
- * provide information about the benchmark state, such as the number of
- * iterations to run, the elapsed time, and other benchmark-related data.
- */
-static void emk_new(benchmark::State& state) {
+int main() {
     constexpr int N = 16;
     constexpr int K = 5;
-    while (state.KeepRunning()) {
+
+    ankerl::nanobench::Bench bench;
+    bench.title("EMK Combinations").unit("op").warmup(100).epochs(50);
+
+    bench.run("emk_new", [&] {
         size_t cnt = 1;
         for ([[maybe_unused]] auto [x, y] : ecgen::emk_comb_gen(N, K)) {
             ++cnt;
         }
-        benchmark::DoNotOptimize(cnt);
-    }
-}
+        ankerl::nanobench::doNotOptimizeAway(cnt);
+    });
 
-// Register the function as a benchmark
-BENCHMARK(emk_new);
-
-//~~~~~~~~~~~~~~~~
-
-/**
- * The function `emk_old` generates combinations of size K from a set of size N
- * and measures its performance using Google Benchmark.
- *
- * @param state The `state` parameter in the `emk_new` function is of type
- * `benchmark::State &`. It is used to control the benchmark execution and
- * provide information about the benchmark state, such as the number of
- * iterations to run, the elapsed time, and other benchmark-related data.
- */
-static void emk_old(benchmark::State& state) {
-    constexpr int N = 16;
-    constexpr int K = 5;
-    while (state.KeepRunning()) {
+    bench.run("emk_old", [&] {
         size_t cnt = 1;
         for ([[maybe_unused]] auto [x, y] : ecgen::emk_gen(N, K)) {
             ++cnt;
         }
-        benchmark::DoNotOptimize(cnt);
-    }
+        ankerl::nanobench::doNotOptimizeAway(cnt);
+    });
 }
-BENCHMARK(emk_old);
-
-BENCHMARK_MAIN();
 
 /*
-----------------------------------------------------------
-Benchmark                Time             CPU   Iterations
-----------------------------------------------------------
-emk_new         131235 ns       131245 ns         4447
-emk_old          196694 ns       196708 ns         3548
-emk_No_Trick     129743 ns       129750 ns         5357
+  |               ns/op |                op/s |    err% |          ins/op |          bra/op | miss%
+  |     total | benchmark
+  |--------------------:|--------------------:|--------:|----------------:|----------------:|--------:|----------:|:----------
+  |             131,235 |             7,619.5 |    1.2% |      30,755,982 |       1,554,724 | 0.1% |
+  0.01 | `emk_new` |             196,694 |             5,084.0 |    0.9% |      46,349,808 |
+  2,342,252 |    0.1% |      0.01 | `emk_old`
 */

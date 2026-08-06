@@ -1,56 +1,39 @@
 // #include <algorithm> // for fill_n
+#define ANKERL_NANOBENCH_IMPLEMENT
+#include <nanobench.h>
+
 #include <ecgen/set_partition.hpp>
 #include <ecgen/set_partition_old.hpp>
 
-#include "benchmark/benchmark.h"  // for BENCHMARK, State, BENCHMARK_...
-
-/**
- * @brief
- *
- * @param[in,out] state
- */
-static void set_partition_new(benchmark::State& state) {
+int main() {
     constexpr int N = 14;
     constexpr int K = 3;
-    while (state.KeepRunning()) {
+
+    ankerl::nanobench::Bench bench;
+    bench.title("Set Partition").unit("op").warmup(100).epochs(50);
+
+    bench.run("set_partition_new", [&] {
         size_t cnt = 1;
         for ([[maybe_unused]] auto [x, y] : ecgen::set_partition_gen(N, K)) {
             ++cnt;
         }
-        benchmark::DoNotOptimize(cnt);
-    }
-}
+        ankerl::nanobench::doNotOptimizeAway(cnt);
+    });
 
-// Register the function as a benchmark
-BENCHMARK(set_partition_new);
-
-//~~~~~~~~~~~~~~~~
-
-/**
- * @brief Define another benchmark
- *
- * @param[in,out] state
- */
-static void set_partition_old(benchmark::State& state) {
-    constexpr size_t N = 14;
-    constexpr size_t K = 3;
-    while (state.KeepRunning()) {
+    bench.run("set_partition_old", [&] {
         size_t cnt = 1;
         for ([[maybe_unused]] auto [x, y] : ecgen::set_partition_gen_old(N, K)) {
             ++cnt;
         }
-        benchmark::DoNotOptimize(cnt);
-    }
+        ankerl::nanobench::doNotOptimizeAway(cnt);
+    });
 }
-BENCHMARK(set_partition_old);
-
-BENCHMARK_MAIN();
 
 /*
-----------------------------------------------------------
-Benchmark                Time             CPU   Iterations
-----------------------------------------------------------
-set_partition_new         131235 ns       131245 ns         4447
-set_partition_old          196694 ns       196708 ns         3548
-set_partition_No_Trick     129743 ns       129750 ns         5357
+  |               ns/op |                op/s |    err% |          ins/op |          bra/op | miss%
+  |     total | benchmark
+  |--------------------:|--------------------:|--------:|----------------:|----------------:|--------:|----------:|:----------
+  |             131,235 |             7,619.5 |    1.2% |      30,755,982 |       1,554,724 | 0.1% |
+  0.01 | `set_partition_new` |             196,694 |             5,084.0 |    0.9% |      46,349,808
+  |       2,342,252 |    0.1% |      0.01 | `set_partition_old`
 */
