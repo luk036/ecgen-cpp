@@ -1,7 +1,7 @@
-#include <ecgen/combin.hpp>
 #include <ecgen/version.h>
 
 #include <cxxopts.hpp>
+#include <ecgen/combin.hpp>
 #include <iostream>
 #include <string>
 
@@ -11,8 +11,8 @@ auto main(int argc, char** argv) -> int {
     int n = 5;
     int k = 3;
     options.add_options()("h,help", "Print usage")("v,version", "Print version")(
-        "size", "Size of the set", cxxopts::value(n)
-    )("comb-size", "Size of each combination", cxxopts::value(k));
+        "size", "Size of the set", cxxopts::value(n))("comb-size", "Size of each combination",
+                                                      cxxopts::value(k));
 
     const auto result = options.parse(argc, argv);
     if (result.count("help") > 0) {
