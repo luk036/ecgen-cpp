@@ -97,7 +97,7 @@ struct DiffCover {
             for (auto p = begin; p != begin + this->n2; ++p) {
                 count += *p;
             }
-            if (int(count) < this->n1 + tt) {
+            if (static_cast<int>(count) < this->n1 + tt) {
                 return;
             }
         }
