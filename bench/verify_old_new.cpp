@@ -1,14 +1,14 @@
-#include <cstdio>
 #include <ecgen/combin.hpp>
 #include <ecgen/combin_old.hpp>
 #include <ecgen/set_partition.hpp>
 #include <ecgen/set_partition_old.hpp>
+#include <fmt/format.h>
 
 template <typename G1, typename G2> void check_count(const char* name, G1&& gen1, G2&& gen2) {
     size_t c1 = 0, c2 = 0;
     for ([[maybe_unused]] auto&& v : gen1) ++c1;
     for ([[maybe_unused]] auto&& v : gen2) ++c2;
-    std::printf("%s: %s (%zu vs %zu)\n", name, c1 == c2 ? "MATCH" : "DIFFER", c1, c2);
+    fmt::print("{}: {} ({} vs {})\n", name, c1 == c2 ? "MATCH" : "DIFFER", c1, c2);
 }
 
 int main() {
