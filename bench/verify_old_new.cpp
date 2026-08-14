@@ -1,8 +1,9 @@
+#include <fmt/format.h>
+
 #include <ecgen/combin.hpp>
 #include <ecgen/combin_old.hpp>
 #include <ecgen/set_partition.hpp>
 #include <ecgen/set_partition_old.hpp>
-#include <fmt/format.h>
 
 template <typename G1, typename G2> void check_count(const char* name, G1&& gen1, G2&& gen2) {
     size_t c1 = 0, c2 = 0;

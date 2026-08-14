@@ -1,10 +1,11 @@
+#include <fmt/format.h>
+
 #include <chrono>
 #include <ecgen/combin.hpp>
 #include <ecgen/gray_code.hpp>
 #include <ecgen/perm.hpp>
 #include <ecgen/set_bipart.hpp>
 #include <ecgen/set_partition.hpp>
-#include <fmt/format.h>
 
 template <typename F> void bench(const char* name, F&& f) {
     auto start = std::chrono::steady_clock::now();

@@ -1,9 +1,10 @@
+#include <fmt/format.h>
+
 #include <ecgen/combin.hpp>
 #include <ecgen/gray_code.hpp>
 #include <ecgen/perm.hpp>
 #include <ecgen/set_bipart.hpp>
 #include <ecgen/set_partition.hpp>
-#include <fmt/format.h>
 #include <string>
 
 template <typename G> void dump(const char* name, G&& gen) {
