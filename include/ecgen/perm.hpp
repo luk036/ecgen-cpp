@@ -103,7 +103,7 @@ namespace ecgen {
      * @return py::Generator<Container&>
      */
     template <typename Container> inline auto sjt(Container& perm) -> py::Generator<Container&> {
-        const auto n = int(perm.size());
+        const auto n = static_cast<int>(perm.size());
         for (const int idx : ecgen::sjt_gen(n)) {
             co_yield perm;
             auto temp = perm[static_cast<typename Container::size_type>(idx)];  // swap

@@ -1,5 +1,6 @@
+#include <fmt/format.h>
+
 #include <chrono>
-#include <cstdio>
 #include <ecgen/combin.hpp>
 #include <ecgen/gray_code.hpp>
 #include <ecgen/perm.hpp>
@@ -11,13 +12,13 @@ template <typename F> void bench(const char* name, F&& f) {
     auto result = f();
     auto end = std::chrono::steady_clock::now();
     auto ms = std::chrono::duration<double, std::milli>(end - start).count();
-    std::printf("%-30s %10zu  %8.3f ms\n", name, result, ms);
+    fmt::print("{:<30} {:10}  {:8.3f} ms\n", name, result, ms);
 }
 
 int main() {
-    std::printf("%-30s %10s  %10s\n", "Operation", "Count", "Time");
-    for (int i = 0; i < 70; ++i) std::printf("-");
-    std::printf("\n");
+    fmt::print("{:<30} {:10}  {:10}\n", "Operation", "Count", "Time");
+    for (int i = 0; i < 70; ++i) fmt::print("-");
+    fmt::print("\n");
 
     // EMK combinations
     bench("emk_comb_gen(16,5)", []() {
