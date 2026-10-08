@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14...3.22)
 
 project(
   EcGen
-  VERSION 1.1.6
+  VERSION 1.1.7
   LANGUAGES CXX
 )
 
@@ -103,7 +103,7 @@ endif()
 # Py2Cpp provides the coroutine generators (py::RecursiveGenerator) used across the public headers.
 CPMAddPackage(
   NAME Py2Cpp
-  GIT_TAG v1.6.4
+  GIT_TAG v1.6.6
   GITHUB_REPOSITORY luk036/py2cpp
   OPTIONS "PY2CPP_BUILD_TESTS OFF" "PY2CPP_BUILD_STANDALONE OFF"
 )
