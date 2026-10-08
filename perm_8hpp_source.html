@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">EcGen<span id="projectnumber">&#160;1.1.6</span>
+   <div id="projectname">EcGen<span id="projectnumber">&#160;1.1.7</span>
    </div>
   </td>
  </tr>
@@ -111,7 +111,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
 <div class="foldopen" id="foldopen00105" data-start="{" data-end="}">
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="namespaceecgen.html#a8e3a5cd8c3728220b92bf11cee027bf1">  105</a></span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Container&gt; <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="namespaceecgen.html#a8e3a5cd8c3728220b92bf11cee027bf1">sjt</a>(<a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">Container</a>&amp; <a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">perm</a>) -&gt; py::Generator&lt;Container&amp;&gt; {</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keyword">const</span> <span class="keyword">auto</span> <a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">n</a> = <a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">int</a>(<a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">perm</a>.size());</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keyword">const</span> <span class="keyword">auto</span> <a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">n</a> = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(<a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">perm</a>.size());</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">idx</a> : <a class="code hl_function" href="namespaceecgen.html#a9b7aa0309e7075b1dbb7e865e822678a">ecgen::sjt_gen</a>(<a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">n</a>)) {</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            <span class="keyword">co_yield</span> <a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">perm</a>;</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            <span class="keyword">auto</span> <a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">temp</a> = <a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">perm</a>[<span class="keyword">static_cast&lt;</span><a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">typename</a> Container::size_type<span class="keyword">&gt;</span>(<a class="code hl_function" href="namespaceecgen.html#a2fd41b080cae36cd5d5d172a6889ad21">idx</a>)];  <span class="comment">// swap</span></div>

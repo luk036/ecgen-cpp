@@ -7,7 +7,6 @@ var searchData=
   ['the_20standalone_20target_4',['Build and run the standalone target',['../index.html#autotoc_md5',1,'']]],
   ['the_20template_20to_20your_20needs_5',['Adjust the template to your needs',['../index.html#autotoc_md4',1,'']]],
   ['to_20your_20needs_6',['Adjust the template to your needs',['../index.html#autotoc_md4',1,'']]],
-  ['tools_7',['Additional tools',['../index.html#additional-tools',1,'']]],
-  ['try_5finit_5flogger_8',['try_init_logger',['../namespaceecgen.html#a93281a9c5b82d1864443754e930841b2',1,'ecgen']]],
-  ['try_5finit_5flogger_5fwith_5ffilter_9',['try_init_logger_with_filter',['../namespaceecgen.html#aad183cb64f1bc31d2cd4ab6ea6a65b4a',1,'ecgen']]]
+  ['try_5finit_5flogger_7',['try_init_logger',['../namespaceecgen.html#a93281a9c5b82d1864443754e930841b2',1,'ecgen']]],
+  ['try_5finit_5flogger_5fwith_5ffilter_8',['try_init_logger_with_filter',['../namespaceecgen.html#aad183cb64f1bc31d2cd4ab6ea6a65b4a',1,'ecgen']]]
 ];
