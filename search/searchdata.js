@@ -4,7 +4,7 @@ var indexSectionsWithContent =
   1: "e",
   2: "acglprs",
   3: "bcefist",
-  4: "ae"
+  4: "abcdefhmnoprstuy✨❓🔢"
 };
 
 var indexSectionNames =
