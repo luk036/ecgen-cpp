@@ -372,7 +372,7 @@ if(ECGEN_ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang
       COMMAND
         ${GCOVR_PATH} --root ${PROJECT_SOURCE_DIR} --html-details
         ${CMAKE_BINARY_DIR}/coverage/index.html --exclude test/ --exclude build/ --exclude examples/
-        --exclude standalone/ ${extra_gcovr_args}
+        --exclude standalone/ --exclude-unreachable-branches --exclude-throw-branches ${extra_gcovr_args}
       WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
       COMMENT "Generating coverage report in ${CMAKE_BINARY_DIR}/coverage/index.html"
     )
