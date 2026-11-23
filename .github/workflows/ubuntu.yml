@@ -25,6 +25,7 @@ jobs:
           sudo apt-get install -y g++-14
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
+          sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-14 100
 
       - name: Configure
         run: cmake -B build -DCMAKE_BUILD_TYPE=Release
@@ -49,6 +50,7 @@ jobs:
           sudo apt-get install -y g++-14
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
+          sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-14 100
 
       - name: Configure with coverage
         run: cmake -B build -DECGEN_ENABLE_COVERAGE=ON -DECGEN_BUILD_TESTS=ON
@@ -62,11 +64,12 @@ jobs:
       - name: Collect code coverage
         run: |
           pip install gcovr
-          gcovr --root . --xml --output coverage.xml --exclude test/ --exclude examples/ --exclude standalone/ --gcov-ignore-errors=no_working_dir_found
+          gcovr --root . --xml --output coverage.xml --exclude test/ --exclude examples/ --exclude standalone/
 
       - uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           override_branch: ${{ github.event_name == 'push' && github.ref_name || '' }}
           files: coverage.xml
+          disable_search: true
           fail_ci_if_error: false
